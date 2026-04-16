@@ -31,7 +31,6 @@
     cursor: none;
   }
 
-  /* CUSTOM CURSOR */
   .cursor {
     position: fixed; top: 0; left: 0;
     width: 12px; height: 12px;
@@ -55,7 +54,6 @@
     opacity: .6;
   }
 
-  /* NOISE OVERLAY */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -65,7 +63,6 @@
     opacity: .4;
   }
 
-  /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
@@ -104,7 +101,6 @@
   }
   .nav-cta:hover { background: var(--gold-light); }
 
-  /* HERO */
   .hero {
     min-height: 100vh;
     display: flex; flex-direction: column;
@@ -227,7 +223,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* SECTIONS */
   section { padding: 7rem 2rem; }
   .section-label {
     font-family: 'Space Mono', monospace;
@@ -258,7 +253,6 @@
     margin: 1.5rem 0;
   }
 
-  /* CAROUSEL SECTION */
   .carousel-section {
     background: var(--dark);
     overflow: hidden;
@@ -381,7 +375,6 @@
     margin-bottom: .5rem;
   }
 
-  /* Carousel Controls */
   .carousel-controls {
     display: flex; align-items: center; justify-content: center;
     gap: 1.5rem;
@@ -412,7 +405,6 @@
     border-radius: 3px;
   }
 
-  /* STATS */
   .stats-section {
     background: var(--dark2);
     border-top: 1px solid rgba(212,175,55,.1);
@@ -441,7 +433,6 @@
     text-transform: uppercase;
   }
 
-  /* GALLERY */
   .gallery-section {
     background: var(--dark2);
     border-top: 1px solid rgba(212,175,55,.1);
@@ -512,17 +503,7 @@
     line-height: 2;
     text-transform: uppercase;
   }
-  .gallery-empty code {
-    display: inline-block;
-    background: rgba(212,175,55,.08);
-    padding: .15rem .5rem;
-    border: 1px solid rgba(212,175,55,.2);
-    color: var(--gold);
-    font-size: .6rem;
-    margin: 0 .15rem;
-  }
 
-  /* BOOKING SECTION */
   .booking-section {
     background: var(--black);
     position: relative;
@@ -541,7 +522,6 @@
   .booking-header { text-align: center; margin-bottom: 4rem; }
   .booking-header .gold-line { margin: 1.5rem auto; }
 
-  /* Service Selector */
   .service-tabs {
     display: flex; gap: 0;
     margin-bottom: 3rem;
@@ -572,7 +552,6 @@
     color: var(--gold);
   }
 
-  /* Booking Panel */
   .booking-panel { display: none; }
   .booking-panel.active { display: block; }
 
@@ -637,7 +616,6 @@
     line-height: 1.7;
   }
 
-  /* Form */
   .booking-form { display: flex; flex-direction: column; gap: 1.2rem; }
   .form-group { display: flex; flex-direction: column; gap: .5rem; }
   .form-label {
@@ -716,7 +694,6 @@
     line-height: 1.6;
   }
 
-  /* TESTIMONIALS MARQUEE */
   .marquee-section {
     padding: 3rem 0;
     background: var(--dark);
@@ -742,7 +719,6 @@
     to { transform: translateX(-50%); }
   }
 
-  /* PROMO BANNER */
   .promo-section {
     background: var(--dark2);
     padding: 5rem 2rem;
@@ -814,7 +790,6 @@
     text-transform: uppercase;
   }
 
-  /* VIP CODE */
   .vip-section {
     background: linear-gradient(135deg, #0a0a0a 0%, #111108 50%, #0a0a0a 100%);
     padding: 6rem 2rem;
@@ -880,7 +855,6 @@
   }
   .vip-benefit::before { content: '✦ '; color: var(--gold); }
 
-  /* CONTACT */
   .contact-section {
     background: var(--dark);
     padding: 6rem 2rem;
@@ -890,7 +864,6 @@
     display: grid; grid-template-columns: 1fr 2fr;
     gap: 5rem; align-items: start;
   }
-  .contact-info { }
   .contact-item {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
@@ -936,7 +909,6 @@
     letter-spacing: .1em;
   }
 
-  /* FOOTER */
   footer {
     background: var(--black);
     border-top: 1px solid rgba(212,175,55,.15);
@@ -980,7 +952,6 @@
     letter-spacing: .1em;
   }
 
-  /* SCROLL REVEAL */
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -991,7 +962,6 @@
     transform: translateY(0);
   }
 
-  /* MOBILE */
   @media (max-width: 768px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
@@ -1010,11 +980,9 @@
 </head>
 <body>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" href="#hero">Kleiner Suarez</a>
   <div class="nav-links">
@@ -1027,7 +995,6 @@
   <a class="nav-cta" href="#agendar">Reservar Cita</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-line"></div>
@@ -1040,7 +1007,6 @@
   <div class="hero-divider">
     <span class="hero-divider-icon">✦ Cinco Marcas · Una Visión ✦</span>
   </div>
-  <!-- Cada chip redirige a su red social -->
   <div class="hero-brands">
     <a class="hero-brand-chip" href="https://instagram.com/k95tatto" target="_blank">K95 Tattoo</a>
     <a class="hero-brand-chip" href="https://instagram.com/jkstudiomb" target="_blank">JK Studio MB</a>
@@ -1054,7 +1020,6 @@
   </div>
 </section>
 
-<!-- MARQUEE -->
 <div class="marquee-section">
   <div class="marquee-track">
     <span class="marquee-item">Arte en la piel <span>K95TATTOO</span></span>
@@ -1080,7 +1045,6 @@
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats-section">
   <div class="stats-grid">
     <div class="stat-item reveal">
@@ -1102,7 +1066,6 @@
   </div>
 </div>
 
-<!-- CAROUSEL -->
 <section class="carousel-section" id="marcas">
   <div class="carousel-header reveal">
     <p class="section-label">El Universo Kleiner</p>
@@ -1113,7 +1076,6 @@
   <div class="carousel-wrapper">
     <div class="carousel-track" id="carouselTrack">
 
-      <!-- K95 -->
       <div class="brand-card">
         <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(212,175,55,.3) 0%, transparent 70%);"></div>
         <div class="brand-card-content">
@@ -1132,7 +1094,6 @@
         </div>
       </div>
 
-      <!-- JK -->
       <div class="brand-card">
         <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(196,120,138,.3) 0%, transparent 70%);"></div>
         <div class="brand-card-content">
@@ -1151,7 +1112,6 @@
         </div>
       </div>
 
-      <!-- MVO -->
       <div class="brand-card">
         <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(60,120,212,.2) 0%, transparent 70%);"></div>
         <div class="brand-card-content">
@@ -1170,7 +1130,6 @@
         </div>
       </div>
 
-      <!-- CAFÉ -->
       <div class="brand-card">
         <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(139,90,43,.3) 0%, transparent 70%);"></div>
         <div class="brand-card-content">
@@ -1189,7 +1148,6 @@
         </div>
       </div>
 
-      <!-- LIBRO -->
       <div class="brand-card">
         <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(80,160,80,.2) 0%, transparent 70%);"></div>
         <div class="brand-card-content">
@@ -1223,7 +1181,6 @@
   </div>
 </section>
 
-<!-- GALERÍA AUTOMÁTICA -->
 <section class="gallery-section" id="galeria">
   <div class="gallery-header reveal">
     <p class="section-label">Portafolio Visual</p>
@@ -1231,12 +1188,9 @@
     <div class="gold-line"></div>
     <p class="section-subtitle">Trabajos realizados. Las imágenes se cargan automáticamente.</p>
   </div>
-  <div class="gallery-grid" id="galleryGrid">
-    <!-- Las imágenes se generan solas desde JavaScript -->
-  </div>
+  <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
-<!-- PROMOS -->
 <section class="promo-section" id="promos">
   <div style="max-width:1100px;margin:0 auto">
     <div class="reveal" style="margin-bottom:3.5rem">
@@ -1285,7 +1239,6 @@
   </div>
 </section>
 
-<!-- VIP CODE -->
 <section class="vip-section">
   <div class="vip-inner reveal">
     <div class="vip-crown">♛</div>
@@ -1305,7 +1258,6 @@
   </div>
 </section>
 
-<!-- BOOKING -->
 <section class="booking-section" id="agendar">
   <div class="booking-inner">
     <div class="booking-header reveal">
@@ -1322,7 +1274,6 @@
       <button class="service-tab" onclick="selectTab('cafe')" id="tab-cafe">Salud x Café</button>
     </div>
 
-    <!-- K95 Panel -->
     <div class="booking-panel active" id="panel-k95">
       <div class="booking-grid">
         <div class="booking-info">
@@ -1397,7 +1348,6 @@
       </div>
     </div>
 
-    <!-- JK Panel -->
     <div class="booking-panel" id="panel-jk">
       <div class="booking-grid">
         <div class="booking-info">
@@ -1476,7 +1426,6 @@
       </div>
     </div>
 
-    <!-- MVO Panel -->
     <div class="booking-panel" id="panel-mvo">
       <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2);">
         <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
@@ -1492,7 +1441,6 @@
       </div>
     </div>
 
-    <!-- CAFÉ Panel -->
     <div class="booking-panel" id="panel-cafe">
       <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2);">
         <p class="section-label" style="justify-content:center;display:flex">Salud Natural</p>
@@ -1508,7 +1456,6 @@
   </div>
 </section>
 
-<!-- CONTACT -->
 <section class="contact-section" id="contacto">
   <div class="contact-inner">
     <div class="reveal">
@@ -1564,7 +1511,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Kleiner Suarez</div>
   <div class="footer-tagline">Arquitecto de Transformaciones</div>
@@ -1583,21 +1529,12 @@
   /* ============================================================
      GALERÍA AUTOMÁTICA
      ============================================================
-     CÓMO AGREGAR TUS IMÁGENES:
-     
-     1. Crea una carpeta llamada "img" al lado de este archivo HTML.
-     2. Mete tus imágenes ahí.
-     3. Nómbralas así: img/1.jpg, img/2.jpg, img/3.jpg...
-     4. Cambia el número "6" de la línea de abajo por la cantidad
-        de imágenes que tengas. Ejemplo: si tienes 10 fotos, pon 10.
-     
-     También puedes poner la ruta completa si las tienes en internet:
-       { src: 'https://tudominio.com/foto.jpg', label: 'Tatuaje realista' }
-     
-     Las imágenes se generan SOLAS. No toques nada más.
+     Tus imágenes van sueltas en la raíz del repositorio:
+       1.jpg, 2.jpg, 3.jpg...
+     Cambia el número de abajo por tu cantidad de fotos.
      ============================================================ */
 
-  const TOTAL_IMAGENES = 10// ← CAMBIA ESTE NÚMERO POR TU CANTIDAD DE FOTOS
+  const TOTAL_IMAGENES = 10;
 
   const galeriaGrid = document.getElementById('galleryGrid');
 
@@ -1605,29 +1542,10 @@
     for (let i = 1; i <= TOTAL_IMAGENES; i++) {
       const item = document.createElement('div');
       item.className = 'gallery-item reveal';
-      item.innerHTML = `
-        <img src="img/${i}.jpg" alt="Trabajo ${i}" loading="lazy"
-             onerror="this.parentElement.style.display='none'">
-        <div class="gallery-item-overlay">
-          <span>Trabajo ${i}</span>
-        </div>
-      `;
+      item.innerHTML = '<img src="' + i + '.jpg" alt="Trabajo ' + i + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'"><div class="gallery-item-overlay"><span>Trabajo ' + i + '</span></div>';
       galeriaGrid.appendChild(item);
     }
-  } else {
-    galeriaGrid.innerHTML = `
-      <div class="gallery-empty">
-        <p>
-          No hay imágenes todavía.<br><br>
-          Crea una carpeta <code>img</code> junto a este archivo.<br>
-          Mete tus fotos ahí como <code>1.jpg</code>, <code>2.jpg</code>, <code>3.jpg</code>...<br>
-          Y cambia <code>TOTAL_IMAGENES</code> en el JavaScript a la cantidad de fotos.
-        </p>
-      </div>
-    `;
   }
-
-  /* ============================================================ */
 
   // CURSOR
   const cursor = document.getElementById('cursor');
@@ -1662,7 +1580,7 @@
 
   function updateCarousel() {
     cardWidth = getCardWidth();
-    track.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+    track.style.transform = 'translateX(-' + (currentSlide * cardWidth) + 'px)';
     dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
   }
 
@@ -1678,7 +1596,6 @@
 
   window.addEventListener('resize', updateCarousel);
 
-  // Auto-play carousel
   setInterval(() => {
     currentSlide = (currentSlide + 1) % totalSlides;
     updateCarousel();
@@ -1702,19 +1619,19 @@
     success.style.display = 'block';
 
     const inputs = form.querySelectorAll('input, select, textarea');
-    let msg = `*Nueva Cita — ${type === 'k95' ? 'K95 Tattoo' : 'JK Studio MB'}*\n\n`;
+    let msg = '*Nueva Cita — ' + (type === 'k95' ? 'K95 Tattoo' : 'JK Studio MB') + '*\n\n';
     const labels = ['Nombre', 'Teléfono', 'Servicio', 'Modalidad', 'Día', 'Horario', 'Descripción'];
     inputs.forEach((inp, i) => {
       if (inp.type === 'checkbox') {
-        if (inp.checked) msg += `✦ Código VIP: KLEINERVIP20\n`;
+        if (inp.checked) msg += '✦ Código VIP: KLEINERVIP20\n';
       } else if (inp.value) {
-        msg += `${labels[i] || inp.placeholder || 'Dato'}: ${inp.value}\n`;
+        msg += (labels[i] || inp.placeholder || 'Dato') + ': ' + inp.value + '\n';
       }
     });
 
     const phone = type === 'jk' ? '593982855833' : '593985037366';
     setTimeout(() => {
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+      window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
     }, 800);
   }
 
@@ -1727,7 +1644,7 @@
     });
   }
 
-  // SCROLL REVEAL (incluye las imágenes de galería generadas)
+  // SCROLL REVEAL
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: .1 });
