@@ -17,7 +17,6 @@
     --dark3: #1a1a1a;
     --white: #f5f0e8;
     --gray: #888;
-    --rose: #c4788a;
     --success: #10b981;
     --danger: #ef4444;
     --whatsapp: #25D366;
@@ -43,22 +42,17 @@
     transition: background 0.3s, color 0.3s;
   }
 
+  /* Loader más rápido */
   .loader-wrapper {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: var(--black); display: flex; align-items: center; justify-content: center;
-    z-index: 10000; transition: opacity 0.5s;
+    z-index: 10000; transition: opacity 0.3s;
   }
-  .loader { width: 60px; height: 60px; border: 3px solid var(--gray); border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+  .loader { width: 40px; height: 40px; border: 2px solid var(--gray); border-top: 2px solid var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .cursor { position: fixed; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; }
   .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .12s ease; opacity: .6; }
-
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 9997; opacity: .4;
-  }
 
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -78,7 +72,6 @@
   .nav-cta { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--black); background: var(--gold); border: none; padding: .5rem 1.2rem; text-transform: uppercase; cursor: pointer; transition: background .3s; text-decoration: none; border-radius: 30px; }
   .nav-cta:hover { background: var(--gold-light); }
 
-  /* Admin Panel */
   .admin-panel {
     max-width: 1200px; margin: 100px auto 20px; padding: 25px;
     background: var(--dark2); border-radius: 20px; border: 2px solid var(--gold);
@@ -94,12 +87,10 @@
   .admin-stat-value { font-size: 2rem; font-weight: bold; color: var(--gold); }
   .admin-services-grid { display: grid; gap: 15px; max-height: 400px; overflow-y: auto; }
   .admin-service-item { background: var(--dark3); padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-  .admin-service-actions { display: flex; gap: 8px; }
   .admin-edit, .admin-delete { padding: 8px 12px; border-radius: 8px; cursor: pointer; border: none; }
   .admin-edit { background: var(--gold); color: black; }
   .admin-delete { background: var(--danger); color: white; }
 
-  /* Hero */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
   .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,.12) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,175,55,.06) 0%, transparent 60%); }
   .hero-line { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--gold)); margin: 0 auto 2rem; animation: lineDown 1.2s ease forwards; }
@@ -115,27 +106,23 @@
   .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s infinite; }
   @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
 
-  /* Marquee */
   .marquee-section { padding: 3rem 0; background: var(--dark); overflow: hidden; border-top: 1px solid rgba(212,175,55,.1); border-bottom: 1px solid rgba(212,175,55,.1); }
   .marquee-track { display: flex; gap: 4rem; animation: marquee 25s linear infinite; white-space: nowrap; }
   .marquee-item { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--gray); flex-shrink: 0; }
   .marquee-item span { color: var(--gold); }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* Stats */
   .stats-section { background: var(--dark2); padding: 4rem 2rem; border-top: 1px solid rgba(212,175,55,.1); border-bottom: 1px solid rgba(212,175,55,.1); }
   .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
   .stat-number { font-family: 'Cinzel', serif; font-size: 2.8rem; font-weight: 900; color: var(--gold); }
   .stat-label { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; }
 
-  /* Carousel */
   .carousel-section { background: var(--dark); overflow: hidden; padding: 5rem 2rem; }
   .carousel-header { max-width: 1200px; margin: 0 auto 3rem; }
   .carousel-wrapper { overflow: hidden; }
   .carousel-track { display: flex; gap: 1.5rem; transition: transform .8s ease; padding: 1rem 4rem; }
   .brand-card { min-width: 340px; background: var(--dark2); border: 1px solid rgba(212,175,55,.15); border-radius: 20px; overflow: hidden; transition: all 0.3s; }
   .brand-card:hover { border-color: var(--gold); transform: translateY(-6px); }
-  .brand-card-bg { position: absolute; inset: 0; opacity: .08; }
   .brand-card-content { padding: 2rem; position: relative; }
   .brand-card-number { font-family: 'Cinzel', serif; font-size: 4rem; color: rgba(212,175,55,.1); }
   .brand-card-tag { font-family: 'Space Mono', monospace; font-size: .55rem; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
@@ -153,44 +140,37 @@
   .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray); cursor: pointer; }
   .carousel-dot.active { background: var(--gold); width: 25px; border-radius: 10px; }
 
-  /* Gallery - AUTOMÁTICA Y CLICK PARA CAMBIAR */
+  /* Galería optimizada - sin auto-carga */
   .gallery-section { background: var(--dark2); padding: 5rem 2rem; border-top: 1px solid rgba(212,175,55,.1); }
   .gallery-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-  .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 15px; border: 2px solid rgba(212,175,55,.2); cursor: pointer; transition: all 0.3s; background: var(--dark3); }
+  .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 15px; border: 2px solid rgba(212,175,55,.2); cursor: pointer; transition: all 0.3s; background: var(--dark3); display: flex; align-items: center; justify-content: center; }
   .gallery-item:hover { border-color: var(--gold); transform: translateY(-5px); }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
   .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-placeholder { font-size: 3rem; opacity: 0.5; text-align: center; padding: 2rem; }
   .gallery-item-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,.9), transparent); opacity: 0; transition: opacity .3s; }
   .gallery-item:hover .gallery-item-overlay { opacity: 1; }
-  .gallery-item-overlay span { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
-  .image-upload-hint { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 20px; font-size: 0.6rem; font-family: monospace; color: var(--gold); pointer-events: none; z-index: 5; }
   .gallery-empty { text-align: center; padding: 4rem; border: 1px dashed var(--gold); border-radius: 20px; grid-column: 1 / -1; }
+  .image-upload-hint { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 20px; font-size: 0.6rem; font-family: monospace; color: var(--gold); pointer-events: none; z-index: 5; }
 
-  /* Video VCL */
   .vcl-wrapper { position: relative; width: 100%; max-width: 720px; margin: 0 auto 2rem; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px; }
   .vcl-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-  /* Promos */
   .promo-section { background: var(--dark2); padding: 5rem 2rem; }
   .promo-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
   .promo-card { padding: 2rem; background: var(--dark); border-radius: 20px; border: 1px solid rgba(212,175,55,.15); transition: all 0.3s; position: relative; }
   .promo-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-  .promo-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-dim)); }
   .promo-badge { display: inline-block; font-family: 'Space Mono', monospace; font-size: .55rem; background: var(--gold); color: black; padding: .3rem .8rem; border-radius: 20px; margin-bottom: 1rem; }
   .promo-title { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: .5rem; }
   .promo-price-new { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold); font-weight: bold; }
 
-  /* VIP */
   .vip-section { background: linear-gradient(135deg, #0a0a0a 0%, #111108 50%, #0a0a0a 100%); padding: 5rem 2rem; text-align: center; }
   .vip-crown { font-size: 2.5rem; animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
   .vip-code-box { display: flex; justify-content: center; gap: 1rem; margin: 2rem auto; padding: 1.2rem 2rem; border: 2px solid var(--gold); border-radius: 60px; max-width: 360px; background: rgba(212,175,55,.05); }
   .vip-code-text { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: .2em; color: var(--gold); }
   .vip-copy-btn { background: var(--gold); color: black; border: none; padding: .5rem 1rem; border-radius: 30px; cursor: pointer; }
-  .vip-benefits { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; }
-  .vip-benefit::before { content: '✦ '; color: var(--gold); }
 
-  /* Booking */
   .booking-section { padding: 5rem 2rem; background: var(--black); position: relative; overflow: hidden; }
   .booking-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%); }
   .booking-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
@@ -205,11 +185,10 @@
   .booking-service-tag { font-family: 'Space Mono', monospace; font-size: .58rem; letter-spacing: .25em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; }
   .booking-note { font-family: 'Space Mono', monospace; font-size: .55rem; color: var(--gold-dim); padding: .8rem; background: rgba(212,175,55,.05); border-left: 2px solid var(--gold); margin-top: 1rem; }
   .booking-form { display: flex; flex-direction: column; gap: 1rem; }
-  .form-input, .form-select, .form-textarea { background: var(--dark2); border: 1px solid rgba(212,175,55,.2); color: var(--white); padding: .9rem; border-radius: 10px; font-family: 'Inter', sans-serif; }
+  .form-input, .form-select { background: var(--dark2); border: 1px solid rgba(212,175,55,.2); color: var(--white); padding: .9rem; border-radius: 10px; font-family: 'Inter', sans-serif; }
   .form-submit { background: var(--gold); color: black; border: none; padding: 1rem; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: .15em; }
   .success-msg { display: none; text-align: center; padding: 3rem; background: var(--dark2); border-radius: 20px; border: 1px solid var(--gold); }
 
-  /* Contact */
   .contact-section { padding: 5rem 2rem; background: var(--dark); }
   .contact-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; }
   .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -223,7 +202,6 @@
   .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
   .footer-links a { font-family: 'Space Mono', monospace; font-size: .55rem; letter-spacing: .2em; color: var(--gray); text-decoration: none; text-transform: uppercase; }
 
-  /* Modal */
   .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
   .modal.active { display: flex; }
   .modal-content { background: var(--dark2); padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; border: 2px solid var(--gold); }
@@ -233,7 +211,7 @@
   .toast.show { display: block; animation: slideUp 0.3s ease; }
   @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); } to { transform: translateX(-50%) translateY(0); } }
   .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; text-decoration: none; z-index: 100; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,211,102,0.7); } 50% { transform: scale(1.1); } }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
   .reveal { opacity: 0; transform: translateY(30px); transition: all .8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -287,7 +265,8 @@
   <div class="admin-services-grid" id="adminServicesGrid"></div>
   <div class="gallery-admin">
     <h3>🖼️ Gestión de Galería</h3>
-    <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 10px;">💡 Las imágenes se cargan automáticamente desde 1.jpg, 2.jpg, 3.jpg... Haz clic en cualquier imagen para cambiarla.</p>
+    <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 10px;">💡 Haz clic en cualquier imagen para cambiarla. Usa los botones para agregar o eliminar.</p>
+    <button class="add-service-btn" onclick="agregarImagenNueva()" style="margin-bottom: 15px;">➕ Agregar imagen nueva</button>
     <div class="gallery-admin-grid" id="galleryAdminGrid"></div>
   </div>
 </div>
@@ -334,7 +313,7 @@
   </div>
 </section>
 
-<!-- GALERÍA - AUTOMÁTICA Y CLICK PARA CAMBIAR -->
+<!-- GALERÍA -->
 <section class="gallery-section" id="galeria">
   <div class="gallery-header reveal" style="text-align: center; margin-bottom: 3rem;">
     <p class="section-label">Portafolio Visual</p>
@@ -368,7 +347,7 @@
       <span class="vip-code-text" id="vipCode">KLEINERVIP20</span>
       <button class="vip-copy-btn" onclick="copyCode()">Copiar</button>
     </div>
-    <div class="vip-benefits">
+    <div class="vip-benefits" style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
       <span class="vip-benefit">20% OFF</span>
       <span class="vip-benefit">K95 Tattoo</span>
       <span class="vip-benefit">JK Studio</span>
@@ -391,7 +370,7 @@
   </div>
 </section>
 
-<!-- MVO PANEL ESPECIAL CON VIDEO VSL Y PÁGINA DE COMPRA -->
+<!-- MVO PANEL ESPECIAL (VSL + Hotmart) -->
 <div style="display: none;" id="mvoSpecialPanel">
   <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px;">
     <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
@@ -486,7 +465,7 @@
 
 <script>
   // ============================================
-  // DATOS INICIALES
+  // DATOS INICIALES (TOTALMENTE PRESERVADOS)
   // ============================================
   let servicios = [
     { id: 1, nombre: "K95 Tattoo", tag: "Arte Corporal", desc: "Tatuajes artísticos de alta gama. Minimalista, Blackwork y Realismo con un toque único.", precio: "Desde $10 USD", features: ["Minimalista desde $10", "Blackwork $40–$100", "Realismo desde $130", "Corte gratis con Blackwork/Realismo"] },
@@ -503,49 +482,24 @@
     { id: 4, badge: "Método MVO", title: "Desafío Gratis 3 Episodios", desc: "Empieza gratis con 3 episodios del desafío de automatización. Descubre el poder del Método MVO sin costo.", price: "GRATIS", oldPrice: "Valor real: incluido en $47", validity: "🎯 Acceso inmediato en Hotmart" }
   ];
 
-  // GALERÍA: imágenes que se cargan automáticamente desde 1.jpg, 2.jpg...
-  // Primero intentamos cargar las imágenes automáticas, luego las guardadas
+  // GALERÍA: SIN AUTO-CARGA - ARRANCA VACÍA
   let galleryImages = [];
-  const MAX_GALLERY_IMAGES = 20; // máximo de imágenes a buscar
 
-  // Función para cargar imágenes automáticas desde 1.jpg, 2.jpg...
-  async function cargarImagenesAutomaticas() {
-    const nuevasImagenes = [];
-    for (let i = 1; i <= MAX_GALLERY_IMAGES; i++) {
-      const imgSrc = i + ".jpg";
-      try {
-        const response = await fetch(imgSrc, { method: 'HEAD' });
-        if (response.ok) {
-          nuevasImagenes.push(imgSrc);
-        } else {
-          break; // si no encuentra una, asume que no hay más
-        }
-      } catch(e) {
-        break;
-      }
-    }
-    return nuevasImagenes;
-  }
+  function guardarGallery() { localStorage.setItem('kleiner_gallery', JSON.stringify(galleryImages)); }
 
-  // Guardar imágenes en localStorage
-  function guardarGallery() {
-    localStorage.setItem('kleiner_gallery', JSON.stringify(galleryImages));
-  }
-
-  // Cargar imágenes (prioriza las guardadas, si no hay, carga automáticas)
-  async function cargarGallery() {
+  function cargarGallery() {
     const guardadas = localStorage.getItem('kleiner_gallery');
-    if (guardadas && JSON.parse(guardadas).length > 0) {
+    if (guardadas) {
       galleryImages = JSON.parse(guardadas);
     } else {
-      galleryImages = await cargarImagenesAutomaticas();
+      galleryImages = []; // Vacío, sin auto-carga
       guardarGallery();
     }
     renderGallery();
     if (adminActive) renderAdminGallery();
   }
 
-  // Cambiar una imagen específica (click en la imagen)
+  // Cambiar imagen (click)
   function cambiarImagen(index) {
     const input = document.createElement('input');
     input.type = 'file';
@@ -564,6 +518,36 @@
       reader.readAsDataURL(file);
     };
     input.click();
+  }
+
+  function agregarImagenNueva() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        galleryImages.push(event.target.result);
+        guardarGallery();
+        renderGallery();
+        if (adminActive) renderAdminGallery();
+        mostrarToast('🖼️ Imagen agregada');
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  function eliminarImagen(index) {
+    if (confirm('¿Eliminar esta imagen?')) {
+      galleryImages.splice(index, 1);
+      guardarGallery();
+      renderGallery();
+      if (adminActive) renderAdminGallery();
+      mostrarToast('🗑️ Imagen eliminada');
+    }
   }
 
   // Guardar servicios y promos
@@ -637,15 +621,14 @@
   function updateCarousel() {
     const cardWidth = document.querySelector('.brand-card')?.offsetWidth + 24 || 364;
     document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * cardWidth}px)`;
-    renderCarouselDots();
   }
-  function moveCarousel(dir) { currentSlide = Math.max(0, Math.min(servicios.length - 1, currentSlide + dir)); updateCarousel(); }
-  function goToSlide(i) { currentSlide = i; updateCarousel(); }
+  function moveCarousel(dir) { currentSlide = Math.max(0, Math.min(servicios.length - 1, currentSlide + dir)); updateCarousel(); renderCarouselDots(); }
+  function goToSlide(i) { currentSlide = i; updateCarousel(); renderCarouselDots(); }
 
   function renderGallery() {
     const grid = document.getElementById('galleryGrid');
     if (galleryImages.length === 0) {
-      grid.innerHTML = '<div class="gallery-empty"><p>📸 No hay imágenes. Pon archivos 1.jpg, 2.jpg... en la carpeta o haz clic en ⚙️ para subir imágenes manualmente.</p></div>';
+      grid.innerHTML = '<div class="gallery-empty"><p>📸 Galería vacía. Haz clic en ⚙️ (Admin) y usa "Agregar imagen nueva" para subir tus fotos.</p></div>';
       return;
     }
     grid.innerHTML = galleryImages.map((img, i) => `
@@ -660,57 +643,21 @@
   function renderAdminGallery() {
     const grid = document.getElementById('galleryAdminGrid');
     if (galleryImages.length === 0) {
-      grid.innerHTML = '<p style="color: var(--gray);">No hay imágenes. Sube tus primeras imágenes o pon archivos 1.jpg, 2.jpg... en la carpeta.</p><button class="add-image-btn" onclick="agregarImagenNueva()">➕ Agregar imagen manual</button>';
+      grid.innerHTML = '<p style="color: var(--gray);">No hay imágenes. Usa "Agregar imagen nueva" para subir tus primeras fotos.</p>';
       return;
     }
     grid.innerHTML = galleryImages.map((img, i) => `
-      <div class="gallery-admin-item">
-        <img src="${img}" alt="Img ${i+1}">
-        <button onclick="event.stopPropagation(); eliminarImagen(${i})">✕</button>
+      <div class="gallery-admin-item" style="position:relative; display:inline-block; margin:5px; width:100px; height:100px; overflow:hidden; border-radius:10px;">
+        <img src="${img}" style="width:100%; height:100%; object-fit:cover;">
+        <button onclick="eliminarImagen(${i})" style="position:absolute; top:2px; right:2px; background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;">✕</button>
       </div>
-    `).join('') + `<button class="add-image-btn" onclick="agregarImagenNueva()" style="margin-top: 15px;">➕ Agregar nueva imagen</button>`;
+    `).join('');
   }
-
-  function agregarImagenNueva() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        galleryImages.push(event.target.result);
-        guardarGallery();
-        renderGallery();
-        if (adminActive) renderAdminGallery();
-        mostrarToast('🖼️ Imagen agregada al final');
-      };
-      reader.readAsDataURL(file);
-    };
-    input.click();
-  }
-
-  function eliminarImagen(index) {
-    if (confirm('¿Eliminar esta imagen?')) {
-      galleryImages.splice(index, 1);
-      guardarGallery();
-      renderGallery();
-      if (adminActive) renderAdminGallery();
-      mostrarToast('🗑️ Imagen eliminada');
-    }
-  }
-
-  // Exponer globalmente
-  window.cambiarImagen = cambiarImagen;
-  window.agregarImagenNueva = agregarImagenNueva;
-  window.eliminarImagen = eliminarImagen;
 
   function renderPromos() {
     const grid = document.getElementById('promosGrid');
     grid.innerHTML = promos.map(p => `
       <div class="promo-card reveal">
-        <div class="promo-card-accent"></div>
         <div class="promo-badge">${p.badge}</div>
         <div class="promo-title">${p.title}</div>
         <div class="promo-desc" style="color: var(--gray);">${p.desc}</div>
@@ -879,7 +826,7 @@
   }
   function copyCode() { navigator.clipboard.writeText('KLEINERVIP20'); mostrarToast('✓ Código copiado'); }
   function mostrarToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
-  function actualizarTodo() { renderHeroBrands(); renderCarousel(); renderPromos(); renderServiceTabs(); renderBookingPanels(); if (adminActive) renderAdmin(); updateCarousel(); }
+  function actualizarTodo() { renderHeroBrands(); renderCarousel(); renderPromos(); renderServiceTabs(); renderBookingPanels(); if (adminActive) renderAdmin(); }
 
   // ADMIN SECRETO (5 clics en logo)
   let clicks = 0;
@@ -896,19 +843,36 @@
   function animateRing() { rx += (mx - rx) * .12; ry += (my - ry) * .12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
   animateRing();
 
-  // AUTO CAROUSEL
-  setInterval(() => { if (!adminActive) { currentSlide = (currentSlide + 1) % servicios.length; updateCarousel(); } }, 6000);
+  // AUTO CAROUSEL (más lento para mejor rendimiento)
+  setInterval(() => { if (!adminActive) { currentSlide = (currentSlide + 1) % servicios.length; updateCarousel(); renderCarouselDots(); } }, 8000);
 
-  // INICIAR
+  // INICIAR (carga rápida)
   cargarDatos();
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
   renderMarquee();
   renderSocial();
   renderStats();
-  await cargarGallery(); // Carga automática de imágenes
+  cargarGallery(); // Galería vacía o guardada, sin auto-carga
   actualizarTodo();
-  setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+  setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 500);
+  
+  // Exponer funciones globales
+  window.cambiarImagen = cambiarImagen;
+  window.agregarImagenNueva = agregarImagenNueva;
+  window.eliminarImagen = eliminarImagen;
+  window.selectTab = selectTab;
+  window.moveCarousel = moveCarousel;
+  window.goToSlide = goToSlide;
+  window.toggleTheme = toggleTheme;
+  window.toggleAdmin = toggleAdmin;
+  window.showAddServiceModal = showAddServiceModal;
+  window.editService = editService;
+  window.deleteService = deleteService;
+  window.saveService = saveService;
+  window.closeModal = closeModal;
+  window.copyCode = copyCode;
+  window.submitBooking = submitBooking;
 </script>
 </body>
 </html>
