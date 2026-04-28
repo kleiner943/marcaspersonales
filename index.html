@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kleiner Suarez — Arquitecto de Transformaciones</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root {
     --gold: #d4af37;
@@ -17,9 +18,21 @@
     --white: #f5f0e8;
     --gray: #888;
     --rose: #c4788a;
+    --success: #10b981;
+    --danger: #ef4444;
+    --whatsapp: #25D366;
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [data-theme="light"] {
+    --black: #f5f0e8;
+    --dark: #ffffff;
+    --dark2: #f0ede8;
+    --dark3: #e8e5e0;
+    --white: #1a1a1a;
+    --gray: #666;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
   body {
@@ -27,1021 +40,239 @@
     color: var(--white);
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
-    cursor: none;
+    transition: background 0.3s, color 0.3s;
   }
 
-  .cursor {
-    position: fixed; top: 0; left: 0;
-    width: 12px; height: 12px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: width .2s, height .2s, background .2s;
-    mix-blend-mode: difference;
+  /* Loader */
+  .loader-wrapper {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--black); display: flex; align-items: center; justify-content: center;
+    z-index: 10000; transition: opacity 0.5s;
   }
-  .cursor-ring {
-    position: fixed; top: 0; left: 0;
-    width: 36px; height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: all .12s ease;
-    opacity: .6;
-  }
+  .loader { width: 60px; height: 60px; border: 3px solid var(--gray); border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Cursor */
+  .cursor { position: fixed; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; }
+  .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .12s ease; opacity: .6; }
 
   body::before {
-    content: '';
-    position: fixed; inset: 0;
+    content: ''; position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9997;
-    opacity: .4;
+    pointer-events: none; z-index: 9997; opacity: .4;
   }
 
+  /* Navbar */
   nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.4rem 3rem;
-    background: linear-gradient(to bottom, rgba(4,4,4,.98), transparent);
-    backdrop-filter: blur(2px);
+    padding: 1rem 3rem;
+    background: rgba(4,4,4,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212,175,55,.2);
   }
-  .nav-logo {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem; font-weight: 900;
-    letter-spacing: .3em;
-    color: var(--gold);
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  .nav-links { display: flex; gap: 2.4rem; }
-  .nav-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: .62rem; letter-spacing: .2em;
-    color: var(--gray);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color .3s;
-  }
+  .nav-logo { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 900; letter-spacing: .3em; color: var(--gold); text-decoration: none; text-transform: uppercase; cursor: pointer; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--gray); text-decoration: none; text-transform: uppercase; transition: color .3s; }
   .nav-links a:hover { color: var(--gold); }
-  .nav-cta {
-    font-family: 'Space Mono', monospace;
-    font-size: .62rem; letter-spacing: .2em;
-    color: var(--black);
-    background: var(--gold);
-    border: none; padding: .55rem 1.4rem;
-    text-transform: uppercase; cursor: none;
-    transition: background .3s;
-    text-decoration: none;
-  }
+  .nav-controls { display: flex; gap: 12px; align-items: center; }
+  .nav-btn { background: none; border: 1px solid var(--gray); color: var(--white); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+  .nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-cta { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--black); background: var(--gold); border: none; padding: .5rem 1.2rem; text-transform: uppercase; cursor: pointer; transition: background .3s; text-decoration: none; border-radius: 30px; }
   .nav-cta:hover { background: var(--gold-light); }
 
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    padding: 6rem 2rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: 
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,.12) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,175,55,.06) 0%, transparent 60%),
-      radial-gradient(ellipse 30% 30% at 20% 60%, rgba(196,120,138,.04) 0%, transparent 50%);
-  }
-  .hero-line {
-    width: 1px; height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--gold));
-    margin: 0 auto 2rem;
-    animation: lineDown 1.2s ease forwards;
-  }
-  @keyframes lineDown {
-    from { height: 0; opacity: 0; }
-    to { height: 80px; opacity: 1; }
-  }
-  .hero-eyebrow {
-    font-family: 'Space Mono', monospace;
-    font-size: .65rem; letter-spacing: .4em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp .8s .3s ease forwards;
-  }
-  .hero-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    font-weight: 900;
-    line-height: .9;
-    letter-spacing: -.02em;
-    color: var(--white);
-    opacity: 0;
-    animation: fadeUp .8s .5s ease forwards;
-  }
-  .hero-title span {
-    display: block;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold-dim) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    font-weight: 300;
-    font-style: italic;
-    color: var(--gray);
-    margin-top: 1.5rem;
-    letter-spacing: .05em;
-    opacity: 0;
-    animation: fadeUp .8s .7s ease forwards;
-  }
-  .hero-divider {
-    display: flex; align-items: center; gap: 1.5rem;
-    margin: 2.5rem auto;
-    opacity: 0;
-    animation: fadeUp .8s .9s ease forwards;
-  }
-  .hero-divider::before, .hero-divider::after {
-    content: ''; width: 60px; height: 1px; background: var(--gold-dim);
-  }
-  .hero-divider-icon {
-    font-size: .7rem; color: var(--gold); letter-spacing: .2em;
-    font-family: 'Space Mono', monospace;
-  }
-  .hero-brands {
-    display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
-    margin-top: .5rem;
-    opacity: 0;
-    animation: fadeUp .8s 1.1s ease forwards;
-  }
-  .hero-brand-chip {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem; letter-spacing: .2em;
-    text-transform: uppercase;
-    padding: .4rem 1rem;
-    border: 1px solid rgba(212,175,55,.3);
-    color: var(--gold-dim);
-    transition: all .3s;
-    cursor: none;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .hero-brand-chip:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,.08); }
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; left: 50%;
-    transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: .5rem;
-    opacity: 0;
-    animation: fadeUp .8s 1.4s ease forwards;
-  }
-  .hero-scroll span {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem; letter-spacing: .3em;
-    color: var(--gray); text-transform: uppercase;
-  }
-  .scroll-line {
-    width: 1px; height: 40px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    animation: scrollPulse 2s infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: .3; }
-    50% { opacity: 1; }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  section { padding: 7rem 2rem; }
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem; letter-spacing: .4em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--white);
-    margin-bottom: 1rem;
-  }
-  .section-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--gray);
-    max-width: 500px;
-  }
-  .gold-line {
-    width: 50px; height: 2px;
-    background: var(--gold);
-    margin: 1.5rem 0;
-  }
-
-  .carousel-section {
-    background: var(--dark);
-    overflow: hidden;
-  }
-  .carousel-header {
-    max-width: 1200px;
-    margin: 0 auto 3.5rem;
-    padding: 0 2rem;
-  }
-  .carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-  }
-  .carousel-track {
-    display: flex;
-    gap: 1.5rem;
-    transition: transform .8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    padding: 1rem 4rem;
-  }
-  .brand-card {
-    min-width: 340px;
-    height: 500px;
-    background: var(--dark2);
-    border: 1px solid rgba(212,175,55,.15);
-    position: relative;
-    overflow: hidden;
-    cursor: none;
-    transition: border-color .4s, transform .4s;
-    flex-shrink: 0;
-  }
-  .brand-card:hover {
-    border-color: var(--gold);
-    transform: translateY(-6px);
-  }
-  .brand-card-bg {
-    position: absolute; inset: 0;
-    opacity: .08;
-    transition: opacity .4s;
-  }
-  .brand-card:hover .brand-card-bg { opacity: .14; }
-  .brand-card-content {
-    position: relative; z-index: 2;
-    padding: 2.5rem;
-    height: 100%;
-    display: flex; flex-direction: column;
-  }
-  .brand-card-number {
-    font-family: 'Cinzel', serif;
-    font-size: 4rem;
-    font-weight: 900;
-    color: rgba(212,175,55,.1);
-    line-height: 1;
-    margin-bottom: 1rem;
-    transition: color .4s;
-  }
-  .brand-card:hover .brand-card-number { color: rgba(212,175,55,.2); }
-  .brand-card-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem; letter-spacing: .3em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: .8rem;
-  }
-  .brand-card-name {
-    font-family: 'Cinzel', serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: .8rem;
-    line-height: 1.2;
-  }
-  .brand-card-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--gray);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    flex: 1;
-  }
-  .brand-card-features {
-    list-style: none;
-    margin-bottom: 1.5rem;
-  }
-  .brand-card-features li {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    color: var(--gray);
-    padding: .4rem 0;
-    border-bottom: 1px solid rgba(255,255,255,.05);
-    letter-spacing: .05em;
-  }
-  .brand-card-features li::before {
-    content: '→ ';
-    color: var(--gold);
-  }
-  .brand-card-btn {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem; letter-spacing: .2em;
-    text-transform: uppercase;
-    padding: .8rem 1.5rem;
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    cursor: none;
-    transition: all .3s;
-    text-align: center;
-    text-decoration: none;
-  }
-  .brand-card-btn:hover {
-    background: var(--gold);
-    color: var(--black);
-  }
-  .brand-card-price {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    margin-bottom: .5rem;
-  }
-
-  .carousel-controls {
-    display: flex; align-items: center; justify-content: center;
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .carousel-btn {
-    width: 48px; height: 48px;
-    border: 1px solid rgba(212,175,55,.4);
-    background: transparent;
-    color: var(--gold);
-    font-size: 1.2rem;
-    cursor: none;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .3s;
-  }
-  .carousel-btn:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
-  .carousel-dots { display: flex; gap: .6rem; }
-  .carousel-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(212,175,55,.3);
-    cursor: none;
-    transition: all .3s;
-  }
-  .carousel-dot.active {
-    background: var(--gold);
-    width: 24px;
-    border-radius: 3px;
-  }
-
-  .stats-section {
-    background: var(--dark2);
-    border-top: 1px solid rgba(212,175,55,.1);
-    border-bottom: 1px solid rgba(212,175,55,.1);
-    padding: 4rem 2rem;
-  }
-  .stats-grid {
-    max-width: 1000px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 2rem; text-align: center;
-  }
-  .stat-item { padding: 1.5rem; }
-  .stat-number {
-    font-family: 'Cinzel', serif;
-    font-size: 2.8rem;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: .4rem;
-  }
-  .stat-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    letter-spacing: .2em;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
-
-  .gallery-section {
-    background: var(--dark2);
-    border-top: 1px solid rgba(212,175,55,.1);
-  }
-  .gallery-header {
-    max-width: 1200px;
-    margin: 0 auto 3rem;
-  }
-  .gallery-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.2rem;
-  }
-  .gallery-item {
-    position: relative;
-    aspect-ratio: 4/5;
-    overflow: hidden;
-    border: 1px solid rgba(212,175,55,.12);
-    cursor: none;
-    transition: border-color .4s, transform .4s;
-  }
-  .gallery-item:hover {
-    border-color: var(--gold);
-    transform: translateY(-4px);
-  }
-  .gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .6s ease, opacity .4s;
-    opacity: .75;
-  }
-  .gallery-item:hover img {
-    transform: scale(1.05);
-    opacity: 1;
-  }
-  .gallery-item-overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 1.5rem 1.2rem;
-    background: linear-gradient(to top, rgba(4,4,4,.9) 0%, transparent 100%);
-    opacity: 0;
-    transition: opacity .4s;
-  }
-  .gallery-item:hover .gallery-item-overlay {
-    opacity: 1;
-  }
-  .gallery-item-overlay span {
-    font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .2em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-  .gallery-empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 4rem 2rem;
-    border: 1px dashed rgba(212,175,55,.25);
-  }
-  .gallery-empty p {
-    font-family: 'Space Mono', monospace;
-    font-size: .65rem;
-    letter-spacing: .15em;
-    color: var(--gold-dim);
-    line-height: 2;
-    text-transform: uppercase;
-  }
-
-  /* VIDEO VCL */
-  .vcl-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto 2rem;
-    padding-bottom: 56.25%;
-    height: 0;
-    overflow: hidden;
-    border: 1px solid rgba(212,175,55,.2);
-    background: var(--dark2);
-  }
-  .vcl-wrapper iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-
-  .booking-section {
-    background: var(--black);
-    position: relative;
-    overflow: hidden;
-  }
-  .booking-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%);
-  }
-  .booking-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative; z-index: 2;
-  }
-  .booking-header { text-align: center; margin-bottom: 4rem; }
-  .booking-header .gold-line { margin: 1.5rem auto; }
-
-  .service-tabs {
-    display: flex; gap: 0;
-    margin-bottom: 3rem;
-    border: 1px solid rgba(212,175,55,.2);
-    overflow: hidden;
-  }
-  .service-tab {
-    flex: 1;
-    padding: 1rem;
-    background: transparent;
-    border: none;
-    color: var(--gray);
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    cursor: none;
-    transition: all .3s;
-    border-right: 1px solid rgba(212,175,55,.2);
-  }
-  .service-tab:last-child { border-right: none; }
-  .service-tab.active {
-    background: var(--gold);
-    color: var(--black);
-  }
-  .service-tab:hover:not(.active) {
-    background: rgba(212,175,55,.1);
-    color: var(--gold);
-  }
-
-  .booking-panel { display: none; }
-  .booking-panel.active { display: block; }
-
-  .booking-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-  .booking-info {
-    padding: 2.5rem;
-    border: 1px solid rgba(212,175,55,.15);
-    background: var(--dark2);
-  }
-  .booking-service-name {
-    font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    color: var(--white);
-    margin-bottom: .5rem;
-  }
-  .booking-service-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .25em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-  }
-  .booking-service-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--gray);
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-  .price-options { margin-bottom: 1.5rem; }
-  .price-option {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: .8rem 0;
-    border-bottom: 1px solid rgba(255,255,255,.05);
-  }
-  .price-option-name {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    color: var(--gray);
-    letter-spacing: .1em;
-  }
-  .price-option-value {
-    font-family: 'Cinzel', serif;
-    font-size: .9rem;
-    color: var(--gold);
-  }
-  .booking-note {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    color: var(--gold-dim);
-    letter-spacing: .1em;
-    padding: .8rem;
-    background: rgba(212,175,55,.05);
-    border-left: 2px solid var(--gold);
-    line-height: 1.7;
-  }
-
-  .booking-form { display: flex; flex-direction: column; gap: 1.2rem; }
-  .form-group { display: flex; flex-direction: column; gap: .5rem; }
-  .form-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .2em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-  }
-  .form-input, .form-select, .form-textarea {
-    background: var(--dark2);
-    border: 1px solid rgba(212,175,55,.2);
-    color: var(--white);
-    padding: .9rem 1.1rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color .3s;
-    -webkit-appearance: none;
-    cursor: none;
-  }
-  .form-input:focus, .form-select:focus, .form-textarea:focus {
-    border-color: var(--gold);
-  }
-  .form-input::placeholder, .form-textarea::placeholder {
-    color: rgba(136,136,136,.5);
-  }
-  .form-select option { background: var(--dark2); color: var(--white); }
-  .form-textarea { min-height: 90px; resize: vertical; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .form-submit {
-    margin-top: .5rem;
-    padding: 1.1rem;
-    background: var(--gold);
-    border: none;
-    color: var(--black);
-    font-family: 'Cinzel', serif;
-    font-size: .9rem;
-    font-weight: 600;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    cursor: none;
-    transition: background .3s, transform .2s;
-  }
-  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .form-vip {
-    display: flex; align-items: center; gap: .8rem;
-  }
-  .form-vip input { cursor: none; accent-color: var(--gold); }
-  .form-vip label {
-    font-family: 'Space Mono', monospace;
-    font-size: .58rem;
-    color: var(--gray);
-    letter-spacing: .1em;
-    cursor: none;
-  }
-  .form-vip label span { color: var(--gold); }
-  .success-msg {
+  /* Admin Panel */
+  .admin-panel {
+    max-width: 1200px; margin: 100px auto 20px; padding: 25px;
+    background: var(--dark2); border-radius: 20px; border: 2px solid var(--gold);
     display: none;
-    text-align: center;
-    padding: 3rem;
-    border: 1px solid var(--gold);
-    background: rgba(212,175,55,.05);
   }
-  .success-msg h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-  .success-msg p {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--gray);
-    font-size: 1.1rem;
-    line-height: 1.6;
-  }
+  .admin-panel.active { display: block; animation: slideDown 0.3s ease; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  .admin-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+  .admin-title { font-family: 'Cinzel', serif; color: var(--gold); }
+  .add-service-btn { background: var(--gold); color: black; border: none; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; }
+  .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .admin-stat { background: var(--dark3); padding: 15px; border-radius: 15px; text-align: center; }
+  .admin-stat-value { font-size: 2rem; font-weight: bold; color: var(--gold); }
+  .admin-services-grid { display: grid; gap: 15px; max-height: 400px; overflow-y: auto; }
+  .admin-service-item { background: var(--dark3); padding: 15px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .admin-service-actions { display: flex; gap: 8px; }
+  .admin-edit, .admin-delete { padding: 8px 12px; border-radius: 8px; cursor: pointer; border: none; }
+  .admin-edit { background: var(--gold); color: black; }
+  .admin-delete { background: var(--danger); color: white; }
 
-  .marquee-section {
-    padding: 3rem 0;
-    background: var(--dark);
-    overflow: hidden;
-    border-top: 1px solid rgba(212,175,55,.1);
-    border-bottom: 1px solid rgba(212,175,55,.1);
-  }
-  .marquee-track {
-    display: flex; gap: 4rem;
-    animation: marquee 25s linear infinite;
-    white-space: nowrap;
-  }
-  .marquee-item {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    font-style: italic;
-    color: var(--gray);
-    flex-shrink: 0;
-  }
+  /* Gallery Admin */
+  .gallery-admin { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--gray); }
+  .gallery-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
+  .gallery-admin-item { position: relative; aspect-ratio: 1; background: var(--dark3); border-radius: 10px; overflow: hidden; }
+  .gallery-admin-item img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-admin-item button { position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; }
+  .add-image-btn { margin-top: 15px; padding: 10px 20px; background: var(--gold); color: black; border: none; border-radius: 30px; cursor: pointer; }
+
+  /* Hero */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,.12) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(212,175,55,.06) 0%, transparent 60%); }
+  .hero-line { width: 1px; height: 80px; background: linear-gradient(to bottom, transparent, var(--gold)); margin: 0 auto 2rem; animation: lineDown 1.2s ease forwards; }
+  @keyframes lineDown { from { height: 0; opacity: 0; } to { height: 80px; opacity: 1; } }
+  .hero-eyebrow { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .4em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; }
+  .hero-title { font-family: 'Cinzel', serif; font-size: clamp(3.5rem, 10vw, 8rem); font-weight: 900; line-height: .9; }
+  .hero-title span { background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold-dim)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 300; font-style: italic; color: var(--gray); margin-top: 1.5rem; }
+  .hero-brands { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2rem; }
+  .hero-brand-chip { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; padding: .4rem 1rem; border: 1px solid rgba(212,175,55,.3); color: var(--gold-dim); text-decoration: none; transition: all .3s; }
+  .hero-brand-chip:hover { border-color: var(--gold); color: var(--gold); background: rgba(212,175,55,.08); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* Marquee */
+  .marquee-section { padding: 3rem 0; background: var(--dark); overflow: hidden; border-top: 1px solid rgba(212,175,55,.1); border-bottom: 1px solid rgba(212,175,55,.1); }
+  .marquee-track { display: flex; gap: 4rem; animation: marquee 25s linear infinite; white-space: nowrap; }
+  .marquee-item { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--gray); flex-shrink: 0; }
   .marquee-item span { color: var(--gold); }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  .promo-section {
-    background: var(--dark2);
-    padding: 5rem 2rem;
-  }
-  .promo-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-  .promo-card {
-    padding: 2.5rem;
-    border: 1px solid rgba(212,175,55,.15);
-    position: relative;
-    overflow: hidden;
-    background: var(--dark);
-    transition: border-color .4s;
-  }
-  .promo-card:hover { border-color: var(--gold); }
-  .promo-card-accent {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(to right, var(--gold), var(--gold-dim));
-  }
-  .promo-badge {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    padding: .35rem .8rem;
-    background: var(--gold);
-    color: var(--black);
-    margin-bottom: 1.2rem;
-  }
-  .promo-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.3rem;
-    color: var(--white);
-    margin-bottom: .8rem;
-  }
-  .promo-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--gray);
-    font-size: .95rem;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-  .promo-price-old {
-    font-family: 'Space Mono', monospace;
-    font-size: .7rem;
-    color: var(--gray);
-    text-decoration: line-through;
-    letter-spacing: .1em;
-    margin-bottom: .3rem;
-  }
-  .promo-price-new {
-    font-family: 'Cinzel', serif;
-    font-size: 2rem;
-    color: var(--gold);
-    font-weight: 900;
-    margin-bottom: 1.2rem;
-  }
-  .promo-validity {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    color: var(--gold-dim);
-    letter-spacing: .15em;
-    text-transform: uppercase;
-  }
+  /* Stats */
+  .stats-section { background: var(--dark2); padding: 4rem 2rem; border-top: 1px solid rgba(212,175,55,.1); border-bottom: 1px solid rgba(212,175,55,.1); }
+  .stats-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+  .stat-number { font-family: 'Cinzel', serif; font-size: 2.8rem; font-weight: 900; color: var(--gold); }
+  .stat-label { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; }
 
-  .vip-section {
-    background: linear-gradient(135deg, #0a0a0a 0%, #111108 50%, #0a0a0a 100%);
-    padding: 6rem 2rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .vip-section::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(212,175,55,.08) 0%, transparent 70%);
-  }
-  .vip-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
-  .vip-crown {
-    font-size: 2.5rem; margin-bottom: 1.5rem;
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  .vip-code-box {
-    display: flex; align-items: center; justify-content: center;
-    gap: 1rem;
-    margin: 2rem auto;
-    padding: 1.2rem 2rem;
-    border: 2px solid var(--gold);
-    background: rgba(212,175,55,.05);
-    max-width: 360px;
-    position: relative;
-  }
-  .vip-code-text {
-    font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    font-weight: 900;
-    letter-spacing: .2em;
-    color: var(--gold);
-  }
-  .vip-copy-btn {
-    background: var(--gold);
-    border: none;
-    color: var(--black);
-    padding: .5rem .9rem;
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    letter-spacing: .1em;
-    cursor: none;
-    transition: background .3s;
-    text-transform: uppercase;
-  }
-  .vip-copy-btn:hover { background: var(--gold-light); }
-  .vip-benefits {
-    display: flex; justify-content: center; gap: 2.5rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-  }
-  .vip-benefit {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    letter-spacing: .15em;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
+  /* Carousel */
+  .carousel-section { background: var(--dark); overflow: hidden; padding: 5rem 2rem; }
+  .carousel-header { max-width: 1200px; margin: 0 auto 3rem; }
+  .carousel-wrapper { overflow: hidden; }
+  .carousel-track { display: flex; gap: 1.5rem; transition: transform .8s ease; padding: 1rem 4rem; }
+  .brand-card { min-width: 340px; background: var(--dark2); border: 1px solid rgba(212,175,55,.15); border-radius: 20px; overflow: hidden; transition: all 0.3s; }
+  .brand-card:hover { border-color: var(--gold); transform: translateY(-6px); }
+  .brand-card-bg { position: absolute; inset: 0; opacity: .08; }
+  .brand-card-content { padding: 2rem; position: relative; }
+  .brand-card-number { font-family: 'Cinzel', serif; font-size: 4rem; color: rgba(212,175,55,.1); }
+  .brand-card-tag { font-family: 'Space Mono', monospace; font-size: .55rem; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+  .brand-card-name { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 600; margin: .5rem 0; }
+  .brand-card-desc { font-style: italic; color: var(--gray); margin-bottom: 1rem; }
+  .brand-card-features { list-style: none; margin-bottom: 1rem; }
+  .brand-card-features li { font-family: 'Space Mono', monospace; font-size: .6rem; color: var(--gray); padding: .3rem 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+  .brand-card-features li::before { content: '→ '; color: var(--gold); }
+  .brand-card-price { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 1rem; }
+  .brand-card-btn { display: inline-block; font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; padding: .8rem 1.5rem; background: transparent; border: 1px solid var(--gold); color: var(--gold); cursor: pointer; transition: all .3s; text-decoration: none; border-radius: 30px; }
+  .brand-card-btn:hover { background: var(--gold); color: var(--black); }
+  .carousel-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; }
+  .carousel-btn { width: 48px; height: 48px; border: 1px solid var(--gold); background: transparent; color: var(--gold); border-radius: 50%; cursor: pointer; }
+  .carousel-dots { display: flex; gap: .6rem; align-items: center; }
+  .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray); cursor: pointer; }
+  .carousel-dot.active { background: var(--gold); width: 25px; border-radius: 10px; }
+
+  /* Gallery */
+  .gallery-section { background: var(--dark2); padding: 5rem 2rem; border-top: 1px solid rgba(212,175,55,.1); }
+  .gallery-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 15px; border: 1px solid rgba(212,175,55,.2); cursor: pointer; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-item-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); opacity: 0; transition: opacity .3s; }
+  .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+  .gallery-item-overlay span { font-family: 'Space Mono', monospace; font-size: .58rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+  .gallery-empty { text-align: center; padding: 4rem; border: 1px dashed var(--gold); border-radius: 20px; }
+
+  /* Video VCL */
+  .vcl-wrapper { position: relative; width: 100%; max-width: 720px; margin: 0 auto 2rem; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px; }
+  .vcl-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+  /* Promos */
+  .promo-section { background: var(--dark2); padding: 5rem 2rem; }
+  .promo-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .promo-card { padding: 2rem; background: var(--dark); border-radius: 20px; border: 1px solid rgba(212,175,55,.15); transition: all 0.3s; }
+  .promo-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+  .promo-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-dim)); }
+  .promo-badge { display: inline-block; font-family: 'Space Mono', monospace; font-size: .55rem; background: var(--gold); color: black; padding: .3rem .8rem; border-radius: 20px; margin-bottom: 1rem; }
+  .promo-title { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: .5rem; }
+  .promo-price-new { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold); font-weight: bold; }
+
+  /* VIP Section */
+  .vip-section { background: linear-gradient(135deg, #0a0a0a 0%, #111108 50%, #0a0a0a 100%); padding: 5rem 2rem; text-align: center; }
+  .vip-crown { font-size: 2.5rem; animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .vip-code-box { display: flex; justify-content: center; gap: 1rem; margin: 2rem auto; padding: 1.2rem 2rem; border: 2px solid var(--gold); border-radius: 60px; max-width: 360px; background: rgba(212,175,55,.05); }
+  .vip-code-text { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: .2em; color: var(--gold); }
+  .vip-copy-btn { background: var(--gold); color: black; border: none; padding: .5rem 1rem; border-radius: 30px; cursor: pointer; }
+  .vip-benefits { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; }
   .vip-benefit::before { content: '✦ '; color: var(--gold); }
 
-  .contact-section {
-    background: var(--dark);
-    padding: 6rem 2rem;
-  }
-  .contact-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 2fr;
-    gap: 5rem; align-items: start;
-  }
-  .contact-item {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(212,175,55,.1);
-  }
-  .contact-item:last-child { border-bottom: none; }
-  .contact-item-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    letter-spacing: .3em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    margin-bottom: .5rem;
-  }
-  .contact-item-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: var(--white);
-  }
-  .social-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .social-card {
-    padding: 1.2rem;
-    border: 1px solid rgba(212,175,55,.15);
-    background: var(--dark2);
-    transition: border-color .3s;
-    text-decoration: none;
-    cursor: none;
-  }
-  .social-card:hover { border-color: var(--gold); }
-  .social-card-brand {
-    font-family: 'Cinzel', serif;
-    font-size: .85rem;
-    color: var(--white);
-    margin-bottom: .3rem;
-  }
-  .social-card-handle {
-    font-family: 'Space Mono', monospace;
-    font-size: .6rem;
-    color: var(--gold);
-    letter-spacing: .1em;
-  }
+  /* Booking */
+  .booking-section { padding: 5rem 2rem; background: var(--black); position: relative; overflow: hidden; }
+  .booking-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,175,55,.06) 0%, transparent 70%); }
+  .booking-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+  .service-tabs { display: flex; margin-bottom: 3rem; border: 1px solid rgba(212,175,55,.2); border-radius: 50px; overflow: hidden; }
+  .service-tab { flex: 1; padding: 1rem; background: transparent; border: none; color: var(--gray); font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .15em; text-transform: uppercase; cursor: pointer; transition: all .3s; }
+  .service-tab.active { background: var(--gold); color: var(--black); }
+  .booking-panel { display: none; }
+  .booking-panel.active { display: block; }
+  .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .booking-info { padding: 2rem; background: var(--dark2); border-radius: 20px; border: 1px solid rgba(212,175,55,.15); }
+  .booking-service-name { font-family: 'Cinzel', serif; font-size: 1.4rem; margin-bottom: .5rem; }
+  .booking-service-tag { font-family: 'Space Mono', monospace; font-size: .58rem; letter-spacing: .25em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; }
+  .booking-note { font-family: 'Space Mono', monospace; font-size: .55rem; color: var(--gold-dim); padding: .8rem; background: rgba(212,175,55,.05); border-left: 2px solid var(--gold); margin-top: 1rem; }
+  .booking-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-input, .form-select, .form-textarea { background: var(--dark2); border: 1px solid rgba(212,175,55,.2); color: var(--white); padding: .9rem; border-radius: 10px; font-family: 'Inter', sans-serif; }
+  .form-submit { background: var(--gold); color: black; border: none; padding: 1rem; border-radius: 30px; font-weight: bold; cursor: pointer; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: .15em; }
+  .success-msg { display: none; text-align: center; padding: 3rem; background: var(--dark2); border-radius: 20px; border: 1px solid var(--gold); }
 
-  footer {
-    background: var(--black);
-    border-top: 1px solid rgba(212,175,55,.15);
-    padding: 3rem 2rem;
-    text-align: center;
-  }
-  .footer-logo {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: .3em;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-  .footer-tagline {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    color: var(--gray);
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-  .footer-links {
-    display: flex; gap: 2rem; justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-  .footer-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    letter-spacing: .2em;
-    color: var(--gray);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color .3s;
-  }
-  .footer-links a:hover { color: var(--gold); }
-  .footer-copy {
-    font-family: 'Space Mono', monospace;
-    font-size: .55rem;
-    color: rgba(136,136,136,.4);
-    letter-spacing: .1em;
-  }
+  /* Contact */
+  .contact-section { padding: 5rem 2rem; background: var(--dark); }
+  .contact-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; }
+  .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .social-card { padding: 1.2rem; background: var(--dark2); border-radius: 15px; text-decoration: none; border: 1px solid rgba(212,175,55,.15); transition: all 0.3s; }
+  .social-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .social-card-brand { font-family: 'Cinzel', serif; color: var(--white); margin-bottom: .3rem; }
+  .social-card-handle { font-family: 'Space Mono', monospace; font-size: .6rem; color: var(--gold); }
 
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity .8s ease, transform .8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* Footer */
+  footer { text-align: center; padding: 3rem; border-top: 1px solid rgba(212,175,55,.1); background: var(--black); }
+  .footer-logo { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: .3em; color: var(--gold); margin-bottom: 1rem; }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+  .footer-links a { font-family: 'Space Mono', monospace; font-size: .55rem; letter-spacing: .2em; color: var(--gray); text-decoration: none; text-transform: uppercase; }
 
-  /* ===== MOVIL ===== */
+  /* Modal */
+  .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.8); display: none; align-items: center; justify-content: center; z-index: 2000; }
+  .modal.active { display: flex; }
+  .modal-content { background: var(--dark2); padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; border: 2px solid var(--gold); }
+  .modal-content input, .modal-content textarea { width: 100%; padding: .8rem; margin-bottom: 1rem; background: var(--dark3); border: 1px solid var(--gray); color: var(--white); border-radius: 10px; }
+
+  /* Toast & Whatsapp */
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 12px 24px; border-radius: 30px; font-weight: bold; z-index: 3000; display: none; }
+  .toast.show { display: block; animation: slideUp 0.3s ease; }
+  @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); } to { transform: translateX(-50%) translateY(0); } }
+  .whatsapp-float { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; text-decoration: none; z-index: 100; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37,211,102,0.7); } 50% { transform: scale(1.1); } }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all .8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .section-label { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; }
+  .section-title { font-family: 'Cinzel', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; }
+  .gold-line { width: 60px; height: 2px; background: var(--gold); margin: 1rem 0; }
+
   @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
+    nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
-    .stats-grid { grid-template-columns: 2fr 2fr; }
-    .booking-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
     .promo-grid { grid-template-columns: 1fr; }
-    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .service-tabs { flex-wrap: wrap; }
-    .service-tab { flex: none; width: 50%; }
-    .hero-brands { gap: .8rem; }
-    .form-row { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-
-    /* CARRUSEL MOVIL: una tarjeta completa a la vez */
-    .carousel-track {
-      padding: 1rem 1.2rem;
-      gap: 1rem;
-    }
-    .brand-card {
-      min-width: calc(100vw - 2.4rem);
-      height: auto;
-      min-height: 580px;
-    }
-    .brand-card-content {
-      padding: 1.8rem 1.5rem;
-    }
-    .brand-card-number {
-      font-size: 2.5rem;
-      margin-bottom: .6rem;
-    }
-    .brand-card-name {
-      font-size: 1.3rem;
-    }
-    .brand-card-desc {
-      font-size: .9rem;
-      margin-bottom: 1rem;
-    }
-    .brand-card-features li {
-      font-size: .55rem;
-      padding: .3rem 0;
-    }
-    .brand-card-price {
-      font-size: 1rem;
-    }
-    .brand-card-btn {
-      padding: .7rem 1.2rem;
-      font-size: .55rem;
-    }
-    .carousel-controls {
-      margin-top: 2rem;
-    }
+    .booking-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .carousel-track { padding: 1rem; }
+    .brand-card { min-width: calc(100vw - 2rem); }
+    .social-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
+<div class="loader-wrapper" id="loader"><div class="loader"></div></div>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
 <nav>
-  <a class="nav-logo" href="#hero">Kleiner Suarez</a>
+  <a class="nav-logo" href="#hero" id="logoClick">Kleiner Suarez</a>
   <div class="nav-links">
     <a href="#marcas">Marcas</a>
     <a href="#galeria">Galería</a>
@@ -1049,259 +280,101 @@
     <a href="#promos">Promos</a>
     <a href="#contacto">Contacto</a>
   </div>
-  <a class="nav-cta" href="#agendar">Reservar Cita</a>
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+    <button class="nav-btn" onclick="toggleAdmin()">⚙️</button>
+    <a class="nav-cta" href="#agendar">Reservar Cita</a>
+  </div>
 </nav>
 
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h2 class="admin-title">⚙️ Panel de Administración</h2>
+    <button class="add-service-btn" onclick="showAddServiceModal()">➕ Agregar Servicio</button>
+  </div>
+  <div class="admin-stats" id="adminStats"></div>
+  <h3 style="margin: 20px 0 10px;">📋 Servicios</h3>
+  <div class="admin-services-grid" id="adminServicesGrid"></div>
+  <div class="gallery-admin">
+    <h3>🖼️ Galería de Imágenes</h3>
+    <button class="add-image-btn" onclick="addGalleryImage()">➕ Agregar Imagen</button>
+    <div class="gallery-admin-grid" id="galleryAdminGrid"></div>
+  </div>
+</div>
+
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <div class="hero-line"></div>
   <p class="hero-eyebrow">Guayaquil, Ecuador — Est. 2024</p>
-  <h1 class="hero-title">
-    Kleiner<br>
-    <span>Suarez</span>
-  </h1>
+  <h1 class="hero-title">Kleiner<br><span>Suarez</span></h1>
   <p class="hero-subtitle">Arquitecto de Transformaciones</p>
-  <div class="hero-divider">
-    <span class="hero-divider-icon">✦ Cinco Marcas · Una Visión ✦</span>
+  <div class="hero-divider" style="display: flex; align-items: center; gap: 1.5rem; margin: 2rem 0;">
+    <span style="font-size: .7rem; letter-spacing: .2em; font-family: 'Space Mono', monospace;">✦ Cinco Marcas · Una Visión ✦</span>
   </div>
-  <div class="hero-brands">
-    <a class="hero-brand-chip" href="https://instagram.com/k95tatto" target="_blank">K95 Tattoo</a>
-    <a class="hero-brand-chip" href="https://instagram.com/jkstudiomb" target="_blank">JK Studio MB</a>
-    <a class="hero-brand-chip" href="https://instagram.com/kleinersuarezmvo" target="_blank">Método MVO</a>
-    <a class="hero-brand-chip" href="https://instagram.com/saludporelcafe" target="_blank">Salud por el Café</a>
-    <a class="hero-brand-chip" href="https://wa.me/593985037366?text=Hola%20quiero%20info%20del%20libro%20Adiós%20a%20la%20Gastritis" target="_blank">Adiós a la Gastritis</a>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
+  <div class="hero-brands" id="heroBrands"></div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
+<!-- MARQUEE -->
 <div class="marquee-section">
-  <div class="marquee-track">
-    <span class="marquee-item">Arte en la piel <span>K95TATTOO</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Cejas que transforman <span>JK STUDIO MB</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Automatiza tu negocio <span>MÉTODO MVO</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Energía natural <span>SALUD POR EL CAFÉ</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Sana desde adentro <span>ADIÓS A LA GASTRITIS</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Arte en la piel <span>K95TATTOO</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Cejas que transforman <span>JK STUDIO MB</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Automatiza tu negocio <span>MÉTODO MVO</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Energía natural <span>SALUD POR EL CAFÉ</span></span>
-    <span class="marquee-item">✦</span>
-    <span class="marquee-item">Sana desde adentro <span>ADIÓS A LA GASTRITIS</span></span>
-    <span class="marquee-item">✦</span>
-  </div>
+  <div class="marquee-track" id="marqueeTrack"></div>
 </div>
 
+<!-- STATS -->
 <div class="stats-section">
-  <div class="stats-grid">
-    <div class="stat-item reveal">
-      <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label">Marcas Activas</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-number" data-target="500">0</div>
-      <div class="stat-label">Clientes Satisfechos</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-number" data-target="7">0</div>
-      <div class="stat-label">Años de Experiencia</div>
-    </div>
-    <div class="stat-item reveal">
-      <div class="stat-number" data-target="100">0</div>
-      <div class="stat-label">% Compromiso</div>
-    </div>
-  </div>
+  <div class="stats-grid" id="statsGrid"></div>
 </div>
 
+<!-- CAROUSEL MARCAS -->
 <section class="carousel-section" id="marcas">
   <div class="carousel-header reveal">
     <p class="section-label">El Universo Kleiner</p>
     <h2 class="section-title">Cinco Marcas.<br>Una Visión.</h2>
     <div class="gold-line"></div>
-    <p class="section-subtitle">Cada marca es una transformación. Elige la tuya.</p>
+    <p class="section-subtitle" style="font-style: italic; color: var(--gray);">Cada marca es una transformación. Elige la tuya.</p>
   </div>
   <div class="carousel-wrapper">
-    <div class="carousel-track" id="carouselTrack">
-
-      <div class="brand-card">
-        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(212,175,55,.3) 0%, transparent 70%);"></div>
-        <div class="brand-card-content">
-          <div class="brand-card-number">01</div>
-          <div class="brand-card-tag">Arte Corporal</div>
-          <div class="brand-card-name">K95 Tattoo</div>
-          <div class="brand-card-desc">Tatuajes artísticos de alta gama. Minimalista, Blackwork y Realismo con un toque único.</div>
-          <ul class="brand-card-features">
-            <li>Minimalista desde $10</li>
-            <li>Blackwork $40–$100</li>
-            <li>Realismo desde $130</li>
-            <li>Corte gratis con Blackwork/Realismo</li>
-          </ul>
-          <div class="brand-card-price">Desde $10 USD</div>
-          <a class="brand-card-btn" href="#agendar" onclick="selectTab('k95')">Agendar Tatuaje</a>
-        </div>
-      </div>
-
-      <div class="brand-card">
-        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(196,120,138,.3) 0%, transparent 70%);"></div>
-        <div class="brand-card-content">
-          <div class="brand-card-number">02</div>
-          <div class="brand-card-tag">Micropigmentación</div>
-          <div class="brand-card-name">JK Studio MB</div>
-          <div class="brand-card-desc">Cejas perfectas con técnicas avanzadas. Microblading, Microshading y Sombreado Compacto.</div>
-          <ul class="brand-card-features">
-            <li>Local Paján: $60</li>
-            <li>Domicilio Guayaquil: $70</li>
-            <li>Retoque: Local $40 · Domicilio $50</li>
-            <li>Promo Día de la Madre: $30</li>
-          </ul>
-          <div class="brand-card-price">Desde $30 USD</div>
-          <a class="brand-card-btn" href="#agendar" onclick="selectTab('jk')">Agendar Cejas</a>
-        </div>
-      </div>
-
-      <div class="brand-card">
-        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(60,120,212,.2) 0%, transparent 70%);"></div>
-        <div class="brand-card-content">
-          <div class="brand-card-number">03</div>
-          <div class="brand-card-tag">Curso Digital</div>
-          <div class="brand-card-name">Método MVO</div>
-          <div class="brand-card-desc">Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos.</div>
-          <ul class="brand-card-features">
-            <li>Plataforma Hotmart</li>
-            <li>Desafío gratis 3 episodios</li>
-            <li>Automatización de ventas</li>
-            <li>51% OFF — Solo $47 USD</li>
-          </ul>
-          <div class="brand-card-price"><s style="font-size:.8rem;color:var(--gray)">$97</s> $47 USD</div>
-          <a class="brand-card-btn" href="#agendar" onclick="selectTab('mvo')">Ver Método MVO</a>
-        </div>
-      </div>
-
-      <div class="brand-card">
-        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(139,90,43,.3) 0%, transparent 70%);"></div>
-        <div class="brand-card-content">
-          <div class="brand-card-number">04</div>
-          <div class="brand-card-tag">Salud Natural</div>
-          <div class="brand-card-name">Salud por el Café</div>
-          <div class="brand-card-desc">Café con Ganoderma Reishi. Energía limpia sin dañar el estómago. Ideal para gastritis.</div>
-          <ul class="brand-card-features">
-            <li>Hongo milenario Ganoderma</li>
-            <li>No daña el estómago</li>
-            <li>Energía limpia y sostenida</li>
-            <li>Opción negocio/distribuidor</li>
-          </ul>
-          <div class="brand-card-price">Consultar precio</div>
-          <a class="brand-card-btn" href="https://wa.me/593985037366?text=Hola%20quiero%20info%20del%20Café%20con%20Ganoderma" target="_blank">Consultar por WhatsApp</a>
-        </div>
-      </div>
-
-      <div class="brand-card">
-        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(80,160,80,.2) 0%, transparent 70%);"></div>
-        <div class="brand-card-content">
-          <div class="brand-card-number">05</div>
-          <div class="brand-card-tag">Libro Digital</div>
-          <div class="brand-card-name">Adiós a la Gastritis</div>
-          <div class="brand-card-desc">El Método del Tío Frank. 12 capítulos, plan de comidas y comunidad privada.</div>
-          <ul class="brand-card-features">
-            <li>12 capítulos completos</li>
-            <li>Plan de comidas incluido</li>
-            <li>Kit de limpieza</li>
-            <li>Acceso a comunidad privada</li>
-          </ul>
-          <div class="brand-card-price">$19.99 USD</div>
-          <a class="brand-card-btn" href="https://wa.me/593985037366?text=Hola%20quiero%20el%20libro%20Adiós%20a%20la%20Gastritis" target="_blank">Obtener el Libro</a>
-        </div>
-      </div>
-
-    </div>
+    <div class="carousel-track" id="carouselTrack"></div>
   </div>
   <div class="carousel-controls">
-    <button class="carousel-btn" id="prevBtn" onclick="moveCarousel(-1)">←</button>
-    <div class="carousel-dots" id="carouselDots">
-      <div class="carousel-dot active" onclick="goToSlide(0)"></div>
-      <div class="carousel-dot" onclick="goToSlide(1)"></div>
-      <div class="carousel-dot" onclick="goToSlide(2)"></div>
-      <div class="carousel-dot" onclick="goToSlide(3)"></div>
-      <div class="carousel-dot" onclick="goToSlide(4)"></div>
-    </div>
-    <button class="carousel-btn" id="nextBtn" onclick="moveCarousel(1)">→</button>
+    <button class="carousel-btn" onclick="moveCarousel(-1)">←</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+    <button class="carousel-btn" onclick="moveCarousel(1)">→</button>
   </div>
 </section>
 
+<!-- GALERÍA -->
 <section class="gallery-section" id="galeria">
-  <div class="gallery-header reveal">
+  <div class="gallery-header reveal" style="text-align: center; margin-bottom: 3rem;">
     <p class="section-label">Portafolio Visual</p>
     <h2 class="section-title">Galería</h2>
-    <div class="gold-line"></div>
-    <p class="section-subtitle">Trabajos realizados. Las imágenes se cargan automáticamente.</p>
+    <div class="gold-line" style="margin: 1rem auto;"></div>
+    <p class="section-subtitle" style="font-style: italic;">Trabajos realizados</p>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
+<!-- PROMOCIONES -->
 <section class="promo-section" id="promos">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="reveal" style="margin-bottom:3.5rem">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="reveal" style="text-align: center; margin-bottom: 3rem;">
       <p class="section-label">Ofertas Activas</p>
-      <h2 class="section-title">Promociones<br>Exclusivas</h2>
-      <div class="gold-line"></div>
+      <h2 class="section-title">Promociones Exclusivas</h2>
+      <div class="gold-line" style="margin: 1rem auto;"></div>
     </div>
-    <div class="promo-grid">
-      <div class="promo-card reveal">
-        <div class="promo-card-accent"></div>
-        <div class="promo-badge">JK Studio MB</div>
-        <div class="promo-title">Promo Día de la Madre</div>
-        <div class="promo-desc">Cualquier técnica de cejas: Microblading, Microshading o Sombreado Compacto al mejor precio del año.</div>
-        <div class="promo-price-old">Antes: $60 USD</div>
-        <div class="promo-price-new">$30 USD</div>
-        <div class="promo-validity">⏰ Válido hasta el 11 de Mayo 2026 · Cupos limitados</div>
-      </div>
-      <div class="promo-card reveal">
-        <div class="promo-card-accent"></div>
-        <div class="promo-badge">JK Studio MB</div>
-        <div class="promo-title">Viernes Mágicos</div>
-        <div class="promo-desc">Cejas + Pestañas al mismo precio. Combina cualquier técnica de cejas con rizado o extensión 1×1.</div>
-        <div class="promo-price-old">Local: $60 · Domicilio: $70</div>
-        <div class="promo-price-new">Todo incluido</div>
-        <div class="promo-validity">📅 Solo los Viernes · Agenda tu lugar</div>
-      </div>
-      <div class="promo-card reveal">
-        <div class="promo-card-accent"></div>
-        <div class="promo-badge">K95 Tattoo</div>
-        <div class="promo-title">Corte Gratis con tu Tatuaje</div>
-        <div class="promo-desc">Agenda Blackwork o Realismo y llévate un corte de cabello gratis en Barberos VIP Corporation el mismo día.</div>
-        <div class="promo-price-old">Cortesía de Barberos VIP</div>
-        <div class="promo-price-new">0% Extra</div>
-        <div class="promo-validity">✅ Aplica con Blackwork y Realismo · No Minimalista</div>
-      </div>
-      <div class="promo-card reveal">
-        <div class="promo-card-accent"></div>
-        <div class="promo-badge">Método MVO</div>
-        <div class="promo-title">Desafío Gratis 3 Episodios</div>
-        <div class="promo-desc">Empieza gratis con 3 episodios del desafío de automatización. Descubre el poder del Método MVO sin costo.</div>
-        <div class="promo-price-old">Valor real: incluido en $47</div>
-        <div class="promo-price-new">GRATIS</div>
-        <div class="promo-validity">🎯 Acceso inmediato en Hotmart</div>
-      </div>
-    </div>
+    <div class="promo-grid" id="promosGrid"></div>
   </div>
 </section>
 
+<!-- VIP SECTION -->
 <section class="vip-section">
   <div class="vip-inner reveal">
     <div class="vip-crown">♛</div>
-    <p class="section-label" style="text-align:center">Exclusivo Para Seguidores</p>
-    <h2 class="section-title" style="text-align:center">Código VIP</h2>
-    <p class="section-subtitle" style="margin: 1rem auto; text-align:center">20% de descuento en todos los servicios de K95 y JK Studio. Menciona el código al agendar.</p>
+    <p class="section-label" style="text-align: center;">Exclusivo Para Seguidores</p>
+    <h2 class="section-title" style="text-align: center;">Código VIP</h2>
+    <p class="section-subtitle" style="text-align: center; margin: 1rem auto;">20% de descuento en todos los servicios de K95 y JK Studio. Menciona el código al agendar.</p>
     <div class="vip-code-box">
       <span class="vip-code-text" id="vipCode">KLEINERVIP20</span>
       <button class="vip-copy-btn" onclick="copyCode()">Copiar</button>
@@ -1315,424 +388,443 @@
   </div>
 </section>
 
+<!-- BOOKING / AGENDAR -->
 <section class="booking-section" id="agendar">
   <div class="booking-inner">
-    <div class="booking-header reveal">
+    <div class="booking-header reveal" style="text-align: center; margin-bottom: 3rem;">
       <p class="section-label">Reserva tu lugar</p>
       <h2 class="section-title">Agendar Cita</h2>
-      <div class="gold-line"></div>
-      <p class="section-subtitle">Elige el servicio y completa el formulario. Te contactamos en menos de 24 horas.</p>
+      <div class="gold-line" style="margin: 1rem auto;"></div>
+      <p class="section-subtitle" style="font-style: italic;">Elige el servicio y completa el formulario. Te contactamos en menos de 24 horas.</p>
     </div>
-
-    <div class="service-tabs reveal">
-      <button class="service-tab active" onclick="selectTab('k95')" id="tab-k95">K95 Tattoo</button>
-      <button class="service-tab" onclick="selectTab('jk')" id="tab-jk">JK Studio</button>
-      <button class="service-tab" onclick="selectTab('mvo')" id="tab-mvo">Método MVO</button>
-      <button class="service-tab" onclick="selectTab('cafe')" id="tab-cafe">Salud x Café</button>
-    </div>
-
-    <!-- K95 Panel -->
-    <div class="booking-panel active" id="panel-k95">
-      <div class="booking-grid">
-        <div class="booking-info">
-          <div class="booking-service-name">K95 Tattoo</div>
-          <div class="booking-service-tag">Arte Corporal · Paján</div>
-          <div class="booking-service-desc">Tatuajes artísticos únicos. Atendemos en Barberos VIP Corporation, Paján. Solo local, no domicilio.</div>
-          <div class="price-options">
-            <div class="price-option"><span class="price-option-name">Minimalista</span><span class="price-option-value">$10–$30</span></div>
-            <div class="price-option"><span class="price-option-name">Blackwork</span><span class="price-option-value">$40–$100</span></div>
-            <div class="price-option"><span class="price-option-name">Realismo</span><span class="price-option-value">Desde $130</span></div>
-            <div class="price-option"><span class="price-option-name">Con código VIP</span><span class="price-option-value">20% OFF</span></div>
-          </div>
-          <div class="booking-note">
-            📍 Barberos VIP Corporation, Paján<br>
-            ⏰ Lun–Sáb · 9am–1pm · 2pm–7pm<br>
-            ✂️ Corte gratis con Blackwork/Realismo<br>
-            💳 Seña opcional de $10 (Banco Pichincha)
-          </div>
-        </div>
-        <div>
-          <div id="success-k95" class="success-msg">
-            <h3>¡Cita Solicitada! ✦</h3>
-            <p>Perfecto. Te contactamos en menos de 24 horas al número que proporcionaste para confirmar tu cita en K95 Tattoo.</p>
-          </div>
-          <form class="booking-form" onsubmit="submitBooking(event, 'k95')">
-            <div class="form-group">
-              <label class="form-label">Nombre Completo *</label>
-              <input class="form-input" type="text" placeholder="Tu nombre completo" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono / WhatsApp *</label>
-              <input class="form-input" type="tel" placeholder="09X XXX XXXX" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Estilo de Tatuaje *</label>
-              <select class="form-select" required>
-                <option value="">Selecciona un estilo</option>
-                <option>Minimalista / Línea Fina ($10–$30)</option>
-                <option>Blackwork / Punta de Pluma ($40–$100)</option>
-                <option>Realismo / Retratos (Desde $130)</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Día Preferido *</label>
-                <select class="form-select" required>
-                  <option value="">Selecciona</option>
-                  <option>Lunes</option><option>Martes</option><option>Miércoles</option>
-                  <option>Jueves</option><option>Viernes</option><option>Sábado</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Horario *</label>
-                <select class="form-select" required>
-                  <option value="">Selecciona</option>
-                  <option>Mañana (9am–1pm)</option>
-                  <option>Tarde (2pm–7pm)</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Descripción del Diseño</label>
-              <textarea class="form-textarea" placeholder="Describe tu tatuaje o idea..."></textarea>
-            </div>
-            <div class="form-vip">
-              <input type="checkbox" id="vip-k95">
-              <label for="vip-k95">Usar código VIP <span>KLEINERVIP20</span> (20% OFF)</label>
-            </div>
-            <button type="submit" class="form-submit">Solicitar Cita →</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- JK Panel -->
-    <div class="booking-panel" id="panel-jk">
-      <div class="booking-grid">
-        <div class="booking-info">
-          <div class="booking-service-name">JK Studio MB</div>
-          <div class="booking-service-tag">Micropigmentación · Local & Domicilio</div>
-          <div class="booking-service-desc">Cejas perfectas con técnicas profesionales. Disponible en Paján o a domicilio en Guayaquil.</div>
-          <div class="price-options">
-            <div class="price-option"><span class="price-option-name">Local (Paján)</span><span class="price-option-value">$60</span></div>
-            <div class="price-option"><span class="price-option-name">Domicilio (Guayaquil)</span><span class="price-option-value">$70</span></div>
-            <div class="price-option"><span class="price-option-name">Retoque Local</span><span class="price-option-value">$40</span></div>
-            <div class="price-option"><span class="price-option-name">Retoque Domicilio</span><span class="price-option-value">$50</span></div>
-            <div class="price-option"><span class="price-option-name">Promo Día de la Madre</span><span class="price-option-value">$30</span></div>
-          </div>
-          <div class="booking-note">
-            ⚠️ No depilar cejas 2 semanas antes<br>
-            ☕ No café 2 horas antes<br>
-            💄 Venir sin maquillaje en la zona<br>
-            💰 Retoque: Local $40 · Domicilio $50
-          </div>
-        </div>
-        <div>
-          <div id="success-jk" class="success-msg">
-            <h3>¡Cita Solicitada! ✦</h3>
-            <p>Excelente. Te contactamos en menos de 24 horas para confirmar tu cita de micropigmentación.</p>
-          </div>
-          <form class="booking-form" onsubmit="submitBooking(event, 'jk')">
-            <div class="form-group">
-              <label class="form-label">Nombre Completo *</label>
-              <input class="form-input" type="text" placeholder="Tu nombre completo" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono / WhatsApp *</label>
-              <input class="form-input" type="tel" placeholder="09X XXX XXXX" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Técnica *</label>
-              <select class="form-select" required>
-                <option value="">Selecciona técnica</option>
-                <option>Microblading (Efecto vello a vello)</option>
-                <option>Microshading (Efecto polvo suave)</option>
-                <option>Sombreado Compacto (Alta definición)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Modalidad *</label>
-              <select class="form-select" required>
-                <option value="">Selecciona modalidad</option>
-                <option>Local — Paján ($60)</option>
-                <option>Domicilio — Guayaquil ($70)</option>
-                <option>Retoque Local — Paján ($40)</option>
-                <option>Retoque Domicilio — Guayaquil ($50)</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Día Preferido *</label>
-                <select class="form-select" required>
-                  <option value="">Selecciona</option>
-                  <option>Lunes</option><option>Martes</option><option>Miércoles</option>
-                  <option>Jueves</option><option>Viernes (Viernes Mágico)</option><option>Sábado</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Horario *</label>
-                <select class="form-select" required>
-                  <option value="">Selecciona</option>
-                  <option>Mañana (9am–1pm)</option>
-                  <option>Tarde (2pm–6pm)</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-vip">
-              <input type="checkbox" id="vip-jk">
-              <label for="vip-jk">Usar código VIP <span>KLEINERVIP20</span> (20% OFF)</label>
-            </div>
-            <button type="submit" class="form-submit">Solicitar Cita →</button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- MVO Panel con Video VCL -->
-    <div class="booking-panel" id="panel-mvo">
-      <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2);">
-        <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
-        <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Método MVO</h3>
-        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos. Acceso inmediato en Hotmart.</p>
-
-        <!-- VIDEO VCL -->
-        <div class="vcl-wrapper">
-          <iframe src="https://go.hotmart.com/R100012515R?ap=5c2f" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
-        </div>
-        <p style="font-family:'Space Mono',monospace;font-size:.55rem;color:var(--gold-dim);letter-spacing:.15em;margin-bottom:2rem;text-transform:uppercase">✦ Mira el video y descubre cómo funciona ✦</p>
-
-        <div style="font-family:'Cinzel',serif;font-size:3rem;color:var(--gold);font-weight:900;margin-bottom:.5rem">$47 <span style="font-size:1rem;color:var(--gray);text-decoration:line-through">$97</span></div>
-        <p style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold-dim);letter-spacing:.2em;margin-bottom:2rem">51% DE DESCUENTO · ACCESO INMEDIATO</p>
-        <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
-          <a href="https://go.hotmart.com/R100012515R?ap=3c8d" target="_blank" class="form-submit" style="display:block;text-decoration:none;padding:1.1rem">Comprar Ahora → $47 USD</a>
-          <a href="https://go.hotmart.com/R100012515R?ap=216d" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gold);text-decoration:none;text-align:center;transition:all .3s">Ver Desafío Gratis (Ep. 1)</a>
-          <a href="https://go.hotmart.com/R100012515R?ap=2a79" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gray);text-decoration:none;text-align:center">Ver Página de Ventas</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CAFÉ Panel -->
-    <div class="booking-panel" id="panel-cafe">
-      <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2);">
-        <p class="section-label" style="justify-content:center;display:flex">Salud Natural</p>
-        <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Salud por el Café</h3>
-        <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Café con Ganoderma Reishi. Energía limpia, no daña el estómago. Ideal para gastritis. Opción de consumo personal o como negocio.</p>
-        <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
-          <a href="https://wa.me/593985037366?text=Hola%20quiero%20información%20del%20Café%20con%20Ganoderma" target="_blank" class="form-submit" style="display:block;text-decoration:none;padding:1.1rem">Consultar por WhatsApp</a>
-          <a href="https://wa.me/593985037366?text=Quiero%20ser%20distribuidor%20del%20Café%20con%20Ganoderma" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gold);text-decoration:none;text-align:center">Ser Distribuidor</a>
-        </div>
-      </div>
-    </div>
-
+    <div class="service-tabs" id="serviceTabs"></div>
+    <div id="bookingPanels"></div>
   </div>
 </section>
 
+<!-- MVO PANEL ESPECIAL CON VIDEO VSL Y PÁGINA DE COMPRA -->
+<!-- Este panel se maneja aparte porque tiene el video VSL y Hotmart -->
+<div style="display: none;" id="mvoSpecialPanel">
+  <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px;">
+    <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
+    <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Método MVO</h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos. Acceso inmediato en Hotmart.</p>
+    <div class="vcl-wrapper">
+      <iframe src="https://go.hotmart.com/R100012515R?ap=5c2f" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
+    </div>
+    <p style="font-family:'Space Mono',monospace;font-size:.55rem;color:var(--gold-dim);letter-spacing:.15em;margin-bottom:2rem;">✦ Mira el video y descubre cómo funciona ✦</p>
+    <div style="font-family:'Cinzel',serif;font-size:3rem;color:var(--gold);font-weight:900;margin-bottom:.5rem">$47 <span style="font-size:1rem;color:var(--gray);text-decoration:line-through">$97</span></div>
+    <p style="font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold-dim);letter-spacing:.2em;margin-bottom:2rem">51% DE DESCUENTO · ACCESO INMEDIATO</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+      <a href="https://go.hotmart.com/R100012515R?ap=3c8d" target="_blank" class="form-submit" style="display:block;text-decoration:none;padding:1.1rem;text-align:center;">Comprar Ahora → $47 USD</a>
+      <a href="https://go.hotmart.com/R100012515R?ap=216d" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gold);text-decoration:none;text-align:center;border-radius:30px;">Ver Desafío Gratis (Ep. 1)</a>
+      <a href="https://go.hotmart.com/R100012515R?ap=2a79" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gray);text-decoration:none;text-align:center;border-radius:30px;">Ver Página de Ventas</a>
+    </div>
+  </div>
+</div>
+
+<!-- CAFÉ PANEL ESPECIAL -->
+<div style="display: none;" id="cafeSpecialPanel">
+  <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px;">
+    <p class="section-label" style="justify-content:center;display:flex">Salud Natural</p>
+    <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Salud por el Café</h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Café con Ganoderma Reishi. Energía limpia, no daña el estómago. Ideal para gastritis. Opción de consumo personal o como negocio.</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+      <a href="https://wa.me/593985037366?text=Hola%20quiero%20información%20del%20Café%20con%20Ganoderma" target="_blank" class="form-submit" style="display:block;text-decoration:none;padding:1.1rem;text-align:center;">Consultar por WhatsApp</a>
+      <a href="https://wa.me/593985037366?text=Quiero%20ser%20distribuidor%20del%20Café%20con%20Ganoderma" target="_blank" style="display:block;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(212,175,55,.3);color:var(--gold);text-decoration:none;text-align:center;border-radius:30px;">Ser Distribuidor</a>
+    </div>
+  </div>
+</div>
+
+<!-- LIBRO PANEL ESPECIAL -->
+<div style="display: none;" id="libroSpecialPanel">
+  <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px;">
+    <p class="section-label" style="justify-content:center;display:flex">Libro Digital</p>
+    <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Adiós a la Gastritis</h3>
+    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">El Método del Tío Frank. 12 capítulos, plan de comidas y comunidad privada.</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+      <a href="https://wa.me/593985037366?text=Hola%20quiero%20el%20libro%20Adiós%20a%20la%20Gastritis" target="_blank" class="form-submit" style="display:block;text-decoration:none;padding:1.1rem;text-align:center;">Obtener el Libro → $19.99 USD</a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
 <section class="contact-section" id="contacto">
   <div class="contact-inner">
     <div class="reveal">
       <p class="section-label">Contacto</p>
       <h2 class="section-title">Estamos<br>Aquí</h2>
       <div class="gold-line"></div>
-      <div class="contact-item">
-        <div class="contact-item-label">Ubicación</div>
-        <div class="contact-item-value">Barberos VIP Corporation<br>Paján, Ecuador</div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-label">K95 & MVO & Café</div>
-        <div class="contact-item-value">098 503 7366</div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-label">JK Studio</div>
-        <div class="contact-item-value">098 285 5833</div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-item-label">Email</div>
-        <div class="contact-item-value">KleinerSuarez25@gmail.com</div>
-      </div>
+      <div class="contact-item" style="margin-bottom: 1rem;"><div class="contact-item-label" style="font-family:'Space Mono',monospace;font-size:.55rem;color:var(--gold-dim);">Ubicación</div><div>Barberos VIP Corporation<br>Paján, Ecuador</div></div>
+      <div class="contact-item" style="margin-bottom: 1rem;"><div class="contact-item-label">K95 & MVO & Café</div><div>098 503 7366</div></div>
+      <div class="contact-item" style="margin-bottom: 1rem;"><div class="contact-item-label">JK Studio</div><div>098 285 5833</div></div>
+      <div class="contact-item"><div class="contact-item-label">Email</div><div>KleinerSuarez25@gmail.com</div></div>
     </div>
     <div class="reveal">
       <p class="section-label" style="margin-bottom:1.5rem">Redes Sociales</p>
-      <div class="social-grid">
-        <a class="social-card" href="https://instagram.com/k95tatto" target="_blank">
-          <div class="social-card-brand">K95 Tattoo</div>
-          <div class="social-card-handle">@k95tatto</div>
-        </a>
-        <a class="social-card" href="https://instagram.com/jkstudiomb" target="_blank">
-          <div class="social-card-brand">JK Studio MB</div>
-          <div class="social-card-handle">@jkstudiomb</div>
-        </a>
-        <a class="social-card" href="https://instagram.com/kleinersuarezmvo" target="_blank">
-          <div class="social-card-brand">Método MVO</div>
-          <div class="social-card-handle">@kleinersuarezmvo</div>
-        </a>
-        <a class="social-card" href="https://instagram.com/saludporelcafe" target="_blank">
-          <div class="social-card-brand">Salud x Café</div>
-          <div class="social-card-handle">@saludporelcafe</div>
-        </a>
-        <a class="social-card" href="https://instagram.com/kleinersuarez" target="_blank">
-          <div class="social-card-brand">Kleiner Suarez</div>
-          <div class="social-card-handle">@kleinersuarez</div>
-        </a>
-        <a class="social-card" href="https://wa.me/593985037366" target="_blank">
-          <div class="social-card-brand">WhatsApp</div>
-          <div class="social-card-handle">098 503 7366</div>
-        </a>
-      </div>
+      <div class="social-grid" id="socialGrid"></div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="footer-logo">Kleiner Suarez</div>
-  <div class="footer-tagline">Arquitecto de Transformaciones</div>
+  <div class="footer-tagline" style="font-style: italic; color: var(--gray);">Arquitecto de Transformaciones</div>
   <div class="footer-links">
-    <a href="#marcas">Marcas</a>
-    <a href="#galeria">Galería</a>
-    <a href="#agendar">Agendar</a>
-    <a href="#promos">Promos</a>
-    <a href="#contacto">Contacto</a>
-    <a href="https://wa.me/593985037366" target="_blank">WhatsApp</a>
+    <a href="#marcas">Marcas</a><a href="#galeria">Galería</a><a href="#agendar">Agendar</a><a href="#promos">Promos</a><a href="#contacto">Contacto</a><a href="https://wa.me/593985037366" target="_blank">WhatsApp</a>
   </div>
   <div class="footer-copy">© 2026 Kleiner Suarez · Todos los derechos reservados</div>
 </footer>
 
+<div class="toast" id="toast"></div>
+<a href="https://wa.me/593985037366" class="whatsapp-float" target="_blank">💬</a>
+
+<!-- Modal -->
+<div class="modal" id="serviceModal">
+  <div class="modal-content">
+    <h3 id="modalTitle">✏️ Editar Servicio</h3>
+    <input type="hidden" id="editServiceId">
+    <input type="text" id="editName" placeholder="Nombre del servicio">
+    <input type="text" id="editTag" placeholder="Etiqueta (ej: Arte Corporal)">
+    <textarea id="editDesc" placeholder="Descripción" rows="3"></textarea>
+    <input type="text" id="editPrice" placeholder="Precio (ej: Desde $10 USD)">
+    <input type="text" id="editFeatures" placeholder="Características (separadas por coma)">
+    <div class="modal-buttons" style="display: flex; gap: 1rem; justify-content: flex-end;">
+      <button class="modal-save" onclick="saveService()" style="background: var(--success); color: white; padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer;">💾 Guardar</button>
+      <button class="modal-cancel" onclick="closeModal()" style="background: var(--danger); color: white; padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer;">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  /* GALERÍA AUTOMÁTICA */
-  const TOTAL_IMAGENES = 11;
-  const galeriaGrid = document.getElementById('galleryGrid');
+  // ============================================
+  // DATOS INICIALES (MANTENIENDO TODO EL CONTENIDO ORIGINAL)
+  // ============================================
+  let servicios = [
+    { id: 1, nombre: "K95 Tattoo", tag: "Arte Corporal", desc: "Tatuajes artísticos de alta gama. Minimalista, Blackwork y Realismo con un toque único.", precio: "Desde $10 USD", features: ["Minimalista desde $10", "Blackwork $40–$100", "Realismo desde $130", "Corte gratis con Blackwork/Realismo"] },
+    { id: 2, nombre: "JK Studio MB", tag: "Micropigmentación", desc: "Cejas perfectas con técnicas avanzadas. Microblading, Microshading y Sombreado Compacto.", precio: "Desde $30 USD", features: ["Local Paján: $60", "Domicilio Guayaquil: $70", "Retoque: Local $40 · Domicilio $50", "Promo Día de la Madre: $30"] },
+    { id: 3, nombre: "Método MVO", tag: "Curso Digital", desc: "Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos.", precio: "$47 USD", features: ["Plataforma Hotmart", "Desafío gratis 3 episodios", "Automatización de ventas", "51% OFF — Solo $47 USD"] },
+    { id: 4, nombre: "Salud por el Café", tag: "Salud Natural", desc: "Café con Ganoderma Reishi. Energía limpia sin dañar el estómago. Ideal para gastritis.", precio: "Consultar precio", features: ["Hongo milenario Ganoderma", "No daña el estómago", "Energía limpia y sostenida", "Opción negocio/distribuidor"] },
+    { id: 5, nombre: "Adiós a la Gastritis", tag: "Libro Digital", desc: "El Método del Tío Frank. 12 capítulos, plan de comidas y comunidad privada.", precio: "$19.99 USD", features: ["12 capítulos completos", "Plan de comidas incluido", "Kit de limpieza", "Acceso a comunidad privada"] }
+  ];
 
-  if (TOTAL_IMAGENES > 0) {
-    for (let i = 1; i <= TOTAL_IMAGENES; i++) {
-      const item = document.createElement('div');
-      item.className = 'gallery-item reveal';
-      item.innerHTML = '<img src="' + i + '.jpg" alt="Trabajo ' + i + '" loading="lazy" onerror="this.parentElement.style.display=\'none\'"><div class="gallery-item-overlay"><span>Trabajo ' + i + '</span></div>';
-      galeriaGrid.appendChild(item);
-    }
+  let galleryImages = [];
+  let promos = [
+    { id: 1, badge: "JK Studio MB", title: "Promo Día de la Madre", desc: "Cualquier técnica de cejas: Microblading, Microshading o Sombreado Compacto al mejor precio del año.", price: "$30 USD", oldPrice: "Antes: $60 USD", validity: "⏰ Válido hasta el 11 de Mayo 2026 · Cupos limitados" },
+    { id: 2, badge: "JK Studio MB", title: "Viernes Mágicos", desc: "Cejas + Pestañas al mismo precio. Combina cualquier técnica de cejas con rizado o extensión 1×1.", price: "Todo incluido", oldPrice: "Local: $60 · Domicilio: $70", validity: "📅 Solo los Viernes · Agenda tu lugar" },
+    { id: 3, badge: "K95 Tattoo", title: "Corte Gratis con tu Tatuaje", desc: "Agenda Blackwork o Realismo y llévate un corte de cabello gratis en Barberos VIP Corporation el mismo día.", price: "0% Extra", oldPrice: "Cortesía de Barberos VIP", validity: "✅ Aplica con Blackwork y Realismo · No Minimalista" },
+    { id: 4, badge: "Método MVO", title: "Desafío Gratis 3 Episodios", desc: "Empieza gratis con 3 episodios del desafío de automatización. Descubre el poder del Método MVO sin costo.", price: "GRATIS", oldPrice: "Valor real: incluido en $47", validity: "🎯 Acceso inmediato en Hotmart" }
+  ];
+
+  // Cargar datos guardados
+  function cargarDatos() {
+    const saved = localStorage.getItem('kleiner_servicios');
+    if (saved) servicios = JSON.parse(saved);
+    const savedImages = localStorage.getItem('kleiner_gallery');
+    if (savedImages) galleryImages = JSON.parse(savedImages);
+    const savedPromos = localStorage.getItem('kleiner_promos');
+    if (savedPromos) promos = JSON.parse(savedPromos);
+  }
+  function guardarServicios() { localStorage.setItem('kleiner_servicios', JSON.stringify(servicios)); }
+  function guardarGallery() { localStorage.setItem('kleiner_gallery', JSON.stringify(galleryImages)); }
+  function guardarPromos() { localStorage.setItem('kleiner_promos', JSON.stringify(promos)); }
+
+  // Constantes para marquee y social
+  const marqueeItems = ["Arte en la piel", "K95TATTOO", "✦", "Cejas que transforman", "JK STUDIO MB", "✦", "Automatiza tu negocio", "MÉTODO MVO", "✦", "Energía natural", "SALUD POR EL CAFÉ", "✦", "Sana desde adentro", "ADIÓS A LA GASTRITIS", "✦"];
+  const socialLinks = [
+    { brand: "K95 Tattoo", handle: "@k95tatto", url: "https://instagram.com/k95tatto" },
+    { brand: "JK Studio MB", handle: "@jkstudiomb", url: "https://instagram.com/jkstudiomb" },
+    { brand: "Método MVO", handle: "@kleinersuarezmvo", url: "https://instagram.com/kleinersuarezmvo" },
+    { brand: "Salud x Café", handle: "@saludporelcafe", url: "https://instagram.com/saludporelcafe" },
+    { brand: "Kleiner Suarez", handle: "@kleinersuarez", url: "https://instagram.com/kleinersuarez" },
+    { brand: "WhatsApp", handle: "098 503 7366", url: "https://wa.me/593985037366" }
+  ];
+
+  // ============================================
+  // RENDERIZAR TODO
+  // ============================================
+  function renderHeroBrands() {
+    document.getElementById('heroBrands').innerHTML = servicios.map(s => `<a class="hero-brand-chip" href="#agendar" onclick="selectTab('${s.nombre.toLowerCase().replace(/ /g, '')}')">${s.nombre}</a>`).join('');
   }
 
-  /* CURSOR */
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-  function animateRing() {
-    rx += (mx - rx) * .12;
-    ry += (my - ry) * .12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
+  function renderMarquee() {
+    const track = document.getElementById('marqueeTrack');
+    let items = [];
+    for (let i = 0; i < 3; i++) items = [...items, ...marqueeItems];
+    track.innerHTML = items.map(item => `<span class="marquee-item">${item.includes('✦') ? '✦' : item}${!item.includes('✦') && !item.includes('K95') && !item.includes('JK') && !item.includes('MÉTODO') && !item.includes('SALUD') && !item.includes('ADIÓS') ? '' : item.includes('K95') || item.includes('JK') || item.includes('MÉTODO') || item.includes('SALUD') || item.includes('ADIÓS') ? ` <span>${item}</span>` : ''}</span>`).join('');
   }
-  animateRing();
 
-  /* CARRUSEL */
+  function renderStats() {
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-item reveal"><div class="stat-number">5</div><div class="stat-label">Marcas Activas</div></div>
+      <div class="stat-item reveal"><div class="stat-number">500+</div><div class="stat-label">Clientes Satisfechos</div></div>
+      <div class="stat-item reveal"><div class="stat-number">7</div><div class="stat-label">Años de Experiencia</div></div>
+      <div class="stat-item reveal"><div class="stat-number">100%</div><div class="stat-label">Compromiso</div></div>
+    `;
+  }
+
+  function renderCarousel() {
+    const track = document.getElementById('carouselTrack');
+    track.innerHTML = servicios.map((s, i) => `
+      <div class="brand-card">
+        <div class="brand-card-bg" style="background: radial-gradient(ellipse at top right, rgba(212,175,55,.3) 0%, transparent 70%);"></div>
+        <div class="brand-card-content">
+          <div class="brand-card-number">0${i+1}</div>
+          <div class="brand-card-tag">${s.tag}</div>
+          <div class="brand-card-name">${s.nombre}</div>
+          <div class="brand-card-desc">${s.desc}</div>
+          <ul class="brand-card-features">${s.features.map(f => `<li>${f}</li>`).join('')}</ul>
+          <div class="brand-card-price">${s.precio}</div>
+          <a class="brand-card-btn" href="#agendar" onclick="selectTab('${s.nombre.toLowerCase().replace(/ /g, '')}')">Agendar →</a>
+        </div>
+      </div>
+    `).join('');
+    renderCarouselDots();
+  }
+
   let currentSlide = 0;
-  const totalSlides = 5;
-  const track = document.getElementById('carouselTrack');
-  const dots = document.querySelectorAll('.carousel-dot');
-  let cardWidth = 0;
-
-  function getCardWidth() {
-    const card = track.querySelector('.brand-card');
-    if (!card) return 356;
-    return card.offsetWidth + (window.innerWidth <= 768 ? 16 : 24);
+  function renderCarouselDots() {
+    const dotsContainer = document.getElementById('carouselDots');
+    dotsContainer.innerHTML = servicios.map((_, i) => `<div class="carousel-dot ${i === currentSlide ? 'active' : ''}" onclick="goToSlide(${i})"></div>`).join('');
   }
-
   function updateCarousel() {
-    cardWidth = getCardWidth();
-    track.style.transform = 'translateX(-' + (currentSlide * cardWidth) + 'px)';
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    const cardWidth = document.querySelector('.brand-card')?.offsetWidth + 24 || 364;
+    document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+    renderCarouselDots();
+  }
+  function moveCarousel(dir) { currentSlide = Math.max(0, Math.min(servicios.length - 1, currentSlide + dir)); updateCarousel(); }
+  function goToSlide(i) { currentSlide = i; updateCarousel(); }
+
+  function renderGallery() {
+    const grid = document.getElementById('galleryGrid');
+    if (galleryImages.length === 0) {
+      grid.innerHTML = '<div class="gallery-empty"><p>✨ Haz clic en el botón de administración (⚙️) y agrega tus imágenes ✨</p></div>';
+      return;
+    }
+    grid.innerHTML = galleryImages.map((img, i) => `<div class="gallery-item"><img src="${img}" alt="Trabajo ${i+1}"><div class="gallery-item-overlay"><span>Trabajo ${i+1}</span></div></div>`).join('');
   }
 
-  function moveCarousel(dir) {
-    currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
-    updateCarousel();
+  function renderAdminGallery() {
+    const grid = document.getElementById('galleryAdminGrid');
+    if (galleryImages.length === 0) { grid.innerHTML = '<p style="color: var(--gray);">No hay imágenes. Haz clic en "Agregar Imagen"</p>'; return; }
+    grid.innerHTML = galleryImages.map((img, i) => `<div class="gallery-admin-item"><img src="${img}" alt="Img ${i}"><button onclick="deleteGalleryImage(${i})">✕</button></div>`).join('');
   }
 
-  function goToSlide(i) {
-    currentSlide = i;
-    updateCarousel();
+  function addGalleryImage() {
+    const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => { galleryImages.push(event.target.result); guardarGallery(); renderGallery(); if (adminActive) renderAdminGallery(); mostrarToast('🖼️ Imagen agregada'); };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+  function deleteGalleryImage(index) { galleryImages.splice(index, 1); guardarGallery(); renderGallery(); if (adminActive) renderAdminGallery(); mostrarToast('🗑️ Imagen eliminada'); }
+
+  function renderPromos() {
+    const grid = document.getElementById('promosGrid');
+    grid.innerHTML = promos.map(p => `
+      <div class="promo-card reveal">
+        <div class="promo-card-accent"></div>
+        <div class="promo-badge">${p.badge}</div>
+        <div class="promo-title">${p.title}</div>
+        <div class="promo-desc" style="color: var(--gray);">${p.desc}</div>
+        <div class="promo-price-old" style="font-size: .7rem; text-decoration: line-through; color: var(--gray);">${p.oldPrice}</div>
+        <div class="promo-price-new">${p.price}</div>
+        <div class="promo-validity" style="font-size: .7rem; color: var(--gold-dim);">${p.validity}</div>
+      </div>
+    `).join('');
   }
 
-  window.addEventListener('resize', updateCarousel);
+  function renderServiceTabs() {
+    const container = document.getElementById('serviceTabs');
+    container.innerHTML = servicios.map(s => `<button class="service-tab" onclick="selectTab('${s.nombre.toLowerCase().replace(/ /g, '')}')">${s.nombre}</button>`).join('');
+    if (servicios[0]) selectTab(servicios[0].nombre.toLowerCase().replace(/ /g, ''));
+  }
 
-  /* Auto-play más lento: 6 segundos */
-  setInterval(() => {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    updateCarousel();
-  }, 6000);
+  function renderBookingPanels() {
+    const container = document.getElementById('bookingPanels');
+    let panelsHtml = '';
+    for (const s of servicios) {
+      if (s.nombre === "Método MVO") {
+        panelsHtml += `<div class="booking-panel" id="panel-${s.nombre.toLowerCase().replace(/ /g, '')}">${document.getElementById('mvoSpecialPanel').innerHTML}</div>`;
+      } else if (s.nombre === "Salud por el Café") {
+        panelsHtml += `<div class="booking-panel" id="panel-${s.nombre.toLowerCase().replace(/ /g, '')}">${document.getElementById('cafeSpecialPanel').innerHTML}</div>`;
+      } else if (s.nombre === "Adiós a la Gastritis") {
+        panelsHtml += `<div class="booking-panel" id="panel-${s.nombre.toLowerCase().replace(/ /g, '')}">${document.getElementById('libroSpecialPanel').innerHTML}</div>`;
+      } else {
+        panelsHtml += `
+          <div class="booking-panel" id="panel-${s.nombre.toLowerCase().replace(/ /g, '')}">
+            <div class="booking-grid">
+              <div class="booking-info">
+                <div class="booking-service-name">${s.nombre}</div>
+                <div class="booking-service-tag">${s.tag}</div>
+                <div class="booking-service-desc">${s.desc}</div>
+                <div class="price-options">${s.features.map(f => `<div class="price-option"><span class="price-option-name">${f.split('$')[0]}</span><span class="price-option-value">$${f.split('$')[1] || f}</span></div>`).join('')}</div>
+                <div class="booking-note">📍 Barberos VIP Corporation, Paján<br>⏰ Lun–Sáb · 9am–7pm<br>💳 Seña opcional de $10</div>
+              </div>
+              <div>
+                <div id="success-${s.nombre.toLowerCase().replace(/ /g, '')}" class="success-msg"><h3>¡Cita Solicitada! ✦</h3><p>Te contactamos en menos de 24 horas.</p></div>
+                <form class="booking-form" onsubmit="submitBooking(event, '${s.nombre.toLowerCase().replace(/ /g, '')}')">
+                  <div class="form-group"><input class="form-input" type="text" placeholder="Nombre Completo" required></div>
+                  <div class="form-group"><input class="form-input" type="tel" placeholder="Teléfono / WhatsApp" required></div>
+                  <div class="form-group"><select class="form-select" required><option value="">Selecciona servicio</option>${s.features.map(f => `<option>${f}</option>`).join('')}</select></div>
+                  <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"><select class="form-select"><option>Lunes</option><option>Martes</option><option>Miércoles</option><option>Jueves</option><option>Viernes</option><option>Sábado</option></select><select class="form-select"><option>Mañana (9am–1pm)</option><option>Tarde (2pm–7pm)</option></select></div>
+                  <button type="submit" class="form-submit">Solicitar Cita →</button>
+                </form>
+              </div>
+            </div>
+          </div>`;
+      }
+    }
+    container.innerHTML = panelsHtml;
+  }
 
-  /* SERVICE TABS */
-  function selectTab(tab) {
+  function selectTab(tabId) {
     document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.booking-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
-    document.getElementById('panel-' + tab).classList.add('active');
-    document.getElementById('agendar').scrollIntoView({behavior:'smooth', block:'start'});
+    const clickedTab = Array.from(document.querySelectorAll('.service-tab')).find(t => t.textContent.toLowerCase().replace(/ /g, '') === tabId);
+    if (clickedTab) clickedTab.classList.add('active');
+    const panel = document.getElementById(`panel-${tabId}`);
+    if (panel) panel.classList.add('active');
   }
 
-  /* FORM SUBMIT */
   function submitBooking(e, type) {
     e.preventDefault();
     const form = e.target;
-    const success = document.getElementById('success-' + type);
+    const success = document.getElementById(`success-${type}`);
     form.style.display = 'none';
     success.style.display = 'block';
-
-    const inputs = form.querySelectorAll('input, select, textarea');
-    let msg = '*Nueva Cita — ' + (type === 'k95' ? 'K95 Tattoo' : 'JK Studio MB') + '*\n\n';
-    const labels = ['Nombre', 'Teléfono', 'Servicio', 'Modalidad', 'Día', 'Horario', 'Descripción'];
-    inputs.forEach((inp, i) => {
-      if (inp.type === 'checkbox') {
-        if (inp.checked) msg += '✦ Código VIP: KLEINERVIP20\n';
-      } else if (inp.value) {
-        msg += (labels[i] || inp.placeholder || 'Dato') + ': ' + inp.value + '\n';
-      }
-    });
-
-    const phone = type === 'jk' ? '593982855833' : '593985037366';
-    setTimeout(() => {
-      window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
-    }, 800);
+    let msg = `*Nueva Cita — ${type}*%0A%0A`;
+    const inputs = form.querySelectorAll('input, select');
+    inputs.forEach(inp => { if (inp.value) msg += `• ${inp.placeholder || 'Dato'}: ${inp.value}%0A`; });
+    setTimeout(() => window.open(`https://wa.me/593985037366?text=${msg}`, '_blank'), 800);
   }
 
-  /* COPY CODE */
-  function copyCode() {
-    navigator.clipboard.writeText('KLEINERVIP20').then(() => {
-      const btn = document.querySelector('.vip-copy-btn');
-      btn.textContent = '¡Copiado!';
-      setTimeout(() => btn.textContent = 'Copiar', 2000);
-    });
+  function renderSocial() {
+    const grid = document.getElementById('socialGrid');
+    grid.innerHTML = socialLinks.map(s => `
+      <a class="social-card" href="${s.url}" target="_blank">
+        <div class="social-card-brand">${s.brand}</div>
+        <div class="social-card-handle">${s.handle}</div>
+      </a>
+    `).join('');
   }
 
-  /* SCROLL REVEAL */
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: .1 });
+  // ADMIN FUNCTIONS
+  let adminActive = false;
+  let editServiceId = null;
+  function toggleAdmin() {
+    adminActive = !adminActive;
+    document.getElementById('adminPanel').classList.toggle('active', adminActive);
+    if (adminActive) renderAdmin();
+  }
+  function renderAdmin() {
+    document.getElementById('adminStats').innerHTML = `
+      <div class="admin-stat"><div class="admin-stat-value">${servicios.length}</div><div>Servicios</div></div>
+      <div class="admin-stat"><div class="admin-stat-value">${galleryImages.length}</div><div>Imágenes</div></div>
+      <div class="admin-stat"><div class="admin-stat-value">${promos.length}</div><div>Promociones</div></div>`;
+    document.getElementById('adminServicesGrid').innerHTML = servicios.map(s => `
+      <div class="admin-service-item">
+        <div><strong>${s.nombre}</strong><br><small style="color: var(--gray);">${s.tag} · ${s.precio}</small></div>
+        <div class="admin-service-actions"><button class="admin-edit" onclick="editService(${s.id})">✏️</button><button class="admin-delete" onclick="deleteService(${s.id})">🗑️</button></div>
+      </div>
+    `).join('');
+    renderAdminGallery();
+  }
+  function showAddServiceModal() {
+    editServiceId = null;
+    document.getElementById('modalTitle').textContent = '➕ Agregar Servicio';
+    document.getElementById('editServiceId').value = '';
+    document.getElementById('editName').value = '';
+    document.getElementById('editTag').value = '';
+    document.getElementById('editDesc').value = '';
+    document.getElementById('editPrice').value = '';
+    document.getElementById('editFeatures').value = '';
+    document.getElementById('serviceModal').classList.add('active');
+  }
+  function editService(id) {
+    const s = servicios.find(s => s.id === id);
+    if (!s) return;
+    editServiceId = id;
+    document.getElementById('modalTitle').textContent = '✏️ Editar Servicio';
+    document.getElementById('editServiceId').value = s.id;
+    document.getElementById('editName').value = s.nombre;
+    document.getElementById('editTag').value = s.tag;
+    document.getElementById('editDesc').value = s.desc;
+    document.getElementById('editPrice').value = s.precio;
+    document.getElementById('editFeatures').value = s.features.join(', ');
+    document.getElementById('serviceModal').classList.add('active');
+  }
+  function saveService() {
+    const service = {
+      id: editServiceId || Date.now(),
+      nombre: document.getElementById('editName').value,
+      tag: document.getElementById('editTag').value,
+      desc: document.getElementById('editDesc').value,
+      precio: document.getElementById('editPrice').value,
+      features: document.getElementById('editFeatures').value.split(',').map(f => f.trim())
+    };
+    if (editServiceId) {
+      const index = servicios.findIndex(s => s.id === editServiceId);
+      if (index !== -1) servicios[index] = service;
+    } else { servicios.push(service); }
+    guardarServicios();
+    closeModal();
+    actualizarTodo();
+    mostrarToast('✅ Servicio guardado');
+  }
+  function deleteService(id) {
+    if (confirm('¿Eliminar este servicio?')) {
+      servicios = servicios.filter(s => s.id !== id);
+      guardarServicios();
+      actualizarTodo();
+      mostrarToast('🗑️ Servicio eliminado');
+    }
+  }
+  function closeModal() { document.getElementById('serviceModal').classList.remove('active'); }
+
+  // TEMA Y UTILIDADES
+  function toggleTheme() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.getElementById('themeBtn').innerHTML = newTheme === 'light' ? '☀️' : '🌙';
+  }
+  function copyCode() { navigator.clipboard.writeText('KLEINERVIP20'); mostrarToast('✓ Código copiado'); }
+  function mostrarToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
+  function actualizarTodo() { renderHeroBrands(); renderCarousel(); renderGallery(); renderPromos(); renderServiceTabs(); renderBookingPanels(); if (adminActive) renderAdmin(); updateCarousel(); }
+
+  // ADMIN SECRETO (5 clics en logo)
+  let clicks = 0;
+  document.getElementById('logoClick').addEventListener('click', () => { clicks++; setTimeout(() => clicks = 0, 1000); if (clicks >= 5) { toggleAdmin(); clicks = 0; mostrarToast('🔓 Modo admin activado'); } });
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: .1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  /* COUNTER ANIMATION */
-  const counterObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      const target = +el.dataset.target;
-      const suffix = target === 100 ? '%' : target >= 500 ? '+' : '';
-      let start = 0;
-      const step = target / 60;
-      const timer = setInterval(() => {
-        start = Math.min(start + step, target);
-        el.textContent = Math.round(start) + suffix;
-        if (start >= target) clearInterval(timer);
-      }, 16);
-      counterObserver.unobserve(el);
-    });
-  }, { threshold: .5 });
-  document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
-</script>
+  // CURSOR
+  const cursor = document.getElementById('cursor'); const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+  function animateRing() { rx += (mx - rx) * .12; ry += (my - ry) * .12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
+  animateRing();
 
+  // AUTO CAROUSEL
+  setInterval(() => { if (!adminActive) { currentSlide = (currentSlide + 1) % servicios.length; updateCarousel(); } }, 6000);
+
+  // INICIAR
+  cargarDatos();
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+  renderMarquee();
+  renderSocial();
+  renderStats();
+  actualizarTodo();
+  setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
+</script>
 </body>
 </html>
