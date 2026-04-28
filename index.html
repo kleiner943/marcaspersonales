@@ -43,7 +43,6 @@
     transition: background 0.3s, color 0.3s;
   }
 
-  /* Loader */
   .loader-wrapper {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
     background: var(--black); display: flex; align-items: center; justify-content: center;
@@ -52,7 +51,6 @@
   .loader { width: 60px; height: 60px; border: 3px solid var(--gray); border-top: 3px solid var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Cursor */
   .cursor { position: fixed; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; }
   .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all .12s ease; opacity: .6; }
 
@@ -62,7 +60,6 @@
     pointer-events: none; z-index: 9997; opacity: .4;
   }
 
-  /* Navbar */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -101,14 +98,6 @@
   .admin-edit, .admin-delete { padding: 8px 12px; border-radius: 8px; cursor: pointer; border: none; }
   .admin-edit { background: var(--gold); color: black; }
   .admin-delete { background: var(--danger); color: white; }
-
-  /* Gallery Admin */
-  .gallery-admin { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--gray); }
-  .gallery-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
-  .gallery-admin-item { position: relative; aspect-ratio: 1; background: var(--dark3); border-radius: 10px; overflow: hidden; }
-  .gallery-admin-item img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-admin-item button { position: absolute; top: 5px; right: 5px; background: var(--danger); color: white; border: none; width: 25px; height: 25px; border-radius: 50%; cursor: pointer; }
-  .add-image-btn { margin-top: 15px; padding: 10px 20px; background: var(--gold); color: black; border: none; border-radius: 30px; cursor: pointer; }
 
   /* Hero */
   .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
@@ -164,16 +153,18 @@
   .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gray); cursor: pointer; }
   .carousel-dot.active { background: var(--gold); width: 25px; border-radius: 10px; }
 
-  /* Gallery */
+  /* Gallery - AUTOMÁTICA Y CLICK PARA CAMBIAR */
   .gallery-section { background: var(--dark2); padding: 5rem 2rem; border-top: 1px solid rgba(212,175,55,.1); }
   .gallery-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-  .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 15px; border: 1px solid rgba(212,175,55,.2); cursor: pointer; }
+  .gallery-item { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 15px; border: 2px solid rgba(212,175,55,.2); cursor: pointer; transition: all 0.3s; background: var(--dark3); }
+  .gallery-item:hover { border-color: var(--gold); transform: translateY(-5px); }
   .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
   .gallery-item:hover img { transform: scale(1.05); }
-  .gallery-item-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); opacity: 0; transition: opacity .3s; }
+  .gallery-item-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,.9), transparent); opacity: 0; transition: opacity .3s; }
   .gallery-item:hover .gallery-item-overlay { opacity: 1; }
-  .gallery-item-overlay span { font-family: 'Space Mono', monospace; font-size: .58rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
-  .gallery-empty { text-align: center; padding: 4rem; border: 1px dashed var(--gold); border-radius: 20px; }
+  .gallery-item-overlay span { font-family: 'Space Mono', monospace; font-size: .6rem; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+  .image-upload-hint { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 4px 10px; border-radius: 20px; font-size: 0.6rem; font-family: monospace; color: var(--gold); pointer-events: none; z-index: 5; }
+  .gallery-empty { text-align: center; padding: 4rem; border: 1px dashed var(--gold); border-radius: 20px; grid-column: 1 / -1; }
 
   /* Video VCL */
   .vcl-wrapper { position: relative; width: 100%; max-width: 720px; margin: 0 auto 2rem; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px; }
@@ -182,14 +173,14 @@
   /* Promos */
   .promo-section { background: var(--dark2); padding: 5rem 2rem; }
   .promo-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .promo-card { padding: 2rem; background: var(--dark); border-radius: 20px; border: 1px solid rgba(212,175,55,.15); transition: all 0.3s; }
+  .promo-card { padding: 2rem; background: var(--dark); border-radius: 20px; border: 1px solid rgba(212,175,55,.15); transition: all 0.3s; position: relative; }
   .promo-card:hover { border-color: var(--gold); transform: translateY(-5px); }
   .promo-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--gold), var(--gold-dim)); }
   .promo-badge { display: inline-block; font-family: 'Space Mono', monospace; font-size: .55rem; background: var(--gold); color: black; padding: .3rem .8rem; border-radius: 20px; margin-bottom: 1rem; }
   .promo-title { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: .5rem; }
   .promo-price-new { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold); font-weight: bold; }
 
-  /* VIP Section */
+  /* VIP */
   .vip-section { background: linear-gradient(135deg, #0a0a0a 0%, #111108 50%, #0a0a0a 100%); padding: 5rem 2rem; text-align: center; }
   .vip-crown { font-size: 2.5rem; animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
@@ -227,7 +218,6 @@
   .social-card-brand { font-family: 'Cinzel', serif; color: var(--white); margin-bottom: .3rem; }
   .social-card-handle { font-family: 'Space Mono', monospace; font-size: .6rem; color: var(--gold); }
 
-  /* Footer */
   footer { text-align: center; padding: 3rem; border-top: 1px solid rgba(212,175,55,.1); background: var(--black); }
   .footer-logo { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: .3em; color: var(--gold); margin-bottom: 1rem; }
   .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
@@ -239,7 +229,6 @@
   .modal-content { background: var(--dark2); padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; border: 2px solid var(--gold); }
   .modal-content input, .modal-content textarea { width: 100%; padding: .8rem; margin-bottom: 1rem; background: var(--dark3); border: 1px solid var(--gray); color: var(--white); border-radius: 10px; }
 
-  /* Toast & Whatsapp */
   .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 12px 24px; border-radius: 30px; font-weight: bold; z-index: 3000; display: none; }
   .toast.show { display: block; animation: slideUp 0.3s ease; }
   @keyframes slideUp { from { transform: translateX(-50%) translateY(100px); } to { transform: translateX(-50%) translateY(0); } }
@@ -297,8 +286,8 @@
   <h3 style="margin: 20px 0 10px;">📋 Servicios</h3>
   <div class="admin-services-grid" id="adminServicesGrid"></div>
   <div class="gallery-admin">
-    <h3>🖼️ Galería de Imágenes</h3>
-    <button class="add-image-btn" onclick="addGalleryImage()">➕ Agregar Imagen</button>
+    <h3>🖼️ Gestión de Galería</h3>
+    <p style="font-size: 0.75rem; color: var(--gray); margin-bottom: 10px;">💡 Las imágenes se cargan automáticamente desde 1.jpg, 2.jpg, 3.jpg... Haz clic en cualquier imagen para cambiarla.</p>
     <div class="gallery-admin-grid" id="galleryAdminGrid"></div>
   </div>
 </div>
@@ -345,13 +334,13 @@
   </div>
 </section>
 
-<!-- GALERÍA -->
+<!-- GALERÍA - AUTOMÁTICA Y CLICK PARA CAMBIAR -->
 <section class="gallery-section" id="galeria">
   <div class="gallery-header reveal" style="text-align: center; margin-bottom: 3rem;">
     <p class="section-label">Portafolio Visual</p>
     <h2 class="section-title">Galería</h2>
     <div class="gold-line" style="margin: 1rem auto;"></div>
-    <p class="section-subtitle" style="font-style: italic;">Trabajos realizados</p>
+    <p class="section-subtitle" style="font-style: italic;">💡 Haz clic en cualquier imagen para cambiarla</p>
   </div>
   <div class="gallery-grid" id="galleryGrid"></div>
 </section>
@@ -403,7 +392,6 @@
 </section>
 
 <!-- MVO PANEL ESPECIAL CON VIDEO VSL Y PÁGINA DE COMPRA -->
-<!-- Este panel se maneja aparte porque tiene el video VSL y Hotmart -->
 <div style="display: none;" id="mvoSpecialPanel">
   <div style="text-align:center; padding: 3rem; border: 1px solid rgba(212,175,55,.2); background: var(--dark2); border-radius: 20px;">
     <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
@@ -479,7 +467,7 @@
 <div class="toast" id="toast"></div>
 <a href="https://wa.me/593985037366" class="whatsapp-float" target="_blank">💬</a>
 
-<!-- Modal -->
+<!-- Modal para editar servicio -->
 <div class="modal" id="serviceModal">
   <div class="modal-content">
     <h3 id="modalTitle">✏️ Editar Servicio</h3>
@@ -498,7 +486,7 @@
 
 <script>
   // ============================================
-  // DATOS INICIALES (MANTENIENDO TODO EL CONTENIDO ORIGINAL)
+  // DATOS INICIALES
   // ============================================
   let servicios = [
     { id: 1, nombre: "K95 Tattoo", tag: "Arte Corporal", desc: "Tatuajes artísticos de alta gama. Minimalista, Blackwork y Realismo con un toque único.", precio: "Desde $10 USD", features: ["Minimalista desde $10", "Blackwork $40–$100", "Realismo desde $130", "Corte gratis con Blackwork/Realismo"] },
@@ -508,7 +496,6 @@
     { id: 5, nombre: "Adiós a la Gastritis", tag: "Libro Digital", desc: "El Método del Tío Frank. 12 capítulos, plan de comidas y comunidad privada.", precio: "$19.99 USD", features: ["12 capítulos completos", "Plan de comidas incluido", "Kit de limpieza", "Acceso a comunidad privada"] }
   ];
 
-  let galleryImages = [];
   let promos = [
     { id: 1, badge: "JK Studio MB", title: "Promo Día de la Madre", desc: "Cualquier técnica de cejas: Microblading, Microshading o Sombreado Compacto al mejor precio del año.", price: "$30 USD", oldPrice: "Antes: $60 USD", validity: "⏰ Válido hasta el 11 de Mayo 2026 · Cupos limitados" },
     { id: 2, badge: "JK Studio MB", title: "Viernes Mágicos", desc: "Cejas + Pestañas al mismo precio. Combina cualquier técnica de cejas con rizado o extensión 1×1.", price: "Todo incluido", oldPrice: "Local: $60 · Domicilio: $70", validity: "📅 Solo los Viernes · Agenda tu lugar" },
@@ -516,20 +503,80 @@
     { id: 4, badge: "Método MVO", title: "Desafío Gratis 3 Episodios", desc: "Empieza gratis con 3 episodios del desafío de automatización. Descubre el poder del Método MVO sin costo.", price: "GRATIS", oldPrice: "Valor real: incluido en $47", validity: "🎯 Acceso inmediato en Hotmart" }
   ];
 
-  // Cargar datos guardados
+  // GALERÍA: imágenes que se cargan automáticamente desde 1.jpg, 2.jpg...
+  // Primero intentamos cargar las imágenes automáticas, luego las guardadas
+  let galleryImages = [];
+  const MAX_GALLERY_IMAGES = 20; // máximo de imágenes a buscar
+
+  // Función para cargar imágenes automáticas desde 1.jpg, 2.jpg...
+  async function cargarImagenesAutomaticas() {
+    const nuevasImagenes = [];
+    for (let i = 1; i <= MAX_GALLERY_IMAGES; i++) {
+      const imgSrc = i + ".jpg";
+      try {
+        const response = await fetch(imgSrc, { method: 'HEAD' });
+        if (response.ok) {
+          nuevasImagenes.push(imgSrc);
+        } else {
+          break; // si no encuentra una, asume que no hay más
+        }
+      } catch(e) {
+        break;
+      }
+    }
+    return nuevasImagenes;
+  }
+
+  // Guardar imágenes en localStorage
+  function guardarGallery() {
+    localStorage.setItem('kleiner_gallery', JSON.stringify(galleryImages));
+  }
+
+  // Cargar imágenes (prioriza las guardadas, si no hay, carga automáticas)
+  async function cargarGallery() {
+    const guardadas = localStorage.getItem('kleiner_gallery');
+    if (guardadas && JSON.parse(guardadas).length > 0) {
+      galleryImages = JSON.parse(guardadas);
+    } else {
+      galleryImages = await cargarImagenesAutomaticas();
+      guardarGallery();
+    }
+    renderGallery();
+    if (adminActive) renderAdminGallery();
+  }
+
+  // Cambiar una imagen específica (click en la imagen)
+  function cambiarImagen(index) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        galleryImages[index] = event.target.result;
+        guardarGallery();
+        renderGallery();
+        if (adminActive) renderAdminGallery();
+        mostrarToast(`🖼️ Imagen ${index + 1} actualizada`);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  }
+
+  // Guardar servicios y promos
+  function guardarServicios() { localStorage.setItem('kleiner_servicios', JSON.stringify(servicios)); }
+  function guardarPromos() { localStorage.setItem('kleiner_promos', JSON.stringify(promos)); }
   function cargarDatos() {
     const saved = localStorage.getItem('kleiner_servicios');
     if (saved) servicios = JSON.parse(saved);
-    const savedImages = localStorage.getItem('kleiner_gallery');
-    if (savedImages) galleryImages = JSON.parse(savedImages);
     const savedPromos = localStorage.getItem('kleiner_promos');
     if (savedPromos) promos = JSON.parse(savedPromos);
   }
-  function guardarServicios() { localStorage.setItem('kleiner_servicios', JSON.stringify(servicios)); }
-  function guardarGallery() { localStorage.setItem('kleiner_gallery', JSON.stringify(galleryImages)); }
-  function guardarPromos() { localStorage.setItem('kleiner_promos', JSON.stringify(promos)); }
 
-  // Constantes para marquee y social
+  // Constantes
   const marqueeItems = ["Arte en la piel", "K95TATTOO", "✦", "Cejas que transforman", "JK STUDIO MB", "✦", "Automatiza tu negocio", "MÉTODO MVO", "✦", "Energía natural", "SALUD POR EL CAFÉ", "✦", "Sana desde adentro", "ADIÓS A LA GASTRITIS", "✦"];
   const socialLinks = [
     { brand: "K95 Tattoo", handle: "@k95tatto", url: "https://instagram.com/k95tatto" },
@@ -598,30 +645,66 @@
   function renderGallery() {
     const grid = document.getElementById('galleryGrid');
     if (galleryImages.length === 0) {
-      grid.innerHTML = '<div class="gallery-empty"><p>✨ Haz clic en el botón de administración (⚙️) y agrega tus imágenes ✨</p></div>';
+      grid.innerHTML = '<div class="gallery-empty"><p>📸 No hay imágenes. Pon archivos 1.jpg, 2.jpg... en la carpeta o haz clic en ⚙️ para subir imágenes manualmente.</p></div>';
       return;
     }
-    grid.innerHTML = galleryImages.map((img, i) => `<div class="gallery-item"><img src="${img}" alt="Trabajo ${i+1}"><div class="gallery-item-overlay"><span>Trabajo ${i+1}</span></div></div>`).join('');
+    grid.innerHTML = galleryImages.map((img, i) => `
+      <div class="gallery-item" onclick="cambiarImagen(${i})">
+        <div class="image-upload-hint">📷 Click para cambiar</div>
+        <img src="${img}" alt="Trabajo ${i+1}" loading="lazy">
+        <div class="gallery-item-overlay"><span>Trabajo ${i+1}</span></div>
+      </div>
+    `).join('');
   }
 
   function renderAdminGallery() {
     const grid = document.getElementById('galleryAdminGrid');
-    if (galleryImages.length === 0) { grid.innerHTML = '<p style="color: var(--gray);">No hay imágenes. Haz clic en "Agregar Imagen"</p>'; return; }
-    grid.innerHTML = galleryImages.map((img, i) => `<div class="gallery-admin-item"><img src="${img}" alt="Img ${i}"><button onclick="deleteGalleryImage(${i})">✕</button></div>`).join('');
+    if (galleryImages.length === 0) {
+      grid.innerHTML = '<p style="color: var(--gray);">No hay imágenes. Sube tus primeras imágenes o pon archivos 1.jpg, 2.jpg... en la carpeta.</p><button class="add-image-btn" onclick="agregarImagenNueva()">➕ Agregar imagen manual</button>';
+      return;
+    }
+    grid.innerHTML = galleryImages.map((img, i) => `
+      <div class="gallery-admin-item">
+        <img src="${img}" alt="Img ${i+1}">
+        <button onclick="event.stopPropagation(); eliminarImagen(${i})">✕</button>
+      </div>
+    `).join('') + `<button class="add-image-btn" onclick="agregarImagenNueva()" style="margin-top: 15px;">➕ Agregar nueva imagen</button>`;
   }
 
-  function addGalleryImage() {
-    const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+  function agregarImagenNueva() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
     input.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = (event) => { galleryImages.push(event.target.result); guardarGallery(); renderGallery(); if (adminActive) renderAdminGallery(); mostrarToast('🖼️ Imagen agregada'); };
+      reader.onload = (event) => {
+        galleryImages.push(event.target.result);
+        guardarGallery();
+        renderGallery();
+        if (adminActive) renderAdminGallery();
+        mostrarToast('🖼️ Imagen agregada al final');
+      };
       reader.readAsDataURL(file);
     };
     input.click();
   }
-  function deleteGalleryImage(index) { galleryImages.splice(index, 1); guardarGallery(); renderGallery(); if (adminActive) renderAdminGallery(); mostrarToast('🗑️ Imagen eliminada'); }
+
+  function eliminarImagen(index) {
+    if (confirm('¿Eliminar esta imagen?')) {
+      galleryImages.splice(index, 1);
+      guardarGallery();
+      renderGallery();
+      if (adminActive) renderAdminGallery();
+      mostrarToast('🗑️ Imagen eliminada');
+    }
+  }
+
+  // Exponer globalmente
+  window.cambiarImagen = cambiarImagen;
+  window.agregarImagenNueva = agregarImagenNueva;
+  window.eliminarImagen = eliminarImagen;
 
   function renderPromos() {
     const grid = document.getElementById('promosGrid');
@@ -796,7 +879,7 @@
   }
   function copyCode() { navigator.clipboard.writeText('KLEINERVIP20'); mostrarToast('✓ Código copiado'); }
   function mostrarToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
-  function actualizarTodo() { renderHeroBrands(); renderCarousel(); renderGallery(); renderPromos(); renderServiceTabs(); renderBookingPanels(); if (adminActive) renderAdmin(); updateCarousel(); }
+  function actualizarTodo() { renderHeroBrands(); renderCarousel(); renderPromos(); renderServiceTabs(); renderBookingPanels(); if (adminActive) renderAdmin(); updateCarousel(); }
 
   // ADMIN SECRETO (5 clics en logo)
   let clicks = 0;
@@ -823,6 +906,7 @@
   renderMarquee();
   renderSocial();
   renderStats();
+  await cargarGallery(); // Carga automática de imágenes
   actualizarTodo();
   setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 800);
 </script>
