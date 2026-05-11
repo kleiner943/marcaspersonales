@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Kleiner Suarez — Arquitecto de Transformaciones. K95 Tattoo, JK Studio MB, Método MVO, Salud por el Café, Adiós a la Gastritis. Arte, automatización y bienestar.">
+    <meta property="og:title" content="Kleiner Suarez | Arquitecto de Transformaciones">
+    <meta property="og:description" content="Cinco marcas, una visión. Descubre el universo Kleiner Suarez.">
+    <meta property="og:image" content="https://kleinersuarez.com/og-image.jpg">
+    <title>Kleiner Suarez | Arquitecto de Transformaciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8d48b;
+            --gold-dim: #8b6914;
+            --gold-pale: rgba(201, 168, 76, 0.08);
+            --black: #030303;
+            --dark: #080808;
+            --dark2: #0f0f0f;
+            --dark3: #161616;
+            --white: #f0ede5;
+            --gray: #7a7a7a;
+            --gray-light: #a0a0a0;
+            --rose: #b87080;
+            --crimson: #8b1a2b;
+            --emerald: #2d6a4f;
+            --sapphire: #1d4e89;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-dim) var(--dark);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-dim);
+            border-radius: 4px;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== CURSOR PREMIUM ===== */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 168, 76, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: all 0.08s ease;
+            opacity: 0.7;
+        }
+
+        .cursor.active {
+            width: 24px;
+            height: 24px;
+            background: rgba(201, 168, 76, 0.8);
+        }
+
+        .cursor-ring.active {
+            width: 60px;
+            height: 60px;
+            border-color: var(--gold-light);
+            opacity: 1;
+        }
+
+        /* ===== NOISE TEXTURE ===== */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.5;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(to bottom, rgba(3, 3, 3, 0.98), transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.8rem 3rem;
+            background: rgba(3, 3, 3, 0.95);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .nav-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-logo:hover {
+            color: var(--gold-light);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: var(--gray);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--black);
+            background: var(--gold);
+            border: none;
+            padding: 0.6rem 1.6rem;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-cta:hover::before {
+            left: 100%;
+        }
+        .nav-cta:hover {
+            background: var(--gold-light);
+            box-shadow: 0 0 30px rgba(201, 168, 76, 0.4);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: none;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 168, 76, 0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 35% at 80% 80%, rgba(184, 112, 128, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 30% 25% at 20% 60%, rgba(45, 106, 79, 0.03) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(3, 3, 3, 0.6) 100%);
+            pointer-events: none;
+        }
+
+        .hero-line {
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            margin: 0 auto 2rem;
+            animation: lineGrow 1.5s ease forwards;
+        }
+
+        @keyframes lineGrow {
+            from {
+                height: 0;
+                opacity: 0;
+            }
+            to {
+                height: 100px;
+                opacity: 1;
+            }
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s ease forwards;
+        }
+
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3.5rem, 12vw, 9rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.01em;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeUp 0.8s 0.6s ease forwards;
+            text-shadow: 0 0 100px rgba(201, 168, 76, 0.3);
+        }
+
+        .hero-title span {
+            display: block;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 40%, var(--white) 70%, var(--gold-dim) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+            animation: shimmer 4s linear infinite;
+            font-size: 1.3em;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--gray-light);
+            margin-top: 2rem;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.9s ease forwards;
+        }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 3rem auto;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.1s ease forwards;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+        }
+
+        .hero-divider-icon {
+            font-size: 0.7rem;
+            color: var(--gold);
+            letter-spacing: 0.3em;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .hero-brands {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.3s ease forwards;
+        }
+
+        .hero-brand-chip {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            color: var(--gold-dim);
+            transition: all 0.4s;
+            cursor: none;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-brand-chip::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-pale);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-brand-chip:hover::before {
+            transform: scaleX(1);
+        }
+        .hero-brand-chip:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            box-shadow: 0 0 20px rgba(201, 168, 76, 0.2);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+            animation: fadeUp 0.8s 1.6s ease forwards;
+        }
+
+        .hero-scroll span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.4em;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        .scroll-indicator {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scaleY(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scaleY(1.3);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECTION STYLES ===== */
+        section {
+            padding: 8rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.5em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--gold-dim);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--gray-light);
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .gold-line {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .gold-line::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50px;
+            width: 20px;
+            height: 1px;
+            background: var(--gold-dim);
+            opacity: 0.5;
+        }
+
+        /* ===== MARQUEE ===== */
+        .marquee-section {
+            padding: 2.5rem 0;
+            background: var(--dark);
+            overflow: hidden;
+            border-top: 1px solid rgba(201, 168, 76, 0.08);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 3rem;
+            animation: marquee 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+        .marquee-item span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ===== STATS ===== */
+        .stats-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+            padding: 5rem 2rem;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.4s ease;
+        }
+
+        .stat-item:hover::after {
+            width: 60px;
+        }
+
+        .stat-number {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        /* ===== CAROUSEL ===== */
+        .carousel-section {
+            background: var(--dark);
+            overflow: hidden;
+        }
+
+        .carousel-header {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 1rem 4rem;
+        }
+
+        .brand-card {
+            min-width: 360px;
+            height: 520px;
+            background: var(--dark2);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            flex-shrink: 0;
+        }
+
+        .brand-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(201, 168, 76, 0.1);
+        }
+
+        .brand-card-glow {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .brand-card:hover .brand-card-glow {
+            opacity: 0.15;
+        }
+
+        .brand-card-content {
+            position: relative;
+            z-index: 2;
+            padding: 2.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-card-number {
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(201, 168, 76, 0.06);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            transition: color 0.5s;
+        }
+
+        .brand-card:hover .brand-card-number {
+            color: rgba(201, 168, 76, 0.15);
+        }
+
+        .brand-card-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.35em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .brand-card-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .brand-card-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--gray-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .brand-card-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-card-features li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--gray);
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            letter-spacing: 0.05em;
+        }
+
+        .brand-card-features li::before {
+            content: '→ ';
+            color: var(--gold);
+        }
+
+        .brand-card-btn {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            cursor: none;
+            transition: all 0.4s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .brand-card-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            box-shadow: 0 0 25px rgba(201, 168, 76, 0.3);
+        }
+
+        .brand-card-price {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .carousel-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            background: transparent;
+            color: var(--gold);
+            font-size: 1.1rem;
+            cursor: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+        }
+
+        .carousel-btn:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.2);
+            cursor: none;
+            transition: all 0.4s;
+        }
+
+        .carousel-dot.active {
+            background: var(--gold);
+            width: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(201, 168, 76, 0.5);
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-section {
+            background: var(--dark2);
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .gallery-header {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            cursor: none;
+            transition: all 0.5s;
+            background: var(--dark3);
+            group: true;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--gold);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.5s;
+            opacity: 0.8;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            opacity: 1;
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(to top, rgba(3, 3, 3, 0.95) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-overlay span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .gallery-item-overlay p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gray-light);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+
+        .gallery-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem 2rem;
+            border: 1px dashed rgba(201, 168, 76, 0.2);
+            background: rgba(201, 168, 76, 0.02);
+        }
+
+        .gallery-empty p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: var(--gold-dim);
+            line-height: 2.5;
+            text-transform: uppercase;
+        }
+
+        /* ===== PAYMENT METHODS ===== */
+        .payment-section {
+            background: var(--dark);
+            padding: 6rem 2rem;
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .payment-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .payment-card {
+            background: var(--dark2);
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .payment-card:hover::before {
+            transform: scaleX(1);
+        }
+        .payment-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .payment-method {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-detail {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--gray);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            line-height: 1.8;
+        }
+
+        .payment-detail span {
+            color: var(--gold);
+        }
+
+        /* ===== PROMOS ===== */
+        .promo-section {
+            background: var(--dark2);
+            padding: 6rem 2rem;
+        }
+
+        .promo-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .promo-card {
+            padding: 2.5rem;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            position: relative;
+            overflow: hidden;
+            background: var(--dark);
+            transition: all 0.5s;
+        }
+
+        .promo-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .promo-card-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dim), transparent);
+        }
+
+        .promo-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            background: var(--gold);
+            color: var(--black);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+        }
+
+        .promo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+        }
+
+        .promo-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gray-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .promo-price-old {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--gray);
+            text-decoration: line-through;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .promo-price-new {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            font-weight: 900;
+            margin-bottom: 1.2rem;
+        }
+
+        .promo-validity {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            line-height: 1.6;
+        }
+
+        /* ===== VIP SECTION ===== */
+        .vip-section {
+            background: linear-gradient(135deg, #050505 0%, #0a0a06 50%, #050505 100%);
+            padding: 7rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vip-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+            animation: bgPulse 6s ease-in-out infinite;
+        }
+
+        .vip-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .vip-crown {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .vip-code-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2.5rem auto;
+            padding: 1.5rem 2.5rem;
+            border: 2px solid var(--gold);
+            background: rgba(201, 168, 76, 0.04);
+            max-width: 380px;
+            position: relative;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .vip-code-text {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(201, 168, 76, 0.4);
+        }
+
+        .vip-copy-btn {
+            background: var(--gold);
+            border: none;
+            color: var(--black);
+            padding: 0.6rem 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            cursor: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .vip-copy-btn:hover {
+            background: var(--gold-light);
+            box-shadow: 0 0 20px rgba(201, 168, 76, 0.5);
+        }
+
+        .vip-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .vip-benefit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+
+        .vip-benefit::before {
+            content: '✦ ';
+            color: var(--gold);
+        }
+
+        /* ===== BOOKING ===== */
+        .booking-section {
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .booking-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
+        }
+
+        .booking-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .booking-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .booking-header .gold-line {
+            margin: 1.5rem auto;
+        }
+
+        .service-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            overflow: hidden;
+        }
+
+        .service-tab {
+            flex: 1;
+            padding: 1.1rem;
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s;
+            border-right: 1px solid rgba(201, 168, 76, 0.15);
+        }
+
+        .service-tab:last-child {
+            border-right: none;
+        }
+        .service-tab.active {
+            background: var(--gold);
+            color: var(--black);
+            font-weight: 500;
+        }
+        .service-tab:hover:not(.active) {
+            background: rgba(201, 168, 76, 0.08);
+            color: var(--gold);
+        }
+
+        .booking-panel {
+            display: none;
+        }
+        .booking-panel.active {
+            display: block;
+            animation: fadeUp 0.5s ease;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .booking-info {
+            padding: 2.5rem;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            background: var(--dark2);
+        }
+
+        .booking-service-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-service-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .booking-service-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gray-light);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .price-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .price-option-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--gray);
+            letter-spacing: 0.1em;
+        }
+
+        .price-option-value {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--gold);
+        }
+
+        .booking-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.12em;
+            padding: 1rem;
+            background: rgba(201, 168, 76, 0.04);
+            border-left: 2px solid var(--gold);
+            line-height: 1.8;
+        }
+
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.25em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            background: var(--dark2);
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            color: var(--white);
+            padding: 0.9rem 1.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            -webkit-appearance: none;
+            cursor: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.05);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(122, 122, 122, 0.4);
+        }
+
+        .form-select option {
+            background: var(--dark2);
+            color: var(--white);
+        }
+
+        .form-textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-submit {
+            margin-top: 0.5rem;
+            padding: 1.2rem;
+            background: var(--gold);
+            border: none;
+            color: var(--black);
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            cursor: none;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .form-submit:hover::before {
+            left: 100%;
+        }
+        .form-submit:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(201, 168, 76, 0.3);
+        }
+
+        .form-vip {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .form-vip input {
+            cursor: none;
+            accent-color: var(--gold);
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-vip label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: var(--gray);
+            letter-spacing: 0.1em;
+            cursor: none;
+        }
+        .form-vip label span {
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        .success-msg {
+            display: none;
+            text-align: center;
+            padding: 4rem 2rem;
+            border: 1px solid var(--gold);
+            background: rgba(201, 168, 76, 0.03);
+        }
+
+        .success-msg h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .success-msg p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gray-light);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* ===== VIDEO VCL ===== */
+        .vcl-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto 2rem;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border: 1px solid rgba(201, 168, 76, 0.15);
+            background: var(--dark2);
+            border-radius: 4px;
+        }
+
+        .vcl-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-section {
+            background: var(--dark);
+            padding: 7rem 2rem;
+        }
+
+        .contact-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.35em;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--white);
+            line-height: 1.6;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .social-card {
+            padding: 1.5rem;
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            background: var(--dark2);
+            transition: all 0.4s;
+            text-decoration: none;
+            cursor: none;
+        }
+
+        .social-card:hover {
+            border-color: var(--gold);
+            background: rgba(201, 168, 76, 0.03);
+            transform: translateY(-3px);
+        }
+
+        .social-card-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .social-card-handle {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--black);
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gray-light);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            letter-spacing: 0.2em;
+            color: var(--gray);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-copy {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem;
+            color: rgba(122, 122, 122, 0.4);
+            letter-spacing: 0.1em;
+        }
+
+        /* ===== REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto;
+            }
+            .cursor,
+            .cursor-ring {
+                display: none;
+            }
+            nav {
+                padding: 1rem 1.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .nav-links.mobile-active {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(3, 3, 3, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                justify-content: center;
+                align-items: center;
+                gap: 2.5rem;
+                z-index: 100;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .promo-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-inner {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .service-tabs {
+                flex-wrap: wrap;
+            }
+            .service-tab {
+                flex: none;
+                width: 50%;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .carousel-track {
+                padding: 1rem 1.5rem;
+                gap: 1rem;
+            }
+            .brand-card {
+                min-width: calc(100vw - 3rem);
+                height: auto;
+                min-height: 560px;
+            }
+            .brand-card-content {
+                padding: 2rem 1.5rem;
+            }
+            .brand-card-number {
+                font-size: 3rem;
+            }
+            .brand-card-name {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <nav id="navbar">
+        <a class="nav-logo" href="#hero">Kleiner Suarez</a>
+        <div class="nav-links" id="navLinks">
+            <a href="#marcas">Marcas</a>
+            <a href="#galeria">Galería</a>
+            <a href="#pagos">Pagos</a>
+            <a href="#agendar">Agendar</a>
+            <a href="#promos">Promos</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <a class="nav-cta" href="#agendar">Reservar</a>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-vignette"></div>
+        <div class="hero-line"></div>
+        <p class="hero-eyebrow">Guayaquil · Ecuador — Est. 2024</p>
+        <h1 class="hero-title">
+            Kleiner<br>
+            <span>Suarez</span>
+        </h1>
+        <p class="hero-subtitle">Arquitecto de Transformaciones</p>
+        <div class="hero-divider">
+            <span class="hero-divider-icon">✦ Cinco Marcas · Una Visión ✦</span>
+        </div>
+        <div class="hero-brands">
+            <a class="hero-brand-chip" href="https://instagram.com/k95tatto" target="_blank">K95 Tattoo</a>
+            <a class="hero-brand-chip" href="https://instagram.com/jkstudiomb" target="_blank">JK Studio MB</a>
+            <a class="hero-brand-chip" href="https://instagram.com/kleinersuarezmvo" target="_blank">Método MVO</a>
+            <a class="hero-brand-chip" href="https://instagram.com/saludporelcafe" target="_blank">Salud por el Café</a>
+            <a class="hero-brand-chip" href="https://wa.me/593985037366" target="_blank">Adiós a la Gastritis</a>
+        </div>
+        <div class="hero-scroll">
+            <div class="scroll-indicator"></div>
+            <span>Descubre</span>
+        </div>
+    </section>
+
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span class="marquee-item">✦ Arte en la piel <span>K95TATTOO</span></span>
+            <span class="marquee-item">✦ Cejas perfectas <span>JK STUDIO MB</span></span>
+            <span class="marquee-item">✦ Automatización <span>MÉTODO MVO</span></span>
+            <span class="marquee-item">✦ Energía natural <span>SALUD POR EL CAFÉ</span></span>
+            <span class="marquee-item">✦ Sana desde adentro <span>ADIÓS A LA GASTRITIS</span></span>
+            <span class="marquee-item">✦ Arte en la piel <span>K95TATTOO</span></span>
+            <span class="marquee-item">✦ Cejas perfectas <span>JK STUDIO MB</span></span>
+            <span class="marquee-item">✦ Automatización <span>MÉTODO MVO</span></span>
+            <span class="marquee-item">✦ Energía natural <span>SALUD POR EL CAFÉ</span></span>
+            <span class="marquee-item">✦ Sana desde adentro <span>ADIÓS A LA GASTRITIS</span></span>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">Marcas Activas</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Clientes +</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="7">0</div>
+                <div class="stat-label">Años Experiencia</div>
+            </div>
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">% Compromiso</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="carousel-section" id="marcas">
+        <div class="carousel-header reveal">
+            <p class="section-label">El Universo Kleiner</p>
+            <h2 class="section-title">Cinco Marcas.<br>Una Visión.</h2>
+            <div class="gold-line"></div>
+            <p class="section-subtitle">Cada marca es una transformación. Elige la tuya.</p>
+        </div>
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- K95 Tattoo -->
+                <div class="brand-card">
+                    <div class="brand-card-glow" style="background:radial-gradient(ellipse at top right, rgba(201,168,76,.25) 0%, transparent 70%)"></div>
+                    <div class="brand-card-content">
+                        <div class="brand-card-number">01</div>
+                        <div class="brand-card-tag">Arte Corporal</div>
+                        <div class="brand-card-name">K95 Tattoo</div>
+                        <div class="brand-card-desc">Tatuajes artísticos de alta gama. Minimalista, Blackwork y Realismo con un toque único.</div>
+                        <ul class="brand-card-features">
+                            <li>Minimalista desde $10</li>
+                            <li>Blackwork $40–$100</li>
+                            <li>Realismo desde $130</li>
+                            <li>Corte gratis con Blackwork/Realismo</li>
+                        </ul>
+                        <div class="brand-card-price">Desde $10 USD</div>
+                        <a class="brand-card-btn" href="#agendar" onclick="selectTab('k95')">Agendar Tatuaje</a>
+                    </div>
+                </div>
+
+                <!-- JK Studio -->
+                <div class="brand-card">
+                    <div class="brand-card-glow" style="background:radial-gradient(ellipse at top right, rgba(184,112,128,.25) 0%, transparent 70%)"></div>
+                    <div class="brand-card-content">
+                        <div class="brand-card-number">02</div>
+                        <div class="brand-card-tag">Micropigmentación</div>
+                        <div class="brand-card-name">JK Studio MB</div>
+                        <div class="brand-card-desc">Cejas perfectas con técnicas avanzadas. Microblading, Microshading y Sombreado Compacto.</div>
+                        <ul class="brand-card-features">
+                            <li>Local Paján: $60</li>
+                            <li>Domicilio Guayaquil: $70</li>
+                            <li>Retoque: Local $40 · Domicilio $50</li>
+                            <li>Promo Día de la Madre: $30</li>
+                        </ul>
+                        <div class="brand-card-price">Desde $30 USD</div>
+                        <a class="brand-card-btn" href="#agendar" onclick="selectTab('jk')">Agendar Cejas</a>
+                    </div>
+                </div>
+
+                <!-- Método MVO -->
+                <div class="brand-card">
+                    <div class="brand-card-glow" style="background:radial-gradient(ellipse at top right, rgba(29,78,137,.2) 0%, transparent 70%)"></div>
+                    <div class="brand-card-content">
+                        <div class="brand-card-number">03</div>
+                        <div class="brand-card-tag">Curso Digital</div>
+                        <div class="brand-card-name">Método MVO</div>
+                        <div class="brand-card-desc">Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos.</div>
+                        <ul class="brand-card-features">
+                            <li>Plataforma Hotmart</li>
+                            <li>Desafío gratis 3 episodios</li>
+                            <li>Automatización de ventas</li>
+                            <li>51% OFF — Solo $47 USD</li>
+                        </ul>
+                        <div class="brand-card-price"><s style="font-size:.8rem;color:var(--gray)">$97</s> $47 USD</div>
+                        <a class="brand-card-btn" href="#agendar" onclick="selectTab('mvo')">Ver Método MVO</a>
+                    </div>
+                </div>
+
+                <!-- Salud por el Café -->
+                <div class="brand-card">
+                    <div class="brand-card-glow" style="background:radial-gradient(ellipse at top right, rgba(139,90,43,.25) 0%, transparent 70%)"></div>
+                    <div class="brand-card-content">
+                        <div class="brand-card-number">04</div>
+                        <div class="brand-card-tag">Salud Natural</div>
+                        <div class="brand-card-name">Salud por el Café</div>
+                        <div class="brand-card-desc">Café con Ganoderma Reishi. Energía limpia sin dañar el estómago.</div>
+                        <ul class="brand-card-features">
+                            <li>Hongo milenario Ganoderma</li>
+                            <li>No daña el estómago</li>
+                            <li>Energía limpia y sostenida</li>
+                            <li>Opción negocio/distribuidor</li>
+                        </ul>
+                        <div class="brand-card-price">Consultar</div>
+                        <a class="brand-card-btn" href="https://wa.me/593985037366" target="_blank">Consultar WhatsApp</a>
+                    </div>
+                </div>
+
+                <!-- Adiós a la Gastritis -->
+                <div class="brand-card">
+                    <div class="brand-card-glow" style="background:radial-gradient(ellipse at top right, rgba(45,106,79,.2) 0%, transparent 70%)"></div>
+                    <div class="brand-card-content">
+                        <div class="brand-card-number">05</div>
+                        <div class="brand-card-tag">Libro Digital</div>
+                        <div class="brand-card-name">Adiós a la Gastritis</div>
+                        <div class="brand-card-desc">El Método del Tío Frank. 12 capítulos, plan de comidas y comunidad privada.</div>
+                        <ul class="brand-card-features">
+                            <li>12 capítulos completos</li>
+                            <li>Plan de comidas incluido</li>
+                            <li>Kit de limpieza</li>
+                            <li>Acceso a comunidad privada</li>
+                        </ul>
+                        <div class="brand-card-price">$19.99 USD</div>
+                        <a class="brand-card-btn" href="https://wa.me/593985037366" target="_blank">Obtener Libro</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-controls">
+            <button class="carousel-btn" onclick="moveCarousel(-1)">←</button>
+            <div class="carousel-dots" id="carouselDots">
+                <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+                <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                <div class="carousel-dot" onclick="goToSlide(2)"></div>
+                <div class="carousel-dot" onclick="goToSlide(3)"></div>
+                <div class="carousel-dot" onclick="goToSlide(4)"></div>
+            </div>
+            <button class="carousel-btn" onclick="moveCarousel(1)">→</button>
+        </div>
+    </section>
+
+    <!-- GALERÍA CON IMÁGENES DE TATUAJES Y MICROPIGMENTACIÓN -->
+    <section class="gallery-section" id="galeria">
+        <div class="gallery-header reveal">
+            <p class="section-label">Portafolio Visual</p>
+            <h2 class="section-title">Galería de Arte</h2>
+            <div class="gold-line"></div>
+            <p class="section-subtitle">Tatuajes, micropigmentación y transformaciones reales.</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Imágenes de tatuajes K95 -->
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a84c' font-family='serif' font-size='24'%3E🖋 Tatuaje Minimalista%3C/text%3E%3C/svg%3E" alt="Tatuaje Minimalista K95" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>K95 Tattoo</span>
+                    <p>Minimalista · Línea Fina · $10–$30</p>
+                </div>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a84c' font-family='serif' font-size='24'%3E⚫ Blackwork Geométrico%3C/text%3E%3C/svg%3E" alt="Tatuaje Blackwork" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>K95 Tattoo</span>
+                    <p>Blackwork · Geométrico · $40–$100</p>
+                </div>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c9a84c' font-family='serif' font-size='24'%3E🎨 Realismo Retrato%3C/text%3E%3C/svg%3E" alt="Tatuaje Realismo" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>K95 Tattoo</span>
+                    <p>Realismo · Retrato · Desde $130</p>
+                </div>
+            </div>
+            <!-- Imágenes de micropigmentación JK Studio -->
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23b87080' font-family='serif' font-size='22'%3E✨ Microblading%3C/text%3E%3C/svg%3E" alt="Microblading Cejas" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>JK Studio MB</span>
+                    <p>Microblading · Efecto Vello a Vello</p>
+                </div>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23b87080' font-family='serif' font-size='22'%3E💫 Microshading%3C/text%3E%3C/svg%3E" alt="Microshading Cejas" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>JK Studio MB</span>
+                    <p>Microshading · Efecto Polvo Suave</p>
+                </div>
+            </div>
+            <div class="gallery-item reveal">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Crect fill='%23111' width='400' height='500'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23b87080' font-family='serif' font-size='22'%3E🌟 Sombreado Compacto%3C/text%3E%3C/svg%3E" alt="Sombreado Cejas" loading="lazy">
+                <div class="gallery-item-overlay">
+                    <span>JK Studio MB</span>
+                    <p>Sombreado Compacto · Alta Definición</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÉTODOS DE PAGO -->
+    <section class="payment-section" id="pagos">
+        <div class="payment-inner">
+            <div class="reveal" style="margin-bottom:2rem">
+                <p class="section-label">Formas de Pago</p>
+                <h2 class="section-title">Métodos de Pago</h2>
+                <div class="gold-line"></div>
+                <p class="section-subtitle">Opciones seguras y flexibles para todos nuestros servicios.</p>
+            </div>
+            <div class="payment-grid">
+                <div class="payment-card reveal">
+                    <div class="payment-icon">💵</div>
+                    <div class="payment-method">Efectivo</div>
+                    <div class="payment-detail">
+                        Pago directo en <span>Paján</span><br>
+                        Al momento del servicio<br>
+                        Todas las marcas
+                    </div>
+                </div>
+                <div class="payment-card reveal">
+                    <div class="payment-icon">🏦</div>
+                    <div class="payment-method">Transferencia</div>
+                    <div class="payment-detail">
+                        <span>Banco Pichincha</span><br>
+                        Seña opcional $10<br>
+                        K95 · JK Studio
+                    </div>
+                </div>
+                <div class="payment-card reveal">
+                    <div class="payment-icon">💳</div>
+                    <div class="payment-method">Hotmart</div>
+                    <div class="payment-detail">
+                        Tarjeta · PayPal · Pago local<br>
+                        <span>Método MVO</span><br>
+                        Acceso inmediato
+                    </div>
+                </div>
+                <div class="payment-card reveal">
+                    <div class="payment-icon">📱</div>
+                    <div class="payment-method">Billetera Digital</div>
+                    <div class="payment-detail">
+                        <span>Disponible pronto</span><br>
+                        PayPal · PayPhone<br>
+                                        Para todas las marcas
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESTO DE SECCIONES (PROMOS, VIP, BOOKING, CONTACTO, FOOTER) -->
+    <!-- [Mantengo las secciones existentes del código original pero mejoradas] -->
+
+    <section class="promo-section" id="promos">
+        <div style="max-width:1100px;margin:0 auto">
+            <div class="reveal" style="margin-bottom:3.5rem">
+                <p class="section-label">Ofertas Activas</p>
+                <h2 class="section-title">Promociones<br>Exclusivas</h2>
+                <div class="gold-line"></div>
+            </div>
+            <div class="promo-grid">
+                <div class="promo-card reveal">
+                    <div class="promo-card-accent"></div>
+                    <div class="promo-badge">JK Studio MB</div>
+                    <div class="promo-title">Promo Día de la Madre</div>
+                    <div class="promo-desc">Cualquier técnica de cejas: Microblading, Microshading o Sombreado Compacto al mejor precio del año.</div>
+                    <div class="promo-price-old">Antes: $60 USD</div>
+                    <div class="promo-price-new">$30 USD</div>
+                    <div class="promo-validity">⏰ Válido hasta el 11 de Mayo 2026 · Cupos limitados</div>
+                </div>
+                <div class="promo-card reveal">
+                    <div class="promo-card-accent"></div>
+                    <div class="promo-badge">JK Studio MB</div>
+                    <div class="promo-title">Viernes Mágicos</div>
+                    <div class="promo-desc">Cejas + Pestañas al mismo precio. Combina cualquier técnica de cejas con rizado o extensión 1×1.</div>
+                    <div class="promo-price-old">Local: $60 · Domicilio: $70</div>
+                    <div class="promo-price-new">Todo incluido</div>
+                    <div class="promo-validity">📅 Solo los Viernes · Agenda tu lugar</div>
+                </div>
+                <div class="promo-card reveal">
+                    <div class="promo-card-accent"></div>
+                    <div class="promo-badge">K95 Tattoo</div>
+                    <div class="promo-title">Corte Gratis con tu Tatuaje</div>
+                    <div class="promo-desc">Agenda Blackwork o Realismo y llévate un corte de cabello gratis en Barberos VIP Corporation.</div>
+                    <div class="promo-price-old">Cortesía de Barberos VIP</div>
+                    <div class="promo-price-new">0% Extra</div>
+                    <div class="promo-validity">✅ Aplica con Blackwork y Realismo · No Minimalista</div>
+                </div>
+                <div class="promo-card reveal">
+                    <div class="promo-card-accent"></div>
+                    <div class="promo-badge">Método MVO</div>
+                    <div class="promo-title">Desafío Gratis 3 Episodios</div>
+                    <div class="promo-desc">Empieza gratis con 3 episodios del desafío de automatización. Descubre el Método MVO sin costo.</div>
+                    <div class="promo-price-old">Valor real: incluido en $47</div>
+                    <div class="promo-price-new">GRATIS</div>
+                    <div class="promo-validity">🎯 Acceso inmediato en Hotmart</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="vip-section">
+        <div class="vip-inner reveal">
+            <div class="vip-crown">♛</div>
+            <p class="section-label" style="text-align:center;justify-content:center">Exclusivo Para Seguidores</p>
+            <h2 class="section-title" style="text-align:center">Código VIP</h2>
+            <p class="section-subtitle" style="margin:1rem auto;text-align:center">20% de descuento en todos los servicios de K95 y JK Studio. Menciona el código al agendar.</p>
+            <div class="vip-code-box">
+                <span class="vip-code-text" id="vipCode">KLEINERVIP20</span>
+                <button class="vip-copy-btn" onclick="copyCode()">Copiar</button>
+            </div>
+            <div class="vip-benefits">
+                <span class="vip-benefit">20% OFF</span>
+                <span class="vip-benefit">K95 Tattoo</span>
+                <span class="vip-benefit">JK Studio</span>
+                <span class="vip-benefit">No acumulable</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING SECTION (Mantiene la estructura original mejorada) -->
+    <section class="booking-section" id="agendar">
+        <div class="booking-inner">
+            <div class="booking-header reveal">
+                <p class="section-label">Reserva tu lugar</p>
+                <h2 class="section-title">Agendar Cita</h2>
+                <div class="gold-line"></div>
+                <p class="section-subtitle">Elige el servicio y completa el formulario. Te contactamos en menos de 24 horas.</p>
+            </div>
+            <div class="service-tabs reveal">
+                <button class="service-tab active" onclick="selectTab('k95')" id="tab-k95">K95 Tattoo</button>
+                <button class="service-tab" onclick="selectTab('jk')" id="tab-jk">JK Studio</button>
+                <button class="service-tab" onclick="selectTab('mvo')" id="tab-mvo">Método MVO</button>
+                <button class="service-tab" onclick="selectTab('cafe')" id="tab-cafe">Salud x Café</button>
+            </div>
+
+            <!-- Panel K95 -->
+            <div class="booking-panel active" id="panel-k95">
+                <div class="booking-grid">
+                    <div class="booking-info">
+                        <div class="booking-service-name">K95 Tattoo</div>
+                        <div class="booking-service-tag">Arte Corporal · Paján</div>
+                        <div class="booking-service-desc">Tatuajes artísticos únicos. Atendemos en Barberos VIP Corporation, Paján.</div>
+                        <div class="price-options">
+                            <div class="price-option"><span class="price-option-name">Minimalista</span><span class="price-option-value">$10–$30</span></div>
+                            <div class="price-option"><span class="price-option-name">Blackwork</span><span class="price-option-value">$40–$100</span></div>
+                            <div class="price-option"><span class="price-option-name">Realismo</span><span class="price-option-value">Desde $130</span></div>
+                            <div class="price-option"><span class="price-option-name">Con código VIP</span><span class="price-option-value">20% OFF</span></div>
+                        </div>
+                        <div class="booking-note">
+                            📍 Barberos VIP Corporation, Paján<br>
+                            ⏰ Lun–Sáb · 9am–1pm · 2pm–7pm<br>
+                            ✂️ Corte gratis con Blackwork/Realismo<br>
+                            💳 Seña opcional $10 (Banco Pichincha)
+                        </div>
+                    </div>
+                    <div>
+                        <div id="success-k95" class="success-msg">
+                            <h3>¡Cita Solicitada! ✦</h3>
+                            <p>Perfecto. Te contactamos en menos de 24 horas para confirmar tu cita en K95 Tattoo.</p>
+                        </div>
+                        <form class="booking-form" onsubmit="submitBooking(event, 'k95')">
+                            <div class="form-group"><label class="form-label">Nombre Completo *</label><input class="form-input" type="text" placeholder="Tu nombre completo" required></div>
+                            <div class="form-group"><label class="form-label">Teléfono / WhatsApp *</label><input class="form-input" type="tel" placeholder="09X XXX XXXX" required></div>
+                            <div class="form-group"><label class="form-label">Estilo de Tatuaje *</label><select class="form-select" required><option value="">Selecciona un estilo</option><option>Minimalista / Línea Fina ($10–$30)</option><option>Blackwork / Punta de Pluma ($40–$100)</option><option>Realismo / Retratos (Desde $130)</option></select></div>
+                            <div class="form-row">
+                                <div class="form-group"><label class="form-label">Día *</label><select class="form-select" required><option value="">Selecciona</option><option>Lunes</option><option>Martes</option><option>Miércoles</option><option>Jueves</option><option>Viernes</option><option>Sábado</option></select></div>
+                                <div class="form-group"><label class="form-label">Horario *</label><select class="form-select" required><option value="">Selecciona</option><option>Mañana (9am–1pm)</option><option>Tarde (2pm–7pm)</option></select></div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Descripción del Diseño</label><textarea class="form-textarea" placeholder="Describe tu tatuaje o idea..."></textarea></div>
+                            <div class="form-vip"><input type="checkbox" id="vip-k95"><label for="vip-k95">Usar código VIP <span>KLEINERVIP20</span> (20% OFF)</label></div>
+                            <button type="submit" class="form-submit">Solicitar Cita →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel JK -->
+            <div class="booking-panel" id="panel-jk">
+                <div class="booking-grid">
+                    <div class="booking-info">
+                        <div class="booking-service-name">JK Studio MB</div>
+                        <div class="booking-service-tag">Micropigmentación · Local & Domicilio</div>
+                        <div class="booking-service-desc">Cejas perfectas con técnicas profesionales. Disponible en Paján o a domicilio en Guayaquil.</div>
+                        <div class="price-options">
+                            <div class="price-option"><span class="price-option-name">Local (Paján)</span><span class="price-option-value">$60</span></div>
+                            <div class="price-option"><span class="price-option-name">Domicilio (Guayaquil)</span><span class="price-option-value">$70</span></div>
+                            <div class="price-option"><span class="price-option-name">Retoque Local</span><span class="price-option-value">$40</span></div>
+                            <div class="price-option"><span class="price-option-name">Retoque Domicilio</span><span class="price-option-value">$50</span></div>
+                            <div class="price-option"><span class="price-option-name">Promo Día de la Madre</span><span class="price-option-value">$30</span></div>
+                        </div>
+                        <div class="booking-note">
+                            ⚠️ No depilar cejas 2 semanas antes<br>
+                            ☕ No café 2 horas antes<br>
+                            💄 Venir sin maquillaje en la zona<br>
+                            💰 Retoque: Local $40 · Domicilio $50
+                        </div>
+                    </div>
+                    <div>
+                        <div id="success-jk" class="success-msg">
+                            <h3>¡Cita Solicitada! ✦</h3>
+                            <p>Excelente. Te contactamos en menos de 24 horas para confirmar tu cita de micropigmentación.</p>
+                        </div>
+                        <form class="booking-form" onsubmit="submitBooking(event, 'jk')">
+                            <div class="form-group"><label class="form-label">Nombre Completo *</label><input class="form-input" type="text" placeholder="Tu nombre completo" required></div>
+                            <div class="form-group"><label class="form-label">Teléfono / WhatsApp *</label><input class="form-input" type="tel" placeholder="09X XXX XXXX" required></div>
+                            <div class="form-group"><label class="form-label">Técnica *</label><select class="form-select" required><option value="">Selecciona técnica</option><option>Microblading (Efecto vello a vello)</option><option>Microshading (Efecto polvo suave)</option><option>Sombreado Compacto (Alta definición)</option></select></div>
+                            <div class="form-group"><label class="form-label">Modalidad *</label><select class="form-select" required><option value="">Selecciona modalidad</option><option>Local — Paján ($60)</option><option>Domicilio — Guayaquil ($70)</option><option>Retoque Local — Paján ($40)</option><option>Retoque Domicilio — Guayaquil ($50)</option></select></div>
+                            <div class="form-row">
+                                <div class="form-group"><label class="form-label">Día *</label><select class="form-select" required><option value="">Selecciona</option><option>Lunes</option><option>Martes</option><option>Miércoles</option><option>Jueves</option><option>Viernes (Viernes Mágico)</option><option>Sábado</option></select></div>
+                                <div class="form-group"><label class="form-label">Horario *</label><select class="form-select" required><option value="">Selecciona</option><option>Mañana (9am–1pm)</option><option>Tarde (2pm–6pm)</option></select></div>
+                            </div>
+                            <div class="form-vip"><input type="checkbox" id="vip-jk"><label for="vip-jk">Usar código VIP <span>KLEINERVIP20</span> (20% OFF)</label></div>
+                            <button type="submit" class="form-submit">Solicitar Cita →</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel MVO -->
+            <div class="booking-panel" id="panel-mvo">
+                <div style="text-align:center;padding:3rem;border:1px solid rgba(201,168,76,.15);background:var(--dark2)">
+                    <p class="section-label" style="justify-content:center;display:flex">Curso Digital · Hotmart</p>
+                    <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Método MVO</h3>
+                    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray-light);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Automatiza tus ventas online. El sistema que me permite manejar 4 marcas sin caos.</p>
+                    <div class="vcl-wrapper">
+                        <iframe src="https://go.hotmart.com/R100012515R?ap=5c2f" allowfullscreen allow="autoplay; encrypted-media" loading="lazy"></iframe>
+                    </div>
+                    <p style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--gold-dim);letter-spacing:.2em;margin-bottom:2rem;text-transform:uppercase">✦ Mira el video y descubre cómo funciona ✦</p>
+                    <div style="font-family:'Cinzel',serif;font-size:3rem;color:var(--gold);font-weight:900;margin-bottom:.5rem">$47 <span style="font-size:1rem;color:var(--gray);text-decoration:line-through">$97</span></div>
+                    <p style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--gold-dim);letter-spacing:.2em;margin-bottom:2rem">51% DE DESCUENTO · ACCESO INMEDIATO</p>
+                    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+                        <a href="https://go.hotmart.com/R100012515R?ap=3c8d" target="_blank" class="form-submit" style="display:block;text-decoration:none">Comprar Ahora → $47 USD</a>
+                        <a href="https://go.hotmart.com/R100012515R?ap=216d" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(201,168,76,.3);color:var(--gold);text-decoration:none;text-align:center">Ver Desafío Gratis (Ep. 1)</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Café -->
+            <div class="booking-panel" id="panel-cafe">
+                <div style="text-align:center;padding:3rem;border:1px solid rgba(201,168,76,.15);background:var(--dark2)">
+                    <p class="section-label" style="justify-content:center;display:flex">Salud Natural</p>
+                    <h3 style="font-family:'Cinzel',serif;font-size:2rem;color:var(--white);margin-bottom:1rem">Salud por el Café</h3>
+                    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gray-light);font-size:1.1rem;line-height:1.7;max-width:500px;margin:0 auto 2rem">Café con Ganoderma Reishi. Energía limpia, no daña el estómago.</p>
+                    <div style="display:flex;flex-direction:column;gap:1rem;max-width:360px;margin:0 auto">
+                        <a href="https://wa.me/593985037366" target="_blank" class="form-submit" style="display:block;text-decoration:none">Consultar por WhatsApp</a>
+                        <a href="https://wa.me/593985037366" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem;border:1px solid rgba(201,168,76,.3);color:var(--gold);text-decoration:none;text-align:center">Ser Distribuidor</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contacto">
+        <div class="contact-inner">
+            <div class="reveal">
+                <p class="section-label">Contacto</p>
+                <h2 class="section-title">Estamos<br>Aquí</h2>
+                <div class="gold-line"></div>
+                <div class="contact-item"><div class="contact-item-label">Ubicación</div><div class="contact-item-value">Barberos VIP Corporation<br>Paján, Ecuador</div></div>
+                <div class="contact-item"><div class="contact-item-label">K95 & MVO & Café</div><div class="contact-item-value">098 503 7366</div></div>
+                <div class="contact-item"><div class="contact-item-label">JK Studio</div><div class="contact-item-value">098 285 5833</div></div>
+                <div class="contact-item"><div class="contact-item-label">Email</div><div class="contact-item-value">KleinerSuarez25@gmail.com</div></div>
+            </div>
+            <div class="reveal">
+                <p class="section-label" style="margin-bottom:1.5rem">Redes Sociales</p>
+                <div class="social-grid">
+                    <a class="social-card" href="https://instagram.com/k95tatto" target="_blank"><div class="social-card-brand">K95 Tattoo</div><div class="social-card-handle">@k95tatto</div></a>
+                    <a class="social-card" href="https://instagram.com/jkstudiomb" target="_blank"><div class="social-card-brand">JK Studio MB</div><div class="social-card-handle">@jkstudiomb</div></a>
+                    <a class="social-card" href="https://instagram.com/kleinersuarezmvo" target="_blank"><div class="social-card-brand">Método MVO</div><div class="social-card-handle">@kleinersuarezmvo</div></a>
+                    <a class="social-card" href="https://instagram.com/saludporelcafe" target="_blank"><div class="social-card-brand">Salud x Café</div><div class="social-card-handle">@saludporelcafe</div></a>
+                    <a class="social-card" href="https://instagram.com/kleinersuarez" target="_blank"><div class="social-card-brand">Kleiner Suarez</div><div class="social-card-handle">@kleinersuarez</div></a>
+                    <a class="social-card" href="https://wa.me/593985037366" target="_blank"><div class="social-card-brand">WhatsApp</div><div class="social-card-handle">098 503 7366</div></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">Kleiner Suarez</div>
+        <div class="footer-tagline">Arquitecto de Transformaciones</div>
+        <div class="footer-links">
+            <a href="#marcas">Marcas</a>
+            <a href="#galeria">Galería</a>
+            <a href="#pagos">Pagos</a>
+            <a href="#agendar">Agendar</a>
+            <a href="#promos">Promos</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <div class="footer-copy">© 2026 Kleiner Suarez · Todos los derechos reservados</div>
+    </footer>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== CURSOR PREMIUM =====
+            const cursor = document.getElementById('cursor');
+            const ring = document.getElementById('cursorRing');
+            let mx = 0,
+                my = 0,
+                rx = 0,
+                ry = 0;
+
+            if (window.innerWidth > 768) {
+                document.addEventListener('mousemove', (e) => {
+                    mx = e.clientX;
+                    my = e.clientY;
+                    cursor.style.left = mx + 'px';
+                    cursor.style.top = my + 'px';
+                });
+
+                document.addEventListener('mousedown', () => {
+                    cursor.classList.add('active');
+                    ring.classList.add('active');
+                });
+                document.addEventListener('mouseup', () => {
+                    cursor.classList.remove('active');
+                    ring.classList.remove('active');
+                });
+
+                // Hover effect on interactive elements
+                document.querySelectorAll('a, button, .brand-card, .gallery-item, .service-tab, .carousel-dot, .vip-copy-btn, .hero-brand-chip, .social-card, .payment-card').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.classList.add('active');
+                        ring.classList.add('active');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('active');
+                        ring.classList.remove('active');
+                    });
+                });
+
+                function animateRing() {
+                    rx += (mx - rx) * 0.1;
+                    ry += (my - ry) * 0.1;
+                    ring.style.left = rx + 'px';
+                    ring.style.top = ry + 'px';
+                    requestAnimationFrame(animateRing);
+                }
+                animateRing();
+            }
+
+            // ===== NAVBAR SCROLL =====
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 80) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            });
+
+            // ===== MOBILE MENU =====
+            const menuToggle = document.getElementById('menuToggle');
+            const navLinks = document.getElementById('navLinks');
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('mobile-active');
+                });
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('mobile-active');
+                    });
+                });
+            }
+
+            // ===== CARRUSEL =====
+            let currentSlide = 0;
+            const totalSlides = 5;
+            const track = document.getElementById('carouselTrack');
+            const dots = document.querySelectorAll('.carousel-dot');
+
+            function getCardWidth() {
+                const card = track.querySelector('.brand-card');
+                if (!card) return 384;
+                const gap = window.innerWidth <= 768 ? 16 : 32;
+                return card.offsetWidth + gap;
+            }
+
+            function updateCarousel() {
+                const cardWidth = getCardWidth();
+                track.style.transform = 'translateX(-' + (currentSlide * cardWidth) + 'px)';
+                dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+            }
+
+            window.moveCarousel = function(dir) {
+                currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+                updateCarousel();
+            };
+
+            window.goToSlide = function(i) {
+                currentSlide = i;
+                updateCarousel();
+            };
+
+            window.addEventListener('resize', updateCarousel);
+
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            }, 6000);
+
+            // ===== SERVICE TABS =====
+            window.selectTab = function(tab) {
+                document.querySelectorAll('.service-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.booking-panel').forEach(p => p.classList.remove('active'));
+                const tabEl = document.getElementById('tab-' + tab);
+                const panelEl = document.getElementById('panel-' + tab);
+                if (tabEl) tabEl.classList.add('active');
+                if (panelEl) panelEl.classList.add('active');
+                document.getElementById('agendar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            // ===== FORM SUBMIT =====
+            window.submitBooking = function(e, type) {
+                e.preventDefault();
+                const form = e.target;
+                const success = document.getElementById('success-' + type);
+                if (success) {
+                    form.style.display = 'none';
+                    success.style.display = 'block';
+                }
+
+                const inputs = form.querySelectorAll('input, select, textarea');
+                let msg = '*Nueva Cita — ' + (type === 'k95' ? 'K95 Tattoo' : 'JK Studio MB') + '*\n\n';
+                inputs.forEach(inp => {
+                    if (inp.type === 'checkbox') {
+                        if (inp.checked) msg += '✦ Código VIP: KLEINERVIP20\n';
+                    } else if (inp.value && inp.type !== 'submit') {
+                        const label = inp.closest('.form-group')?.querySelector('.form-label')?.textContent || '';
+                        if (label) msg += label.replace(' *', '') + ': ' + inp.value + '\n';
+                    }
+                });
+
+                const phone = type === 'jk' ? '593982855833' : '593985037366';
+                setTimeout(() => {
+                    window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+                }, 800);
+            };
+
+            // ===== COPY CODE =====
+            window.copyCode = function() {
+                navigator.clipboard.writeText('KLEINERVIP20').then(() => {
+                    const btn = document.querySelector('.vip-copy-btn');
+                    if (btn) {
+                        btn.textContent = '¡Copiado!';
+                        setTimeout(() => btn.textContent = 'Copiar', 2000);
+                    }
+                });
+            };
+
+            // ===== SCROLL REVEAL =====
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) e.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // ===== COUNTER ANIMATION =====
+            const counterObserver = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (!e.isIntersecting) return;
+                    const el = e.target;
+                    const target = +el.dataset.target;
+                    const suffix = target === 100 ? '%' : target >= 500 ? '+' : '';
+                    let start = 0;
+                    const step = target / 50;
+                    const timer = setInterval(() => {
+                        start = Math.min(start + step, target);
+                        el.textContent = Math.round(start) + suffix;
+                        if (start >= target) clearInterval(timer);
+                    }, 20);
+                    counterObserver.unobserve(el);
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
+
+            // ===== SMOOTH SCROLL FOR NAV =====
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+        })();
+    </script>
+</body>
+</html>
