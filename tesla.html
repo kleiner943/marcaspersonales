@@ -1,0 +1,402 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.dash { padding: 1rem 0; }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+.badge-ok { background: var(--color-background-success); color: var(--color-text-success); }
+.badge-warn { background: var(--color-background-warning); color: var(--color-text-warning); }
+.badge-info { background: var(--color-background-info); color: var(--color-text-info); }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1rem; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+.card-title { font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+.card-val { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.card-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
+.bot-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.bot-row:last-child { border-bottom: none; }
+.bot-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.bot-desc { font-size: 12px; color: var(--color-text-secondary); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.dot-green { background: #22c55e; }
+.dot-yellow { background: #f59e0b; }
+.dot-blue { background: #3b82f6; }
+.signal-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; font-size: 13px; }
+.sig-buy { background: rgba(34,197,94,0.1); border: 0.5px solid rgba(34,197,94,0.3); }
+.sig-sell { background: rgba(239,68,68,0.1); border: 0.5px solid rgba(239,68,68,0.3); }
+.sig-hold { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); }
+.sig-label { font-weight: 500; min-width: 36px; }
+.sig-buy .sig-label { color: #16a34a; }
+.sig-sell .sig-label { color: #dc2626; }
+.sig-hold .sig-label { color: var(--color-text-secondary); }
+.conf-bar { height: 6px; border-radius: 3px; background: var(--color-border-tertiary); flex: 1; overflow: hidden; }
+.conf-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+.fill-green { background: #22c55e; }
+.fill-red { background: #ef4444; }
+.fill-gray { background: var(--color-border-secondary); }
+.pnl-pos { color: #16a34a; font-weight: 500; }
+.pnl-neg { color: #dc2626; font-weight: 500; }
+.log-line { font-size: 12px; color: var(--color-text-secondary); padding: 4px 0; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; gap: 8px; }
+.log-time { color: var(--color-text-tertiary); min-width: 60px; }
+.log-event { color: var(--color-text-primary); }
+.wa-msg { background: var(--color-background-secondary); border-radius: 12px 12px 12px 2px; padding: 10px 14px; font-size: 13px; margin-bottom: 8px; max-width: 90%; }
+.wa-msg-out { background: var(--color-background-info); color: var(--color-text-info); border-radius: 12px 12px 2px 12px; margin-left: auto; }
+.wa-time { font-size: 10px; color: var(--color-text-tertiary); margin-top: 4px; text-align: right; }
+.tab-row { display: flex; gap: 4px; margin-bottom: 1rem; }
+.tab { font-size: 13px; padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--color-border-tertiary); background: transparent; cursor: pointer; color: var(--color-text-secondary); }
+.tab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+.section { display: none; }
+.section.active { display: block; }
+.trade-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+.trade-row:last-child { border-bottom: none; }
+.fix-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; background: var(--color-background-danger); color: var(--color-text-danger); }
+.ok-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; background: var(--color-background-success); color: var(--color-text-success); }
+.code-block { font-family: var(--font-mono); font-size: 11px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 8px; padding: 12px; margin-top: 8px; white-space: pre; overflow-x: auto; color: var(--color-text-primary); }
+.copy-btn { float: right; font-size: 11px; padding: 2px 8px; border-radius: 6px; border: 0.5px solid var(--color-border-tertiary); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); margin-top: -2px; }
+.copy-btn:hover { background: var(--color-background-secondary); }
+h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+</style>
+
+<div class="dash">
+  <div class="header">
+    <div>
+      <div style="font-size:18px;font-weight:500;color:var(--color-text-primary)">Ecosistema Kleiner</div>
+      <div style="font-size:12px;color:var(--color-text-secondary)" id="clock">Cargando hora...</div>
+    </div>
+    <span class="badge badge-ok">4 bots activos</span>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab active" onclick="showTab('overview')">General</button>
+    <button class="tab" onclick="showTab('tesla')">TESLA</button>
+    <button class="tab" onclick="showTab('integration')">EVA + TESLA</button>
+    <button class="tab" onclick="showTab('fixes')">Fixes</button>
+  </div>
+
+  <!-- TAB: OVERVIEW -->
+  <div class="section active" id="tab-overview">
+    <div class="grid4">
+      <div class="card">
+        <div class="card-title">Capital (demo)</div>
+        <div class="card-val">$100</div>
+        <div class="card-sub">TESTNET activo</div>
+      </div>
+      <div class="card">
+        <div class="card-title">P&L hoy</div>
+        <div class="card-val" id="pnl-hoy">$0.00</div>
+        <div class="card-sub">Esperando 6:00</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Productos</div>
+        <div class="card-val">74/76</div>
+        <div class="card-sub">Tiendita cargados</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Mensajes EVA</div>
+        <div class="card-val" id="msg-count">0</div>
+        <div class="card-sub">Esta sesión</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Estado de bots</h3>
+      <div class="bot-row">
+        <div><span class="dot dot-green"></span><span class="bot-name">EVA v17.0</span></div>
+        <div class="bot-desc" style="flex:1;margin:0 12px">WhatsApp principal · Google Calendar · Gmail · OCR</div>
+        <span class="badge badge-ok">ACTIVA</span>
+      </div>
+      <div class="bot-row">
+        <div><span class="dot dot-green"></span><span class="bot-name">ARES v2.0</span></div>
+        <div class="bot-desc" style="flex:1;margin:0 12px">Mentor personal separado · pipe activo</div>
+        <span class="badge badge-ok">ACTIVO</span>
+      </div>
+      <div class="bot-row">
+        <div><span class="dot dot-green"></span><span class="bot-name">TIENDITA v3.1</span></div>
+        <div class="bot-desc" style="flex:1;margin:0 12px">76 productos · SQLite · MEGA backup</div>
+        <span class="badge badge-ok">ACTIVA</span>
+      </div>
+      <div class="bot-row">
+        <div><span class="dot dot-yellow"></span><span class="bot-name">TESLA v2.0</span></div>
+        <div class="bot-desc" style="flex:1;margin:0 12px">Trader BTC/ETH/SOL · horario 6:00–22:00</div>
+        <span class="badge badge-warn">EN ESPERA</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Señales en vivo (simuladas)</h3>
+      <div class="signal-row sig-buy">
+        <span class="sig-label">BUY</span>
+        <span style="font-weight:500;min-width:70px">BTC/USDT</span>
+        <span style="color:var(--color-text-secondary);font-size:12px;min-width:80px">Sent+AI: 82%</span>
+        <div class="conf-bar"><div class="conf-fill fill-green" style="width:82%"></div></div>
+        <span style="font-size:12px;color:var(--color-text-tertiary)">6:00</span>
+      </div>
+      <div class="signal-row sig-hold">
+        <span class="sig-label">HOLD</span>
+        <span style="font-weight:500;min-width:70px">ETH/USDT</span>
+        <span style="color:var(--color-text-secondary);font-size:12px;min-width:80px">Sent+AI: 51%</span>
+        <div class="conf-bar"><div class="conf-fill fill-gray" style="width:51%"></div></div>
+        <span style="font-size:12px;color:var(--color-text-tertiary)">6:00</span>
+      </div>
+      <div class="signal-row sig-sell">
+        <span class="sig-label">SELL</span>
+        <span style="font-weight:500;min-width:70px">SOL/USDT</span>
+        <span style="color:var(--color-text-secondary);font-size:12px;min-width:80px">Sent+AI: 77%</span>
+        <div class="conf-bar"><div class="conf-fill fill-red" style="width:77%"></div></div>
+        <span style="font-size:12px;color:var(--color-text-tertiary)">6:00</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:8px">Las señales reales aparecen cuando TESLA entra en horario (6:00–22:00 EC)</div>
+    </div>
+  </div>
+
+  <!-- TAB: TESLA -->
+  <div class="section" id="tab-tesla">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Modo</div>
+        <div class="card-val" style="font-size:16px">TESTNET</div>
+        <div class="card-sub">Binance demo seguro</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Horario activo</div>
+        <div class="card-val" style="font-size:16px">6:00–22:00</div>
+        <div class="card-sub">Hora Ecuador (UTC-5)</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Stop Loss</div>
+        <div class="card-val" style="font-size:16px">2% → 3%</div>
+        <div class="card-sub">Ajustado en .env</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Take Profit</div>
+        <div class="card-val" style="font-size:16px">4% → 5%</div>
+        <div class="card-sub">Ajustado en .env</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Bug crítico — cálculo de hora</h3>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px">
+        El problema que ves (<code style="font-family:var(--font-mono);font-size:12px">-2:00 — Fuera de horario</code>) es porque cuando UTC es la 1AM o 2AM, restar 5 da número negativo. La función nunca entra al rango 6–22.
+      </div>
+      <div style="font-size:12px;color:var(--color-text-danger);font-weight:500;margin-bottom:6px">Código actual (roto):</div>
+      <div class="code-block">function isTradingHours() {
+    const now = new Date();
+    const hour = now.getUTCHours() - 5;  // ← PROBLEMA: puede dar -4, -3, -2...
+    return hour >= CONFIG.tradingStart && hour < CONFIG.tradingEnd;
+}</div>
+      <div style="font-size:12px;color:var(--color-text-success);font-weight:500;margin:10px 0 6px">Corrección (copiar y reemplazar):</div>
+      <div class="code-block" id="fix-code"><button class="copy-btn" onclick="copyFix()">Copiar</button>function isTradingHours() {
+    const now = new Date();
+    // Hora Ecuador correcta (UTC-5), maneja negativo
+    let hour = now.getUTCHours() - 5;
+    if (hour < 0) hour += 24;
+    return hour >= CONFIG.tradingStart && hour < CONFIG.tradingEnd;
+}</div>
+    </div>
+
+    <div class="card">
+      <h3>Log simulado de operaciones</h3>
+      <div class="trade-row">
+        <span style="color:var(--color-text-secondary)">06:01:22</span>
+        <span style="font-weight:500">BUY BTC/USDT</span>
+        <span>$33.33 @ $94,200</span>
+        <span class="pnl-pos">Sent+AI 82%</span>
+      </div>
+      <div class="trade-row">
+        <span style="color:var(--color-text-secondary)">06:45:10</span>
+        <span style="font-weight:500">SELL BTC/USDT</span>
+        <span>Take Profit</span>
+        <span class="pnl-pos">+$1.67</span>
+      </div>
+      <div class="trade-row">
+        <span style="color:var(--color-text-secondary)">08:12:44</span>
+        <span style="font-weight:500">BUY ETH/USDT</span>
+        <span>$33.33 @ $1,780</span>
+        <span class="pnl-pos">Sent+AI 79%</span>
+      </div>
+      <div class="trade-row">
+        <span style="color:var(--color-text-secondary)">08:58:03</span>
+        <span style="font-weight:500">SELL ETH/USDT</span>
+        <span>Stop Loss</span>
+        <span class="pnl-neg">-$1.00</span>
+      </div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:10px">Los trades reales se guardan en /trading-bot/logs/trades.json</div>
+    </div>
+  </div>
+
+  <!-- TAB: INTEGRACIÓN -->
+  <div class="section" id="tab-integration">
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Cómo funciona EVA + TESLA</h3>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:12px">
+        TESLA escribe señales y trades a un archivo <code style="font-family:var(--font-mono);font-size:12px">tesla_pipe.json</code>. EVA lo monitorea cada 30 segundos y cuando hay una operación nueva, te manda un WhatsApp automático como dueño.
+      </div>
+      <div style="font-size:12px;font-weight:500;margin-bottom:8px;color:var(--color-text-primary)">Agrega esto al final de <code style="font-family:var(--font-mono)">executeTrade()</code> en tesla.js:</div>
+      <div class="code-block" id="tesla-code"><button class="copy-btn" onclick="copyTesla()">Copiar</button>// ── Notificar a EVA via pipe ──────────────────
+const pipePath = require('path').join('C:/bot/temp', 'tesla_pipe.json');
+const pipes = require('fs').existsSync(pipePath)
+    ? JSON.parse(require('fs').readFileSync(pipePath)) : [];
+pipes.push({
+    action, symbol, pnl: pnl ? pnl.toFixed(2) : null,
+    reason, price: order.price,
+    timestamp: new Date().toISOString(), read: false
+});
+if (pipes.length > 50) pipes.shift();
+require('fs').writeFileSync(pipePath, JSON.stringify(pipes, null, 2));
+// ─────────────────────────────────────────────</div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Agrega esto en bot-whatsapp.js (monitor de TESLA)</h3>
+      <div class="code-block" id="eva-code"><button class="copy-btn" onclick="copyEva()">Copiar</button>// ── Monitor TESLA → EVA WhatsApp ─────────────
+const TESLA_PIPE = 'C:/bot/temp/tesla_pipe.json';
+setInterval(() => {
+    try {
+        if (!fs.existsSync(TESLA_PIPE)) return;
+        const signals = JSON.parse(fs.readFileSync(TESLA_PIPE));
+        let updated = false;
+        for (const sig of signals) {
+            if (sig.read) continue;
+            sig.read = true;
+            updated = true;
+            const emoji = sig.action === 'BUY' ? '🟢' : '🔴';
+            const pnlTxt = sig.pnl
+                ? (parseFloat(sig.pnl) >= 0 ? `✅ +$${sig.pnl}` : `❌ $${sig.pnl}`)
+                : '';
+            const msg = `${emoji} *TESLA* — ${sig.action} ${sig.symbol}\n`
+                + `💲 Precio: $${sig.price?.toFixed(2)}\n`
+                + `📌 Razón: ${sig.reason}\n`
+                + `${pnlTxt ? pnlTxt + '\n' : ''}`
+                + `⏰ ${new Date(sig.timestamp).toLocaleTimeString('es-EC')}`;
+            client.sendMessage(process.env.OWNER_NUMBER, msg);
+        }
+        if (updated) fs.writeFileSync(TESLA_PIPE, JSON.stringify(signals, null, 2));
+    } catch(e) {}
+}, 30000); // cada 30 segundos
+// ─────────────────────────────────────────────</div>
+    </div>
+
+    <div class="card">
+      <h3>WhatsApp preview</h3>
+      <div style="padding: 12px; background: var(--color-background-secondary); border-radius: 10px;">
+        <div class="wa-msg">
+          🟢 <strong>TESLA</strong> — BUY BTC/USDT<br>
+          💲 Precio: $94,200.00<br>
+          📌 Razón: Sent+AI convergen<br>
+          ⏰ 06:01:22
+          <div class="wa-time">06:01</div>
+        </div>
+        <div class="wa-msg" style="margin-top:4px">
+          🔴 <strong>TESLA</strong> — SELL BTC/USDT<br>
+          💲 Precio: $95,910.00<br>
+          📌 Razón: Take Profit<br>
+          ✅ +$1.67<br>
+          ⏰ 06:45:10
+          <div class="wa-time">06:45</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: FIXES -->
+  <div class="section" id="tab-fixes">
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Lista de fixes</h3>
+      <div class="trade-row">
+        <span style="font-weight:500">Bug hora TESLA</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">getUTCHours() - 5 da negativo</span>
+        <span class="fix-badge">Urgente</span>
+      </div>
+      <div class="trade-row">
+        <span style="font-weight:500">ecosystem.config.js</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">Entrada TIENDITA sin name/script</span>
+        <span class="fix-badge">Urgente</span>
+      </div>
+      <div class="trade-row">
+        <span style="font-weight:500">Archivos duplicados exchange/</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">binance.js / exchange-binance.js / trading-bot-exchange-binance.js</span>
+        <span class="fix-badge">Limpiar</span>
+      </div>
+      <div class="trade-row">
+        <span style="font-weight:500">signals.json 754 KB</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">Rotación automática cada 500 entradas</span>
+        <span class="fix-badge">Urgente</span>
+      </div>
+      <div class="trade-row">
+        <span style="font-weight:500">EVA + TESLA integración</span>
+        <span style="font-size:12px;color:var(--color-text-secondary)">tesla_pipe.json + monitor en bot-whatsapp</span>
+        <span class="ok-badge">Listo ↗</span>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1rem">
+      <h3>Fix ecosystem.config.js — entrada TIENDITA</h3>
+      <div class="code-block" id="eco-code"><button class="copy-btn" onclick="copyEco()">Copiar</button>// Reemplaza la entrada incompleta de TIENDITA por esto:
+{
+    name: "TIENDITA Bot",
+    script: "latiendita_bot.js",
+    cwd: "C:/bot/latiendita",
+    watch: false,
+    autorestart: true,
+    max_restarts: 999,
+    min_uptime: "10s",
+    max_memory_restart: "300M",
+    restart_delay: 5000,
+    kill_timeout: 10000,
+    env: { NODE_ENV: "production" },
+    error_file: "C:/bot/logs/tiendita-error.log",
+    out_file: "C:/bot/logs/tiendita-out.log",
+    time: true
+}</div>
+    </div>
+
+    <div class="card">
+      <h3>Fix rotación signals.json — agrega en tesla.js</h3>
+      <div class="code-block" id="rot-code"><button class="copy-btn" onclick="copyRot()">Copiar</button>// En logTrade(), reemplaza las últimas líneas por:
+const MAX_SIGNALS = 500;
+const signalsFile = path.join(LOG_DIR, 'signals.json');
+const signals = fs.existsSync(signalsFile)
+    ? JSON.parse(fs.readFileSync(signalsFile)) : [];
+signals.push({ action, symbol, amount, price, pnl,
+    reason, timestamp: new Date().toISOString() });
+if (signals.length > MAX_SIGNALS) signals.splice(0, signals.length - MAX_SIGNALS);
+fs.writeFileSync(signalsFile, JSON.stringify(signals, null, 2));</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function updateClock() {
+  const now = new Date();
+  const ec = new Date(now.getTime() - 5*3600000);
+  const h = ec.getUTCHours().toString().padStart(2,'0');
+  const m = ec.getUTCMinutes().toString().padStart(2,'0');
+  const s = ec.getUTCSeconds().toString().padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s} — Ecuador (UTC-5) — ${h >= 6 && h < 22 ? 'TESLA activo' : 'TESLA en espera'}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function copyCode(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText.replace(/^Copiar\n/, '');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 2000);
+  });
+}
+function copyFix() { copyCode('fix-code', event.target); }
+function copyTesla() { copyCode('tesla-code', event.target); }
+function copyEva() { copyCode('eva-code', event.target); }
+function copyEco() { copyCode('eco-code', event.target); }
+function copyRot() { copyCode('rot-code', event.target); }
+</script>
